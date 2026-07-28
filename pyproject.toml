@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prompt-engineering-reference"
+version = "1.0.0"
+description = "Machine-readable prompt engineering reference with patterns, templates, evaluations, and provider guidance."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT AND CC0-1.0" }
+authors = [{ name = "Mert Gedik" }]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.5", "mypy>=1.10"]
+docs = ["mkdocs>=1.6,<2.0", "mkdocs-material>=9.5,<9.6"]
+
+[tool.setuptools]
+py-modules = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+disallow_untyped_defs = true
+check_untyped_defs = true
+warn_unused_configs = true
+no_implicit_optional = true

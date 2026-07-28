@@ -1,0 +1,1196 @@
+[
+  {
+    "id": "pattern-direct-instruction-framing",
+    "slug": "direct-instruction-framing",
+    "name": "Direct instruction framing",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "State the task, audience, and success condition in the first lines.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Direct instruction framing to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-context-boundary-marking"
+    ]
+  },
+  {
+    "id": "pattern-context-boundary-marking",
+    "slug": "context-boundary-marking",
+    "name": "Context boundary marking",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Separate instructions, trusted context, untrusted context, and input data with clear labels.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Context boundary marking to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-direct-instruction-framing",
+      "pattern-role-responsibility-framing"
+    ]
+  },
+  {
+    "id": "pattern-role-responsibility-framing",
+    "slug": "role-responsibility-framing",
+    "name": "Role and responsibility framing",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Define the assistant's job, authority, and refusal boundary without adding theatrical personas.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Role and responsibility framing to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-context-boundary-marking",
+      "pattern-output-contract-first"
+    ]
+  },
+  {
+    "id": "pattern-output-contract-first",
+    "slug": "output-contract-first",
+    "name": "Output contract first",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Specify format, fields, ordering, and validation rules before examples or data.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Output contract first to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-role-responsibility-framing",
+      "pattern-few-shot-calibration"
+    ]
+  },
+  {
+    "id": "pattern-few-shot-calibration",
+    "slug": "few-shot-calibration",
+    "name": "Few-shot calibration",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Use compact examples to calibrate tone, structure, and edge-case handling.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Few-shot calibration to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-output-contract-first",
+      "pattern-positive-constraints"
+    ]
+  },
+  {
+    "id": "pattern-positive-constraints",
+    "slug": "positive-constraints",
+    "name": "Positive constraint rewrite",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Replace broad negative rules with concrete desired behavior and allowed alternatives.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Positive constraint rewrite to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-few-shot-calibration",
+      "pattern-decomposition-planning"
+    ]
+  },
+  {
+    "id": "pattern-decomposition-planning",
+    "slug": "decomposition-planning",
+    "name": "Decomposition planning",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Ask the model to break complex work into auditable stages before execution.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Decomposition planning to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-positive-constraints",
+      "pattern-checkpointed-execution"
+    ]
+  },
+  {
+    "id": "pattern-checkpointed-execution",
+    "slug": "checkpointed-execution",
+    "name": "Checkpointed execution",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Add stopping points for review when the task changes files, spends money, or uses tools.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Checkpointed execution to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-decomposition-planning",
+      "pattern-retrieval-grounded-answering"
+    ]
+  },
+  {
+    "id": "pattern-retrieval-grounded-answering",
+    "slug": "retrieval-grounded-answering",
+    "name": "Retrieval-grounded answering",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Force answers to use supplied sources and label unsupported claims.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Retrieval-grounded answering to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-checkpointed-execution",
+      "pattern-citation-before-answer"
+    ]
+  },
+  {
+    "id": "pattern-citation-before-answer",
+    "slug": "citation-before-answer",
+    "name": "Citation before answer",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Have the model collect evidence snippets before synthesizing a response.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Citation before answer to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-retrieval-grounded-answering",
+      "pattern-clarify-or-proceed-policy"
+    ]
+  },
+  {
+    "id": "pattern-clarify-or-proceed-policy",
+    "slug": "clarify-or-proceed-policy",
+    "name": "Clarify-or-proceed policy",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Define when to ask a question and when to continue with stated assumptions.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Clarify-or-proceed policy to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-citation-before-answer",
+      "pattern-assumption-ledger"
+    ]
+  },
+  {
+    "id": "pattern-assumption-ledger",
+    "slug": "assumption-ledger",
+    "name": "Assumption ledger",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Record uncertain assumptions separately from verified facts.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Assumption ledger to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-clarify-or-proceed-policy",
+      "pattern-decision-matrix"
+    ]
+  },
+  {
+    "id": "pattern-decision-matrix",
+    "slug": "decision-matrix",
+    "name": "Decision matrix",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Compare options with criteria, weights, evidence strength, and tradeoffs.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Decision matrix to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-assumption-ledger",
+      "pattern-rubric-driven-critique"
+    ]
+  },
+  {
+    "id": "pattern-rubric-driven-critique",
+    "slug": "rubric-driven-critique",
+    "name": "Rubric-driven critique",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Evaluate outputs against a named rubric before revising.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Rubric-driven critique to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-decision-matrix",
+      "pattern-diff-explained-rewrite"
+    ]
+  },
+  {
+    "id": "pattern-diff-explained-rewrite",
+    "slug": "diff-explained-rewrite",
+    "name": "Diff-explained rewrite",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "When rewriting, show what changed and why without restating the whole source.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Diff-explained rewrite to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-rubric-driven-critique",
+      "pattern-acceptance-self-check"
+    ]
+  },
+  {
+    "id": "pattern-acceptance-self-check",
+    "slug": "acceptance-self-check",
+    "name": "Acceptance self-check",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Make the model verify final output against explicit acceptance criteria.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Acceptance self-check to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-diff-explained-rewrite",
+      "pattern-tool-selection-policy"
+    ]
+  },
+  {
+    "id": "pattern-tool-selection-policy",
+    "slug": "tool-selection-policy",
+    "name": "Tool selection policy",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Define which tools are allowed, when they are required, and when approval is needed.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Tool selection policy to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-acceptance-self-check",
+      "pattern-tool-result-provenance"
+    ]
+  },
+  {
+    "id": "pattern-tool-result-provenance",
+    "slug": "tool-result-provenance",
+    "name": "Tool result provenance",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Keep tool outputs traceable to source, timestamp, and transformation.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Tool result provenance to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-tool-selection-policy",
+      "pattern-long-document-map-reduce"
+    ]
+  },
+  {
+    "id": "pattern-long-document-map-reduce",
+    "slug": "long-document-map-reduce",
+    "name": "Long-document map-reduce",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Process large inputs in chunks, then merge with conflict handling.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Long-document map-reduce to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-tool-result-provenance",
+      "pattern-state-handoff-summary"
+    ]
+  },
+  {
+    "id": "pattern-state-handoff-summary",
+    "slug": "state-handoff-summary",
+    "name": "State handoff summary",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Create compact state summaries that preserve decisions, open items, and evidence.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use State handoff summary to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-long-document-map-reduce",
+      "pattern-delegation-contract"
+    ]
+  },
+  {
+    "id": "pattern-delegation-contract",
+    "slug": "delegation-contract",
+    "name": "Multi-agent delegation contract",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Give subagents bounded goals, inputs, outputs, and review requirements.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Multi-agent delegation contract to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-state-handoff-summary",
+      "pattern-safe-refusal-alternative"
+    ]
+  },
+  {
+    "id": "pattern-safe-refusal-alternative",
+    "slug": "safe-refusal-alternative",
+    "name": "Safe refusal with allowed alternative",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Refuse disallowed requests while offering a useful safe path.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Safe refusal with allowed alternative to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-delegation-contract",
+      "pattern-schema-bound-extraction"
+    ]
+  },
+  {
+    "id": "pattern-schema-bound-extraction",
+    "slug": "schema-bound-extraction",
+    "name": "Schema-bound extraction",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Extract data only into a declared schema with null and uncertainty rules.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Schema-bound extraction to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-safe-refusal-alternative",
+      "pattern-error-recovery-prompt"
+    ]
+  },
+  {
+    "id": "pattern-error-recovery-prompt",
+    "slug": "error-recovery-prompt",
+    "name": "Error recovery prompt",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Recover from failed outputs by identifying the violated contract and retrying narrowly.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Error recovery prompt to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-schema-bound-extraction",
+      "pattern-prompt-compression"
+    ]
+  },
+  {
+    "id": "pattern-prompt-compression",
+    "slug": "prompt-compression",
+    "name": "Prompt compression",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Compress long instructions while preserving priority, constraints, and evidence.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Prompt compression to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-error-recovery-prompt",
+      "pattern-eval-case-generation"
+    ]
+  },
+  {
+    "id": "pattern-eval-case-generation",
+    "slug": "eval-case-generation",
+    "name": "Eval case generation",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "summary": "Generate representative, adversarial, and regression test cases from success criteria.",
+    "use_when": [
+      "The task has a clear outcome but the model needs stronger operating boundaries.",
+      "The prompt will be reused or evaluated by another person."
+    ],
+    "avoid_when": [
+      "A one-off conversational answer is enough.",
+      "The missing information is factual context rather than prompt structure."
+    ],
+    "prompt_contract_fields": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "example": "Use Eval case generation to define the objective, inputs, output contract, and verification method before generation.",
+    "acceptance_criteria": [
+      "The prompt names the desired output and audience.",
+      "The prompt includes at least one verifiable success condition.",
+      "The prompt makes uncertainty handling explicit."
+    ],
+    "failure_modes": [
+      "The model optimizes for style while missing required facts.",
+      "The prompt mixes source content with instructions.",
+      "The output cannot be checked automatically or by review."
+    ],
+    "verification": [
+      "Run the prompt against a normal case and an edge case.",
+      "Score the result with the Prompt Quality Rubric."
+    ],
+    "related_patterns": [
+      "pattern-prompt-compression"
+    ]
+  }
+]

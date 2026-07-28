@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: Prompt Engineering Reference
+message: If you use this repository, cite it using this metadata.
+type: software
+authors:
+  - family-names: Gedik
+    given-names: Mert
+repository-code: https://github.com/MertGedik35/prompt-engineering-reference
+license: MIT
+version: 1.0.0
+date-released: 2026-07-28

@@ -1,0 +1,206 @@
+[
+  {
+    "id": "security-01",
+    "topic": "Direct prompt injection",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for direct prompt injection in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-02",
+    "topic": "Indirect prompt injection",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for indirect prompt injection in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-03",
+    "topic": "Tool abuse",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for tool abuse in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-04",
+    "topic": "Data exfiltration",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for data exfiltration in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-05",
+    "topic": "Secret exposure",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for secret exposure in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-06",
+    "topic": "Excessive agency",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for excessive agency in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-07",
+    "topic": "Untrusted retrieved content",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for untrusted retrieved content in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-08",
+    "topic": "Output validation",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for output validation in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-09",
+    "topic": "Human approval",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for human approval in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-10",
+    "topic": "Least privilege",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for least privilege in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-11",
+    "topic": "Sandboxing",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for sandboxing in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  },
+  {
+    "id": "security-12",
+    "topic": "Audit trails",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "summary": "Risk controls for audit trails in prompt and agent workflows.",
+    "controls": [
+      "Separate instructions from untrusted content.",
+      "Limit tool authority to the minimum required scope.",
+      "Require review for irreversible, sensitive, or costly actions."
+    ],
+    "acceptance_criteria": [
+      "The risk is named in prompt or system instructions.",
+      "A mitigation is testable by review or automation.",
+      "Logs preserve enough provenance for audit."
+    ]
+  }
+]

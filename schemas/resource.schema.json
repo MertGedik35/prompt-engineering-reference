@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "External resource",
+  "type": "object",
+  "required": [
+    "id",
+    "canonical_url",
+    "status",
+    "last_verified"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^res-[a-z0-9-]+-\\d{2}$"
+    },
+    "canonical_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "status": {
+      "enum": [
+        "verified"
+      ]
+    },
+    "last_verified": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    }
+  }
+}

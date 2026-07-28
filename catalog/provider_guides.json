@@ -1,0 +1,177 @@
+[
+  {
+    "id": "provider-openai",
+    "name": "OpenAI",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "documentation_page": "docs/providers/openai.md",
+    "official_source_ids": [
+      "res-openai-01",
+      "res-openai-02",
+      "res-openai-03",
+      "res-openai-04"
+    ],
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "stale_risk_areas": [
+      "model defaults",
+      "Responses API feature changes",
+      "tool and eval product behavior"
+    ],
+    "acceptance_criteria": [
+      "Last verification date is visible.",
+      "Official sources are listed.",
+      "Model-specific advice is separated from durable prompting guidance."
+    ]
+  },
+  {
+    "id": "provider-anthropic",
+    "name": "Anthropic Claude",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "documentation_page": "docs/providers/anthropic.md",
+    "official_source_ids": [
+      "res-anthropic-01",
+      "res-anthropic-02",
+      "res-anthropic-03",
+      "res-anthropic-04"
+    ],
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "stale_risk_areas": [
+      "model-specific prompting pages",
+      "extended thinking guidance",
+      "tool-use syntax"
+    ],
+    "acceptance_criteria": [
+      "Last verification date is visible.",
+      "Official sources are listed.",
+      "Model-specific advice is separated from durable prompting guidance."
+    ]
+  },
+  {
+    "id": "provider-gemini",
+    "name": "Google Gemini",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "documentation_page": "docs/providers/gemini.md",
+    "official_source_ids": [
+      "res-gemini-01",
+      "res-gemini-02",
+      "res-gemini-03",
+      "res-gemini-04"
+    ],
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "stale_risk_areas": [
+      "model list",
+      "multimodal limits",
+      "thinking and structured output behavior"
+    ],
+    "acceptance_criteria": [
+      "Last verification date is visible.",
+      "Official sources are listed.",
+      "Model-specific advice is separated from durable prompting guidance."
+    ]
+  },
+  {
+    "id": "provider-azure-openai",
+    "name": "Microsoft Azure OpenAI",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "documentation_page": "docs/providers/azure-openai.md",
+    "official_source_ids": [
+      "res-azure-01",
+      "res-azure-02",
+      "res-azure-03",
+      "res-azure-04"
+    ],
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "stale_risk_areas": [
+      "service naming",
+      "deployment parameters",
+      "evaluation tooling"
+    ],
+    "acceptance_criteria": [
+      "Last verification date is visible.",
+      "Official sources are listed.",
+      "Model-specific advice is separated from durable prompting guidance."
+    ]
+  },
+  {
+    "id": "provider-llama",
+    "name": "Meta Llama",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "documentation_page": "docs/providers/llama.md",
+    "official_source_ids": [
+      "res-llama-01",
+      "res-llama-02",
+      "res-llama-03",
+      "res-llama-04"
+    ],
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "stale_risk_areas": [
+      "prompt format tokens",
+      "model cards",
+      "hosted provider behavior"
+    ],
+    "acceptance_criteria": [
+      "Last verification date is visible.",
+      "Official sources are listed.",
+      "Model-specific advice is separated from durable prompting guidance."
+    ]
+  },
+  {
+    "id": "provider-mistral",
+    "name": "Mistral AI",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "documentation_page": "docs/providers/mistral.md",
+    "official_source_ids": [
+      "res-mistral-01",
+      "res-mistral-02",
+      "res-mistral-03",
+      "res-mistral-04"
+    ],
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "stale_risk_areas": [
+      "agent APIs",
+      "tool catalog",
+      "model lineup"
+    ],
+    "acceptance_criteria": [
+      "Last verification date is visible.",
+      "Official sources are listed.",
+      "Model-specific advice is separated from durable prompting guidance."
+    ]
+  },
+  {
+    "id": "provider-amazon-bedrock",
+    "name": "Amazon Bedrock",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "documentation_page": "docs/providers/amazon-bedrock.md",
+    "official_source_ids": [
+      "res-bedrock-01",
+      "res-bedrock-02",
+      "res-bedrock-03",
+      "res-bedrock-04"
+    ],
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "stale_risk_areas": [
+      "provider-specific model behavior",
+      "guardrail features",
+      "agent features"
+    ],
+    "acceptance_criteria": [
+      "Last verification date is visible.",
+      "Official sources are listed.",
+      "Model-specific advice is separated from durable prompting guidance."
+    ]
+  }
+]

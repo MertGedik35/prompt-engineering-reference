@@ -1,0 +1,226 @@
+[
+  {
+    "id": "doctor-01",
+    "slug": "vague-or-generic-output",
+    "symptom": "Vague or generic output",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-direct-instruction-framing",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-02",
+    "slug": "output-ignores-format",
+    "symptom": "Output ignores format",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-context-boundary-marking",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-03",
+    "slug": "hallucinated-citations",
+    "symptom": "Hallucinated citations",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-role-responsibility-framing",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-04",
+    "slug": "overlong-answer",
+    "symptom": "Overlong answer",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-output-contract-first",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-05",
+    "slug": "missing-edge-cases",
+    "symptom": "Missing edge cases",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-few-shot-calibration",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-06",
+    "slug": "tool-called-too-early",
+    "symptom": "Tool called too early",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-positive-constraints",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-07",
+    "slug": "tool-result-not-cited",
+    "symptom": "Tool result not cited",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-decomposition-planning",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-08",
+    "slug": "conflicting-instructions",
+    "symptom": "Conflicting instructions",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-checkpointed-execution",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-09",
+    "slug": "sensitive-data-exposure",
+    "symptom": "Sensitive data exposure",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-retrieval-grounded-answering",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-10",
+    "slug": "unsafe-autonomy",
+    "symptom": "Unsafe autonomy",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-citation-before-answer",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-11",
+    "slug": "rag-source-drift",
+    "symptom": "RAG source drift",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-clarify-or-proceed-policy",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-12",
+    "slug": "weak-refusal",
+    "symptom": "Weak refusal",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-assumption-ledger",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-13",
+    "slug": "unstable-tone",
+    "symptom": "Unstable tone",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-decision-matrix",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  },
+  {
+    "id": "doctor-14",
+    "slug": "evaluation-blind-spot",
+    "symptom": "Evaluation blind spot",
+    "status": "stable",
+    "last_reviewed": "2026-07-28",
+    "likely_causes": [
+      "Objective, source boundary, or output contract is underspecified.",
+      "The prompt does not state how to handle uncertainty or conflicting context."
+    ],
+    "quick_diagnostic": "Ask which contract field the failing response violated, then test a smaller input.",
+    "minimal_fix": "Add one explicit success condition and one format example.",
+    "robust_fix": "Use the Prompt Contract and add a regression eval for the observed failure.",
+    "relevant_pattern": "pattern-rubric-driven-critique",
+    "verification_method": "Run the corrected prompt on the original failure case and one adjacent edge case."
+  }
+]

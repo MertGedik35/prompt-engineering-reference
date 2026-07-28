@@ -1,0 +1,26 @@
+name: Resource proposal
+description: Suggest an external resource.
+title: "[resource] "
+labels: ["type: resource"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: File, URL, or catalog ID.
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Requested change
+      description: Describe the specific change and evidence.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation
+      description: Explain how the change can be checked.
+    validations:
+      required: true

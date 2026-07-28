@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Prompt Doctor diagnostic entry",
+  "type": "object",
+  "required": [
+    "id",
+    "symptom",
+    "likely_causes",
+    "quick_diagnostic",
+    "minimal_fix",
+    "robust_fix",
+    "relevant_pattern",
+    "verification_method"
+  ]
+}

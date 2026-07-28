@@ -1,0 +1,140 @@
+[
+  {
+    "id": "contract-minimal",
+    "name": "Minimal",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "use_case": "Small one-off tasks that need only goal, input, and output.",
+    "dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "acceptance_criteria": [
+      "Objective is explicit.",
+      "Inputs and source boundaries are named.",
+      "Output can be reviewed against a stated contract."
+    ]
+  },
+  {
+    "id": "contract-standard",
+    "name": "Standard",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "use_case": "Reusable prompts that should be testable and maintainable.",
+    "dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "acceptance_criteria": [
+      "Objective is explicit.",
+      "Inputs and source boundaries are named.",
+      "Output can be reviewed against a stated contract."
+    ]
+  },
+  {
+    "id": "contract-production",
+    "name": "Production",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "use_case": "Prompts embedded in products, automations, or repeatable operations.",
+    "dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "acceptance_criteria": [
+      "Objective is explicit.",
+      "Inputs and source boundaries are named.",
+      "Output can be reviewed against a stated contract."
+    ]
+  },
+  {
+    "id": "contract-coding-agent",
+    "name": "Coding-agent",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "use_case": "Repository tasks involving tools, edits, tests, and handoff.",
+    "dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "acceptance_criteria": [
+      "Objective is explicit.",
+      "Inputs and source boundaries are named.",
+      "Output can be reviewed against a stated contract."
+    ]
+  },
+  {
+    "id": "contract-long-document",
+    "name": "Long-document",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "use_case": "Large context tasks with chunking, provenance, and synthesis.",
+    "dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "acceptance_criteria": [
+      "Objective is explicit.",
+      "Inputs and source boundaries are named.",
+      "Output can be reviewed against a stated contract."
+    ]
+  },
+  {
+    "id": "contract-tool-using-agent",
+    "name": "Tool-using agent",
+    "status": "stable",
+    "version": "1.0.0",
+    "last_reviewed": "2026-07-28",
+    "use_case": "Agents that call tools and need authority, logging, and approval rules.",
+    "dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "acceptance_criteria": [
+      "Objective is explicit.",
+      "Inputs and source boundaries are named.",
+      "Output can be reviewed against a stated contract."
+    ]
+  }
+]

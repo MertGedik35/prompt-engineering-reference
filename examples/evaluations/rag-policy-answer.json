@@ -1,0 +1,39 @@
+{
+  "id": "eval-rag-policy-answer",
+  "slug": "rag-policy-answer",
+  "title": "RAG policy answer",
+  "status": "stable",
+  "last_reviewed": "2026-07-28",
+  "related_patterns": [
+    "pattern-retrieval-grounded-answering",
+    "pattern-citation-before-answer",
+    "pattern-tool-result-provenance"
+  ],
+  "before_prompt": "Answer the user's policy question using the provided documents.",
+  "after_prompt": "Use only supplied policy excerpts, list supporting excerpt IDs first, answer in three bullets, and mark unsupported parts as not found in sources.",
+  "rubric_scores_before": [
+    3,
+    2,
+    2,
+    2,
+    2,
+    1,
+    1,
+    4
+  ],
+  "rubric_scores_after": [
+    5,
+    5,
+    5,
+    4,
+    5,
+    5,
+    5,
+    4
+  ],
+  "acceptance_criteria": [
+    "Every claim maps to an excerpt ID.",
+    "Unsupported claims are not inferred.",
+    "Answer stays within the requested length."
+  ]
+}
