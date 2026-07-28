@@ -78,7 +78,7 @@ The repository permits `Mert Gedik` and `MertGedik35`. Current tracked files and
 
 ## Known Limitations
 
-- Local Windows environment does not have `make`; `make check` is wired into CI and must be verified by GitHub Actions on Ubuntu.
+- Local Windows environment does not have `make`; GitHub Actions Quality on Ubuntu passed `make check` for this branch.
 - No live cross-model prompt benchmarks were run for provider-specific behavior.
 - Historical commit metadata still contains a redacted personal email until a separately authorized history rewrite is performed.
 - Independent content review is still required before any `v2.0.0` tag or release.
@@ -90,12 +90,11 @@ The repository permits `Mert Gedik` and `MertGedik35`. Current tracked files and
 - Review resource classifications, especially paid/lab-credit/course-completion distinctions.
 - Review schema and content-quality thresholds.
 - Review privacy audit conclusions and history-remediation notes.
-- Confirm GitHub Actions Quality runs `make check` successfully.
+- Confirm GitHub Actions Quality remains green after review changes.
 
 ## Release Gates Not Yet Completed
 
 - Independent content review.
-- GitHub Actions verification after this branch is pushed.
 - Explicit maintainer approval to tag and publish `v2.0.0`.
 
 This PR must remain draft until those gates are satisfied. It must not be merged or released in this run.
