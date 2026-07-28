@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Prompt evaluation example",
   "type": "object",
   "required": [
     "id",
     "before_prompt",
     "after_prompt",
+    "rubric_dimensions",
     "rubric_scores_before",
     "rubric_scores_after",
     "acceptance_criteria"

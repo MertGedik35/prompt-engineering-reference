@@ -1,0 +1,17 @@
+name: Provider update
+description: Report stale or changed provider guidance.
+title: "[provider] "
+labels: ["provider"]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Canonical source
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Required update
+    validations:
+      required: true
