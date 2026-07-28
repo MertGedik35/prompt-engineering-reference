@@ -1,0 +1,42 @@
+{
+  "id": "eval-agent-tool-use",
+  "title": "Agent tool use",
+  "before_prompt": "Use tools if needed and finish the task.",
+  "after_prompt": "Use tools only when required by current external state, record provenance, stop before sensitive actions, and report commands run.",
+  "rubric_dimensions": [
+    "Objective",
+    "Context",
+    "Inputs",
+    "Instructions",
+    "Constraints",
+    "Tools and Sources",
+    "Output Contract",
+    "Evaluation"
+  ],
+  "rubric_scores_before": [
+    2,
+    2,
+    2,
+    1,
+    1,
+    2,
+    2,
+    2
+  ],
+  "rubric_scores_after": [
+    5,
+    4,
+    5,
+    5,
+    4,
+    5,
+    5,
+    5
+  ],
+  "acceptance_criteria": [
+    "Tool calls are justified.",
+    "Sensitive actions require approval.",
+    "Final answer cites tool evidence."
+  ],
+  "last_reviewed": "2026-07-28"
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "glossary-token",
+    "term": "Token",
+    "definition": "A model input or output unit; often a word piece rather than a full word.",
+    "last_reviewed": "2026-07-28"
+  },
+  {
+    "id": "glossary-context-window",
+    "term": "Context window",
+    "definition": "The amount of input and output a model can consider in one request.",
+    "last_reviewed": "2026-07-28"
+  },
+  {
+    "id": "glossary-grounding",
+    "term": "Grounding",
+    "definition": "Constraining model answers to provided or retrieved evidence.",
+    "last_reviewed": "2026-07-28"
+  },
+  {
+    "id": "glossary-rag",
+    "term": "RAG",
+    "definition": "Retrieval-augmented generation: retrieve sources, then generate grounded output.",
+    "last_reviewed": "2026-07-28"
+  },
+  {
+    "id": "glossary-json-schema",
+    "term": "JSON Schema",
+    "definition": "A machine-readable contract for JSON structure and field validation.",
+    "last_reviewed": "2026-07-28"
+  },
+  {
+    "id": "glossary-tool-use",
+    "term": "Tool use",
+    "definition": "A model selecting and calling an external capability through a defined interface.",
+    "last_reviewed": "2026-07-28"
+  },
+  {
+    "id": "glossary-prompt-injection",
+    "term": "Prompt injection",
+    "definition": "A malicious or accidental instruction that tries to override trusted instructions.",
+    "last_reviewed": "2026-07-28"
+  },
+  {
+    "id": "glossary-evaluation",
+    "term": "Evaluation",
+    "definition": "A repeatable method for deciding whether a prompt or model output meets success criteria.",
+    "last_reviewed": "2026-07-28"
+  }
+]

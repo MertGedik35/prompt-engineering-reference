@@ -1,1864 +1,1122 @@
 [
   {
-    "id": "template-research-and-synthesis-01",
-    "slug": "research-and-synthesis-01",
-    "title": "Source-grounded brief",
+    "id": "template-research-source-grounded-brief",
+    "slug": "research-source-grounded-brief",
+    "title": "Source-grounded research brief",
     "category": "Research and synthesis",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-direct-instruction-framing",
+    "related_pattern": "pattern-evidence-table",
     "variables": [
-      "task",
+      "question",
       "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "source_excerpt_ids"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`question`",
+      "`audience`",
+      "`source_excerpt_ids`"
     ],
-    "prompt": "You are preparing source-grounded brief for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Prepare a concise brief from supplied sources only.\nInputs: {{question}}, {{audience}}, {{source_excerpt_ids}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-evidence-table` pattern.\nOutput contract: Return executive summary, evidence table, gaps, and next research steps.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return executive summary, evidence table, gaps, and next research steps.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Prepare a concise brief from supplied sources only.",
+      "The response uses the task-specific variables: question, audience, source_excerpt_ids.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of source-grounded research brief.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-research-and-synthesis-02",
-    "slug": "research-and-synthesis-02",
-    "title": "Literature scan matrix",
-    "category": "Research and synthesis",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-context-boundary-marking",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing literature scan matrix for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-research-and-synthesis-03",
-    "slug": "research-and-synthesis-03",
+    "id": "template-research-competing-claims",
+    "slug": "research-competing-claims",
     "title": "Competing claims analysis",
     "category": "Research and synthesis",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-role-responsibility-framing",
+    "related_pattern": "pattern-source-hierarchy",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "claim_set",
+      "source_rankings",
+      "freshness_cutoff"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`claim_set`",
+      "`source_rankings`",
+      "`freshness_cutoff`"
     ],
-    "prompt": "You are preparing competing claims analysis for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Compare claims from sources with different authority.\nInputs: {{claim_set}}, {{source_rankings}}, {{freshness_cutoff}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-source-hierarchy` pattern.\nOutput contract: Return claim matrix, strongest evidence, unresolved disputes, and confidence.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return claim matrix, strongest evidence, unresolved disputes, and confidence.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Compare claims from sources with different authority.",
+      "The response uses the task-specific variables: claim_set, source_rankings, freshness_cutoff.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of competing claims analysis.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-research-and-synthesis-04",
-    "slug": "research-and-synthesis-04",
-    "title": "Executive evidence memo",
+    "id": "template-research-paper-reading",
+    "slug": "research-paper-reading",
+    "title": "Paper reading note",
     "category": "Research and synthesis",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-output-contract-first",
+    "related_pattern": "pattern-evidence-table",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "paper_text",
+      "reader_goal",
+      "domain"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`paper_text`",
+      "`reader_goal`",
+      "`domain`"
     ],
-    "prompt": "You are preparing executive evidence memo for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Extract contribution, method, assumptions, limitations, and reuse value from a paper.\nInputs: {{paper_text}}, {{reader_goal}}, {{domain}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-evidence-table` pattern.\nOutput contract: Return structured reading note with method and limitation sections.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return structured reading note with method and limitation sections.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Extract contribution, method, assumptions, limitations, and reuse value from a paper.",
+      "The response uses the task-specific variables: paper_text, reader_goal, domain.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of paper reading note.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-research-and-synthesis-05",
-    "slug": "research-and-synthesis-05",
-    "title": "Reference repository review",
-    "category": "Research and synthesis",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-few-shot-calibration",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing reference repository review for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-research-and-synthesis-06",
-    "slug": "research-and-synthesis-06",
-    "title": "Trend synthesis",
-    "category": "Research and synthesis",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-positive-constraints",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing trend synthesis for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-research-and-synthesis-07",
-    "slug": "research-and-synthesis-07",
-    "title": "Citation-backed FAQ",
-    "category": "Research and synthesis",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-decomposition-planning",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing citation-backed faq for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-software-engineering-and-coding-agents-01",
-    "slug": "software-engineering-and-coding-agents-01",
-    "title": "Bug reproduction plan",
+    "id": "template-code-agent-repo-change",
+    "slug": "code-agent-repo-change",
+    "title": "Coding-agent repository change",
     "category": "Software engineering and coding agents",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-checkpointed-execution",
+    "related_pattern": "pattern-agent-state-ledger",
     "variables": [
       "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "repo_state",
+      "allowed_tools"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`task`",
+      "`repo_state`",
+      "`allowed_tools`"
     ],
-    "prompt": "You are preparing bug reproduction plan for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Make a scoped repository change with tests and evidence.\nInputs: {{task}}, {{repo_state}}, {{allowed_tools}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-agent-state-ledger` pattern.\nOutput contract: Return changed files, commands, results, and residual risk.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return changed files, commands, results, and residual risk.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Make a scoped repository change with tests and evidence.",
+      "The response uses the task-specific variables: task, repo_state, allowed_tools.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of coding-agent repository change.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-software-engineering-and-coding-agents-02",
-    "slug": "software-engineering-and-coding-agents-02",
+    "id": "template-code-review-findings",
+    "slug": "code-review-findings",
     "title": "Code review finding pass",
     "category": "Software engineering and coding agents",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-retrieval-grounded-answering",
+    "related_pattern": "pattern-rubric-first-evaluation",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "diff",
+      "runtime_context",
+      "risk_focus"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`diff`",
+      "`runtime_context`",
+      "`risk_focus`"
     ],
-    "prompt": "You are preparing code review finding pass for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Review a diff for bugs, regressions, and test gaps.\nInputs: {{diff}}, {{runtime_context}}, {{risk_focus}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-rubric-first-evaluation` pattern.\nOutput contract: Return prioritized findings with file references and confidence.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return prioritized findings with file references and confidence.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Review a diff for bugs, regressions, and test gaps.",
+      "The response uses the task-specific variables: diff, runtime_context, risk_focus.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of code review finding pass.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-software-engineering-and-coding-agents-03",
-    "slug": "software-engineering-and-coding-agents-03",
-    "title": "Repository change plan",
-    "category": "Software engineering and coding agents",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-citation-before-answer",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing repository change plan for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-software-engineering-and-coding-agents-04",
-    "slug": "software-engineering-and-coding-agents-04",
-    "title": "Test case expansion",
-    "category": "Software engineering and coding agents",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-clarify-or-proceed-policy",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing test case expansion for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-software-engineering-and-coding-agents-05",
-    "slug": "software-engineering-and-coding-agents-05",
-    "title": "Migration assistant",
-    "category": "Software engineering and coding agents",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-assumption-ledger",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing migration assistant for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-software-engineering-and-coding-agents-06",
-    "slug": "software-engineering-and-coding-agents-06",
-    "title": "Release note drafter",
-    "category": "Software engineering and coding agents",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-decision-matrix",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing release note drafter for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-software-engineering-and-coding-agents-07",
-    "slug": "software-engineering-and-coding-agents-07",
+    "id": "template-ci-failure-triage",
+    "slug": "ci-failure-triage",
     "title": "CI failure triage",
     "category": "Software engineering and coding agents",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-rubric-driven-critique",
+    "related_pattern": "pattern-retry-with-diagnosis",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "check_name",
+      "logs",
+      "recent_diff"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`check_name`",
+      "`logs`",
+      "`recent_diff`"
     ],
-    "prompt": "You are preparing ci failure triage for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Diagnose failing CI from logs and patch context.\nInputs: {{check_name}}, {{logs}}, {{recent_diff}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-retry-with-diagnosis` pattern.\nOutput contract: Return root cause, minimal fix, verification command, and risk.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return root cause, minimal fix, verification command, and risk.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Diagnose failing CI from logs and patch context.",
+      "The response uses the task-specific variables: check_name, logs, recent_diff.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of ci failure triage.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-data-and-documents-01",
-    "slug": "data-and-documents-01",
-    "title": "Structured extraction",
+    "id": "template-data-schema-extraction",
+    "slug": "data-schema-extraction",
+    "title": "Schema-bound data extraction",
     "category": "Data and documents",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-diff-explained-rewrite",
+    "related_pattern": "pattern-output-schema",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "schema",
+      "document",
+      "unknown_policy"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`schema`",
+      "`document`",
+      "`unknown_policy`"
     ],
-    "prompt": "You are preparing structured extraction for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Extract records into a strict schema with null and confidence rules.\nInputs: {{schema}}, {{document}}, {{unknown_policy}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-output-schema` pattern.\nOutput contract: Return valid JSON plus extraction notes.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return valid JSON plus extraction notes.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Extract records into a strict schema with null and confidence rules.",
+      "The response uses the task-specific variables: schema, document, unknown_policy.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of schema-bound data extraction.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-data-and-documents-02",
-    "slug": "data-and-documents-02",
-    "title": "Spreadsheet cleanup plan",
+    "id": "template-doc-comparison",
+    "slug": "doc-comparison",
+    "title": "Document comparison table",
     "category": "Data and documents",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-acceptance-self-check",
+    "related_pattern": "pattern-source-hierarchy",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "document_a",
+      "document_b",
+      "comparison_dimensions"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`document_a`",
+      "`document_b`",
+      "`comparison_dimensions`"
     ],
-    "prompt": "You are preparing spreadsheet cleanup plan for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Compare two documents without merging unsupported claims.\nInputs: {{document_a}}, {{document_b}}, {{comparison_dimensions}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-source-hierarchy` pattern.\nOutput contract: Return difference table, unchanged items, risks, and questions.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return difference table, unchanged items, risks, and questions.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Compare two documents without merging unsupported claims.",
+      "The response uses the task-specific variables: document_a, document_b, comparison_dimensions.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of document comparison table.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-data-and-documents-03",
-    "slug": "data-and-documents-03",
-    "title": "Contract clause table",
+    "id": "template-transcript-action-summary",
+    "slug": "transcript-action-summary",
+    "title": "Transcript action summary",
     "category": "Data and documents",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-tool-selection-policy",
+    "related_pattern": "pattern-context-compression",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "transcript",
+      "participants",
+      "deadline_policy"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`transcript`",
+      "`participants`",
+      "`deadline_policy`"
     ],
-    "prompt": "You are preparing contract clause table for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Turn a transcript into decisions, actions, owners, and evidence snippets.\nInputs: {{transcript}}, {{participants}}, {{deadline_policy}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-context-compression` pattern.\nOutput contract: Return action register, decisions, unresolved questions, and citations.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return action register, decisions, unresolved questions, and citations.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Turn a transcript into decisions, actions, owners, and evidence snippets.",
+      "The response uses the task-specific variables: transcript, participants, deadline_policy.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of transcript action summary.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-data-and-documents-04",
-    "slug": "data-and-documents-04",
-    "title": "Document comparison",
-    "category": "Data and documents",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-tool-result-provenance",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing document comparison for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-data-and-documents-05",
-    "slug": "data-and-documents-05",
-    "title": "Meeting transcript summary",
-    "category": "Data and documents",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-long-document-map-reduce",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing meeting transcript summary for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-data-and-documents-06",
-    "slug": "data-and-documents-06",
-    "title": "Dataset quality audit",
-    "category": "Data and documents",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-state-handoff-summary",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing dataset quality audit for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-data-and-documents-07",
-    "slug": "data-and-documents-07",
-    "title": "Policy digest",
-    "category": "Data and documents",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-delegation-contract",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing policy digest for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-business-and-decision-support-01",
-    "slug": "business-and-decision-support-01",
+    "id": "template-business-decision-memo",
+    "slug": "business-decision-memo",
     "title": "Decision memo",
     "category": "Business and decision support",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-safe-refusal-alternative",
+    "related_pattern": "pattern-rubric-first-evaluation",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "decision",
+      "options",
+      "criteria"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`decision`",
+      "`options`",
+      "`criteria`"
     ],
-    "prompt": "You are preparing decision memo for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Recommend an option with criteria, tradeoffs, and uncertainty.\nInputs: {{decision}}, {{options}}, {{criteria}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-rubric-first-evaluation` pattern.\nOutput contract: Return recommendation, scoring table, risks, and next test.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return recommendation, scoring table, risks, and next test.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Recommend an option with criteria, tradeoffs, and uncertainty.",
+      "The response uses the task-specific variables: decision, options, criteria.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of decision memo.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-business-and-decision-support-02",
-    "slug": "business-and-decision-support-02",
-    "title": "Market landscape snapshot",
-    "category": "Business and decision support",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-schema-bound-extraction",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing market landscape snapshot for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-business-and-decision-support-03",
-    "slug": "business-and-decision-support-03",
+    "id": "template-business-risk-register",
+    "slug": "business-risk-register",
     "title": "Risk register",
     "category": "Business and decision support",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-error-recovery-prompt",
+    "related_pattern": "pattern-secure-output-validation",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "plan",
+      "risk_taxonomy",
+      "severity_scale"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`plan`",
+      "`risk_taxonomy`",
+      "`severity_scale`"
     ],
-    "prompt": "You are preparing risk register for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Convert a plan into risks, controls, owners, and review dates.\nInputs: {{plan}}, {{risk_taxonomy}}, {{severity_scale}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-secure-output-validation` pattern.\nOutput contract: Return risk table and mitigation checklist.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return risk table and mitigation checklist.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Convert a plan into risks, controls, owners, and review dates.",
+      "The response uses the task-specific variables: plan, risk_taxonomy, severity_scale.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of risk register.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-business-and-decision-support-04",
-    "slug": "business-and-decision-support-04",
-    "title": "Customer interview synthesis",
+    "id": "template-product-experiment-plan",
+    "slug": "product-experiment-plan",
+    "title": "Product experiment plan",
     "category": "Business and decision support",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-prompt-compression",
+    "related_pattern": "pattern-regression-case",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "hypothesis",
+      "metric",
+      "constraints"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`hypothesis`",
+      "`metric`",
+      "`constraints`"
     ],
-    "prompt": "You are preparing customer interview synthesis for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Design a measurable experiment for a product change.\nInputs: {{hypothesis}}, {{metric}}, {{constraints}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-regression-case` pattern.\nOutput contract: Return experiment design, guardrails, and decision rule.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return experiment design, guardrails, and decision rule.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Design a measurable experiment for a product change.",
+      "The response uses the task-specific variables: hypothesis, metric, constraints.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of product experiment plan.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-business-and-decision-support-05",
-    "slug": "business-and-decision-support-05",
-    "title": "Roadmap prioritization",
-    "category": "Business and decision support",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-eval-case-generation",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing roadmap prioritization for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-business-and-decision-support-06",
-    "slug": "business-and-decision-support-06",
-    "title": "Vendor comparison",
-    "category": "Business and decision support",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-direct-instruction-framing",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing vendor comparison for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-business-and-decision-support-07",
-    "slug": "business-and-decision-support-07",
-    "title": "Operating review summary",
-    "category": "Business and decision support",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-context-boundary-marking",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing operating review summary for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-writing-and-communication-01",
-    "slug": "writing-and-communication-01",
+    "id": "template-writing-audience-rewrite",
+    "slug": "writing-audience-rewrite",
     "title": "Audience rewrite",
     "category": "Writing and communication",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-role-responsibility-framing",
+    "related_pattern": "pattern-objective-contract",
     "variables": [
-      "task",
+      "source_text",
       "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "tone"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`source_text`",
+      "`audience`",
+      "`tone`"
     ],
-    "prompt": "You are preparing audience rewrite for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Rewrite text for a named reader without losing meaning.\nInputs: {{source_text}}, {{audience}}, {{tone}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-objective-contract` pattern.\nOutput contract: Return rewrite, change notes, and meaning-preservation check.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return rewrite, change notes, and meaning-preservation check.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Rewrite text for a named reader without losing meaning.",
+      "The response uses the task-specific variables: source_text, audience, tone.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of audience rewrite.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-writing-and-communication-02",
-    "slug": "writing-and-communication-02",
-    "title": "Launch announcement",
-    "category": "Writing and communication",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-output-contract-first",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing launch announcement for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-writing-and-communication-03",
-    "slug": "writing-and-communication-03",
-    "title": "Support response",
-    "category": "Writing and communication",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-few-shot-calibration",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing support response for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-writing-and-communication-04",
-    "slug": "writing-and-communication-04",
+    "id": "template-writing-technical-explainer",
+    "slug": "writing-technical-explainer",
     "title": "Technical explainer",
     "category": "Writing and communication",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-positive-constraints",
+    "related_pattern": "pattern-context-boundary",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "topic",
+      "known_facts",
+      "reader_level"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`topic`",
+      "`known_facts`",
+      "`reader_level`"
     ],
-    "prompt": "You are preparing technical explainer for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Explain a technical topic using supplied facts and examples.\nInputs: {{topic}}, {{known_facts}}, {{reader_level}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-context-boundary` pattern.\nOutput contract: Return explanation, analogy, limitations, and glossary.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return explanation, analogy, limitations, and glossary.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Explain a technical topic using supplied facts and examples.",
+      "The response uses the task-specific variables: topic, known_facts, reader_level.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of technical explainer.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-writing-and-communication-05",
-    "slug": "writing-and-communication-05",
-    "title": "Editing checklist",
+    "id": "template-support-response",
+    "slug": "support-response",
+    "title": "Support response",
     "category": "Writing and communication",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-decomposition-planning",
+    "related_pattern": "pattern-clarify-or-proceed",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "customer_message",
+      "policy_context",
+      "allowed_promises"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`customer_message`",
+      "`policy_context`",
+      "`allowed_promises`"
     ],
-    "prompt": "You are preparing editing checklist for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Draft a support answer that separates confirmed facts from assumptions.\nInputs: {{customer_message}}, {{policy_context}}, {{allowed_promises}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-clarify-or-proceed` pattern.\nOutput contract: Return response, internal notes, and escalation trigger.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return response, internal notes, and escalation trigger.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Draft a support answer that separates confirmed facts from assumptions.",
+      "The response uses the task-specific variables: customer_message, policy_context, allowed_promises.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of support response.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-writing-and-communication-06",
-    "slug": "writing-and-communication-06",
-    "title": "Tone transformation",
-    "category": "Writing and communication",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-checkpointed-execution",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing tone transformation for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-writing-and-communication-07",
-    "slug": "writing-and-communication-07",
-    "title": "Argument strengthening",
-    "category": "Writing and communication",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-retrieval-grounded-answering",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing argument strengthening for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-agents-tools-and-workflows-01",
-    "slug": "agents-tools-and-workflows-01",
-    "title": "Tool-use agent brief",
+    "id": "template-agent-tool-policy",
+    "slug": "agent-tool-policy",
+    "title": "Tool-use agent policy",
     "category": "Agents, tools, and workflows",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-citation-before-answer",
+    "related_pattern": "pattern-tool-selection",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "goal",
+      "available_tools",
+      "approval_rules"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`goal`",
+      "`available_tools`",
+      "`approval_rules`"
     ],
-    "prompt": "You are preparing tool-use agent brief for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Define when an agent may call tools and when it must stop.\nInputs: {{goal}}, {{available_tools}}, {{approval_rules}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-tool-selection` pattern.\nOutput contract: Return policy, tool decision table, and stop conditions.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return policy, tool decision table, and stop conditions.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Define when an agent may call tools and when it must stop.",
+      "The response uses the task-specific variables: goal, available_tools, approval_rules.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of tool-use agent policy.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-agents-tools-and-workflows-02",
-    "slug": "agents-tools-and-workflows-02",
-    "title": "Human approval gate",
+    "id": "template-agent-handoff-summary",
+    "slug": "agent-handoff-summary",
+    "title": "Agent handoff summary",
     "category": "Agents, tools, and workflows",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-clarify-or-proceed-policy",
+    "related_pattern": "pattern-agent-state-ledger",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "goal",
+      "completed_steps",
+      "open_items"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`goal`",
+      "`completed_steps`",
+      "`open_items`"
     ],
-    "prompt": "You are preparing human approval gate for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Compress agent state for another run or teammate.\nInputs: {{goal}}, {{completed_steps}}, {{open_items}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-agent-state-ledger` pattern.\nOutput contract: Return state summary, evidence, risks, and next command.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return state summary, evidence, risks, and next command.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Compress agent state for another run or teammate.",
+      "The response uses the task-specific variables: goal, completed_steps, open_items.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of agent handoff summary.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-agents-tools-and-workflows-03",
-    "slug": "agents-tools-and-workflows-03",
-    "title": "Handoff summary",
+    "id": "template-agent-delegation-brief",
+    "slug": "agent-delegation-brief",
+    "title": "Delegation brief",
     "category": "Agents, tools, and workflows",
     "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-assumption-ledger",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing handoff summary for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-agents-tools-and-workflows-04",
-    "slug": "agents-tools-and-workflows-04",
-    "title": "Multi-agent task split",
-    "category": "Agents, tools, and workflows",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-decision-matrix",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing multi-agent task split for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-agents-tools-and-workflows-05",
-    "slug": "agents-tools-and-workflows-05",
-    "title": "RAG answer policy",
-    "category": "Agents, tools, and workflows",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-rubric-driven-critique",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing rag answer policy for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-agents-tools-and-workflows-06",
-    "slug": "agents-tools-and-workflows-06",
-    "title": "Autonomous workflow guardrails",
-    "category": "Agents, tools, and workflows",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-diff-explained-rewrite",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing autonomous workflow guardrails for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-agents-tools-and-workflows-07",
-    "slug": "agents-tools-and-workflows-07",
-    "title": "Tool failure recovery",
-    "category": "Agents, tools, and workflows",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-acceptance-self-check",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing tool failure recovery for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-multimodal-work-01",
-    "slug": "multimodal-work-01",
-    "title": "Image inspection",
-    "category": "Multimodal work",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-tool-selection-policy",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing image inspection for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-multimodal-work-02",
-    "slug": "multimodal-work-02",
-    "title": "Chart explanation",
-    "category": "Multimodal work",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-tool-result-provenance",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing chart explanation for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-multimodal-work-03",
-    "slug": "multimodal-work-03",
-    "title": "Slide critique",
-    "category": "Multimodal work",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-long-document-map-reduce",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing slide critique for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-multimodal-work-04",
-    "slug": "multimodal-work-04",
-    "title": "Diagram extraction",
-    "category": "Multimodal work",
-    "status": "stable",
-    "version": "1.0.0",
-    "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-state-handoff-summary",
-    "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
-    ],
-    "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
-    ],
-    "prompt": "You are preparing diagram extraction for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
-    "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
-    ],
-    "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
-    ],
-    "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
-    ]
-  },
-  {
-    "id": "template-multimodal-work-05",
-    "slug": "multimodal-work-05",
-    "title": "Video scene summary",
-    "category": "Multimodal work",
-    "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
     "related_pattern": "pattern-delegation-contract",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "subtask",
+      "inputs",
+      "review_criteria"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`subtask`",
+      "`inputs`",
+      "`review_criteria`"
     ],
-    "prompt": "You are preparing video scene summary for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Assign a bounded subtask to another agent.\nInputs: {{subtask}}, {{inputs}}, {{review_criteria}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-delegation-contract` pattern.\nOutput contract: Return delegation prompt and acceptance checklist.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return delegation prompt and acceptance checklist.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Assign a bounded subtask to another agent.",
+      "The response uses the task-specific variables: subtask, inputs, review_criteria.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of delegation brief.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-multimodal-work-06",
-    "slug": "multimodal-work-06",
-    "title": "Design QA checklist",
-    "category": "Multimodal work",
+    "id": "template-rag-answer-policy",
+    "slug": "rag-answer-policy",
+    "title": "RAG answer policy",
+    "category": "Agents, tools, and workflows",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-safe-refusal-alternative",
+    "related_pattern": "pattern-source-hierarchy",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "question",
+      "retrieved_passages",
+      "citation_format"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`question`",
+      "`retrieved_passages`",
+      "`citation_format`"
     ],
-    "prompt": "You are preparing design qa checklist for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Answer only from retrieved sources with missing-info handling.\nInputs: {{question}}, {{retrieved_passages}}, {{citation_format}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-source-hierarchy` pattern.\nOutput contract: Return citations, answer, missing information, and confidence.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return citations, answer, missing information, and confidence.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Answer only from retrieved sources with missing-info handling.",
+      "The response uses the task-specific variables: question, retrieved_passages, citation_format.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of rag answer policy.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   },
   {
-    "id": "template-multimodal-work-07",
-    "slug": "multimodal-work-07",
-    "title": "OCR correction",
-    "category": "Multimodal work",
+    "id": "template-security-injection-review",
+    "slug": "security-injection-review",
+    "title": "Prompt injection review",
+    "category": "Security and safety",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "related_pattern": "pattern-schema-bound-extraction",
+    "related_pattern": "pattern-defensive-injection-check",
     "variables": [
-      "task",
-      "audience",
-      "source_material",
-      "constraints",
-      "output_format"
+      "content",
+      "trusted_instructions",
+      "tool_authority"
     ],
     "required_inputs": [
-      "Objective",
-      "Audience or user",
-      "Source material or explicit statement that none is available"
+      "`content`",
+      "`trusted_instructions`",
+      "`tool_authority`"
     ],
-    "prompt": "You are preparing ocr correction for {audience}. Use only the supplied source_material unless the task explicitly asks for general knowledge. State assumptions, produce the requested output_format, and finish with acceptance checks.",
+    "prompt": "Objective: Inspect retrieved or user-provided text for prompt-injection attempts.\nInputs: {{content}}, {{trusted_instructions}}, {{tool_authority}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-defensive-injection-check` pattern.\nOutput contract: Return suspicious instructions, risk level, and safe handling.\nAcceptance check: list which criteria passed and which need review.",
     "expected_outputs": [
-      "A direct answer in the requested format.",
-      "A short evidence or assumption note.",
-      "A checklist showing whether acceptance criteria were met."
+      "Return suspicious instructions, risk level, and safe handling.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
     ],
     "acceptance_criteria": [
-      "All required inputs are used or explicitly marked unavailable.",
-      "Output format matches the requested contract.",
-      "Uncertainty is separated from verified content."
+      "The output directly supports: Inspect retrieved or user-provided text for prompt-injection attempts.",
+      "The response uses the task-specific variables: content, trusted_instructions, tool_authority.",
+      "The answer states missing evidence instead of inventing it."
     ],
     "failure_modes": [
-      "Invented facts when source material is thin.",
-      "Output structure drifts from the requested format.",
-      "Important constraints are acknowledged but not applied."
+      "The prompt produces a generic answer instead of prompt injection review.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "template-security-tool-abuse-check",
+    "slug": "security-tool-abuse-check",
+    "title": "Tool abuse checklist",
+    "category": "Security and safety",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "related_pattern": "pattern-human-approval",
+    "variables": [
+      "workflow",
+      "tools",
+      "data_sensitivity"
+    ],
+    "required_inputs": [
+      "`workflow`",
+      "`tools`",
+      "`data_sensitivity`"
+    ],
+    "prompt": "Objective: Review an agent workflow for excessive authority or unsafe tools.\nInputs: {{workflow}}, {{tools}}, {{data_sensitivity}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-human-approval` pattern.\nOutput contract: Return risks, approval gates, and least-privilege changes.\nAcceptance check: list which criteria passed and which need review.",
+    "expected_outputs": [
+      "Return risks, approval gates, and least-privilege changes.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
+    ],
+    "acceptance_criteria": [
+      "The output directly supports: Review an agent workflow for excessive authority or unsafe tools.",
+      "The response uses the task-specific variables: workflow, tools, data_sensitivity.",
+      "The answer states missing evidence instead of inventing it."
+    ],
+    "failure_modes": [
+      "The prompt produces a generic answer instead of tool abuse checklist.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "template-security-secret-exposure",
+    "slug": "security-secret-exposure",
+    "title": "Secret exposure response",
+    "category": "Security and safety",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "related_pattern": "pattern-secure-output-validation",
+    "variables": [
+      "finding_summary",
+      "affected_area",
+      "rotation_owner"
+    ],
+    "required_inputs": [
+      "`finding_summary`",
+      "`affected_area`",
+      "`rotation_owner`"
+    ],
+    "prompt": "Objective: Respond to a possible secret exposure without repeating the secret.\nInputs: {{finding_summary}}, {{affected_area}}, {{rotation_owner}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-secure-output-validation` pattern.\nOutput contract: Return redacted impact, revocation steps, and audit trail.\nAcceptance check: list which criteria passed and which need review.",
+    "expected_outputs": [
+      "Return redacted impact, revocation steps, and audit trail.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
+    ],
+    "acceptance_criteria": [
+      "The output directly supports: Respond to a possible secret exposure without repeating the secret.",
+      "The response uses the task-specific variables: finding_summary, affected_area, rotation_owner.",
+      "The answer states missing evidence instead of inventing it."
+    ],
+    "failure_modes": [
+      "The prompt produces a generic answer instead of secret exposure response.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "template-multimodal-image-inspection",
+    "slug": "multimodal-image-inspection",
+    "title": "Image inspection",
+    "category": "Multimodal work",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "related_pattern": "pattern-multimodal-observation-first",
+    "variables": [
+      "image",
+      "inspection_goal",
+      "risk_context"
+    ],
+    "required_inputs": [
+      "`image`",
+      "`inspection_goal`",
+      "`risk_context`"
+    ],
+    "prompt": "Objective: Describe an image by separating observation, inference, and uncertainty.\nInputs: {{image}}, {{inspection_goal}}, {{risk_context}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-multimodal-observation-first` pattern.\nOutput contract: Return observations, inferences, uncertainties, and follow-up checks.\nAcceptance check: list which criteria passed and which need review.",
+    "expected_outputs": [
+      "Return observations, inferences, uncertainties, and follow-up checks.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
+    ],
+    "acceptance_criteria": [
+      "The output directly supports: Describe an image by separating observation, inference, and uncertainty.",
+      "The response uses the task-specific variables: image, inspection_goal, risk_context.",
+      "The answer states missing evidence instead of inventing it."
+    ],
+    "failure_modes": [
+      "The prompt produces a generic answer instead of image inspection.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "template-multimodal-chart-qa",
+    "slug": "multimodal-chart-qa",
+    "title": "Chart QA",
+    "category": "Multimodal work",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "related_pattern": "pattern-multimodal-observation-first",
+    "variables": [
+      "chart_image",
+      "question",
+      "source_data_if_available"
+    ],
+    "required_inputs": [
+      "`chart_image`",
+      "`question`",
+      "`source_data_if_available`"
+    ],
+    "prompt": "Objective: Analyze a chart while checking labels, units, and possible visual ambiguity.\nInputs: {{chart_image}}, {{question}}, {{source_data_if_available}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-multimodal-observation-first` pattern.\nOutput contract: Return answer, visual evidence, ambiguity, and data-needed note.\nAcceptance check: list which criteria passed and which need review.",
+    "expected_outputs": [
+      "Return answer, visual evidence, ambiguity, and data-needed note.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
+    ],
+    "acceptance_criteria": [
+      "The output directly supports: Analyze a chart while checking labels, units, and possible visual ambiguity.",
+      "The response uses the task-specific variables: chart_image, question, source_data_if_available.",
+      "The answer states missing evidence instead of inventing it."
+    ],
+    "failure_modes": [
+      "The prompt produces a generic answer instead of chart qa.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "template-multimodal-image-brief",
+    "slug": "multimodal-image-brief",
+    "title": "Image generation brief",
+    "category": "Multimodal work",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "related_pattern": "pattern-accessible-visual-brief",
+    "variables": [
+      "subject",
+      "composition",
+      "accessibility_constraints"
+    ],
+    "required_inputs": [
+      "`subject`",
+      "`composition`",
+      "`accessibility_constraints`"
+    ],
+    "prompt": "Objective: Create a reviewable image-generation brief.\nInputs: {{subject}}, {{composition}}, {{accessibility_constraints}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-accessible-visual-brief` pattern.\nOutput contract: Return prompt, negative constraints, and QA checklist.\nAcceptance check: list which criteria passed and which need review.",
+    "expected_outputs": [
+      "Return prompt, negative constraints, and QA checklist.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
+    ],
+    "acceptance_criteria": [
+      "The output directly supports: Create a reviewable image-generation brief.",
+      "The response uses the task-specific variables: subject, composition, accessibility_constraints.",
+      "The answer states missing evidence instead of inventing it."
+    ],
+    "failure_modes": [
+      "The prompt produces a generic answer instead of image generation brief.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "template-provider-portability-check",
+    "slug": "provider-portability-check",
+    "title": "Provider portability check",
+    "category": "Provider operations",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "related_pattern": "pattern-cross-model-eval",
+    "variables": [
+      "prompt",
+      "providers",
+      "test_cases"
+    ],
+    "required_inputs": [
+      "`prompt`",
+      "`providers`",
+      "`test_cases`"
+    ],
+    "prompt": "Objective: Assess whether a prompt can move across providers.\nInputs: {{prompt}}, {{providers}}, {{test_cases}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-cross-model-eval` pattern.\nOutput contract: Return portability risks, provider-specific changes, and untested claims.\nAcceptance check: list which criteria passed and which need review.",
+    "expected_outputs": [
+      "Return portability risks, provider-specific changes, and untested claims.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
+    ],
+    "acceptance_criteria": [
+      "The output directly supports: Assess whether a prompt can move across providers.",
+      "The response uses the task-specific variables: prompt, providers, test_cases.",
+      "The answer states missing evidence instead of inventing it."
+    ],
+    "failure_modes": [
+      "The prompt produces a generic answer instead of provider portability check.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "template-production-prompt-change",
+    "slug": "production-prompt-change",
+    "title": "Production prompt change request",
+    "category": "Production operations",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "related_pattern": "pattern-production-change-log",
+    "variables": [
+      "current_prompt",
+      "proposed_prompt",
+      "reason"
+    ],
+    "required_inputs": [
+      "`current_prompt`",
+      "`proposed_prompt`",
+      "`reason`"
+    ],
+    "prompt": "Objective: Prepare a prompt change for review.\nInputs: {{current_prompt}}, {{proposed_prompt}}, {{reason}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-production-change-log` pattern.\nOutput contract: Return diff summary, expected behavior, tests, and rollback.\nAcceptance check: list which criteria passed and which need review.",
+    "expected_outputs": [
+      "Return diff summary, expected behavior, tests, and rollback.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
+    ],
+    "acceptance_criteria": [
+      "The output directly supports: Prepare a prompt change for review.",
+      "The response uses the task-specific variables: current_prompt, proposed_prompt, reason.",
+      "The answer states missing evidence instead of inventing it."
+    ],
+    "failure_modes": [
+      "The prompt produces a generic answer instead of production prompt change request.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "template-production-cost-review",
+    "slug": "production-cost-review",
+    "title": "Prompt cost and latency review",
+    "category": "Production operations",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "related_pattern": "pattern-cost-latency-budget",
+    "variables": [
+      "workflow",
+      "traffic_estimate",
+      "latency_slo"
+    ],
+    "required_inputs": [
+      "`workflow`",
+      "`traffic_estimate`",
+      "`latency_slo`"
+    ],
+    "prompt": "Objective: Review a prompt workflow for cost and latency pressure.\nInputs: {{workflow}}, {{traffic_estimate}}, {{latency_slo}}\nInstructions:\n1. Restate the task boundary in one sentence.\n2. Use only the supplied inputs unless a tool or source is explicitly authorized.\n3. Separate verified facts from assumptions.\n4. Apply the `pattern-cost-latency-budget` pattern.\nOutput contract: Return cost drivers, reductions, and measurement plan.\nAcceptance check: list which criteria passed and which need review.",
+    "expected_outputs": [
+      "Return cost drivers, reductions, and measurement plan.",
+      "Assumptions or missing inputs",
+      "Acceptance check"
+    ],
+    "acceptance_criteria": [
+      "The output directly supports: Review a prompt workflow for cost and latency pressure.",
+      "The response uses the task-specific variables: workflow, traffic_estimate, latency_slo.",
+      "The answer states missing evidence instead of inventing it."
+    ],
+    "failure_modes": [
+      "The prompt produces a generic answer instead of prompt cost and latency review.",
+      "The model uses outside facts without authorization.",
+      "The acceptance check is omitted or not tied to the requested output."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
     ]
   }
 ]

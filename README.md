@@ -1,78 +1,57 @@
 # Prompt Engineering Reference
 
-Prompt Engineering Reference is a practical, provider-aware reference for designing,
-evaluating, and operating reusable prompts. It combines a Prompt Contract framework,
-a pattern catalog, reusable templates, evaluation examples, provider notes, security
-controls, and a machine-readable catalog that can be validated locally.
+Learn prompt engineering from first principles, then return whenever you need a tested pattern, reusable template, official resource, course, paper, provider guide, or evaluation workflow.
 
-The repository is intentionally more than a prompt collection. Each prompt asset is
-connected to acceptance criteria, failure modes, version data, review dates, and
-validation scripts so teams can copy a template, adapt it, and test whether it still
-meets its contract.
+[![Quality](https://github.com/MertGedik35/prompt-engineering-reference/actions/workflows/quality.yml/badge.svg)](https://github.com/MertGedik35/prompt-engineering-reference/actions/workflows/quality.yml)
+[![Pages](https://github.com/MertGedik35/prompt-engineering-reference/actions/workflows/pages.yml/badge.svg)](https://github.com/MertGedik35/prompt-engineering-reference/actions/workflows/pages.yml)
+[![License: MIT and CC0](https://img.shields.io/badge/license-MIT%20%2B%20CC0-0f766e.svg)](LICENSE)
 
-## Positioning
+## Start Learning
 
-Prompt Engineering Reference uses five layers:
+Follow [LEARNING_PATH.md](LEARNING_PATH.md) or the documentation site's Learn section. The curriculum starts with LLM foundations and moves through prompt anatomy, grounding, structured outputs, evaluations, agents, context engineering, security, multimodal work, production operations, and capstone projects.
 
-1. Learn: understand the Prompt Contract and the pattern catalog.
-2. Choose: select a pattern, template, provider guide, or diagnostic path.
-3. Copy: reuse a template with stable variables and expected outputs.
-4. Test: score outputs with the rubric and evaluation examples.
-5. Operate: apply context engineering, security controls, provenance, and review gates.
+## Use the Reference
 
-This makes the project different from a random prompt collection, a simple awesome
-list, a provider-specific tutorial, or a static list of external links. The core unit
-is a testable prompt asset, not a clever phrase.
+Jump to patterns, templates, provider guidance, official resources, courses, credentials, papers, tools, checklists, or Prompt Doctor diagnostics when you need a reusable answer quickly.
 
-## Five-minute quick start
-
-```bash
-python -m pip install -e ".[dev,docs]"
-python scripts/validate_catalog.py
-python scripts/generate_docs_indexes.py --check
-python scripts/check_internal_links.py
-python -m pytest
-python -m mkdocs build --strict
-```
-
-## Choose by what you want to achieve
-
-| Goal | Start here |
+| Audience | Recommended starting point |
 | --- | --- |
-| Design a prompt from scratch | [Prompt Contract](docs/prompt-contract.md) |
-| Pick a reusable technique | [Pattern catalog](docs/patterns.md) |
-| Copy a working template | [Template library](docs/templates.md) |
-| Improve a failing prompt | [Prompt Doctor](docs/prompt-doctor.md) |
-| Compare model providers | [Provider guides](docs/providers/index.md) |
-| Build an evaluation habit | [Prompt evaluations](docs/evaluations.md) |
-| Manage context in agents | [Context engineering](docs/context-engineering.md) |
-| Reduce prompt and tool risk | [Security](docs/security.md) |
+| Complete beginner | Orientation |
+| Prompt practitioner | Core patterns |
+| Developer | Structured outputs and tools |
+| Coding-agent user | Coding-agent track |
+| Product team | Evaluation and production |
+| Security reviewer | Prompt security |
+| Researcher | Papers and experiments |
+| Career learner | Curriculum and credentials |
+| Contributor | Contribution guide |
 
-## Reader paths
+## What You Can Learn
 
-- New practitioner: Prompt Contract, patterns, then templates.
-- Product builder: provider guides, context engineering, security, then evals.
-- Coding-agent user: coding-agent Prompt Contract, tool-use patterns, and CI examples.
-- Maintainer: catalog schemas, validation scripts, contribution guide, and governance.
+- How prompts interact with tokens, context windows, sampling, grounding, and tools.
+- How to design prompts with the expanded Prompt Contract.
+- How to evaluate prompts with rubrics, test cases, and regression checks.
+- How to operate prompts safely in products and agent workflows.
 
-## Catalog and documentation
+## What You Can Look Up
 
-The JSON files in `catalog/` are the source of truth. The files in
-`docs/generated/` are generated from those catalogs by
-`scripts/generate_docs_indexes.py`.
+- Prompt patterns and task-specific templates.
+- Provider-specific recommendations with verification dates.
+- Official documentation, official prompt resources, courses, credentials, videos, papers, repositories, and tools.
+- Security checklists and Prompt Doctor diagnostics for failing prompts.
 
-## Validation
+## Verification Policy
 
-The local quality path checks catalog integrity, generated index drift, internal
-Markdown links, unit tests, formatting, linting, type checking, and MkDocs output.
+Official and time-sensitive resources include `last_verified`, `stale_after_days`, and `stale_risk`. Prices, credentials, model behavior, product features, and provider guidance must be checked against canonical sources before release.
 
 ## Contributing
 
-Use [CONTRIBUTING.md](CONTRIBUTING.md) for contribution rules and the issue forms in
-`.github/ISSUE_TEMPLATE/` for structured changes.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Contributions must include canonical sources, original descriptions, verification dates, license notes where relevant, and tests for changed catalogs.
 
 ## License
 
-Code and automation are MIT licensed. Original documentation, taxonomies, and
-templates are dedicated to the public domain under CC0-1.0. External linked
-resources keep their own licenses and terms.
+Code, scripts, tests, and automation are MIT licensed. Original documentation, taxonomies, patterns, and templates are CC0-1.0. External resources keep their own licenses and are not relicensed by this repository.
+
+## Disclaimer
+
+Prompt engineering advice is empirical and provider-sensitive. Treat examples as starting points, run evaluations for your own use case, and do not claim cross-model compatibility unless you have tested it.

@@ -1,0 +1,250 @@
+[
+  {
+    "id": "provider-openai",
+    "slug": "openai",
+    "name": "OpenAI",
+    "provider": "OpenAI",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 60,
+    "stale_risk": "high",
+    "official_source_ids": [
+      "official-openai-prompt-engineering",
+      "official-openai-structured-outputs",
+      "official-openai-function-calling",
+      "official-openai-evals"
+    ],
+    "stable_guidance": "Use explicit output contracts, structured outputs for machine-readability, and evals before broad deployment.",
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "fast_stale_areas": [
+      "model list",
+      "API feature behavior",
+      "reasoning and tool parameters"
+    ],
+    "remaining_gaps": [
+      "Live cross-model behavior has not been independently benchmarked in this repository."
+    ],
+    "acceptance_criteria": [
+      "Official sources are cited by ID.",
+      "Durable guidance is separated from fast-stale model details.",
+      "Unverified compatibility claims are labeled."
+    ]
+  },
+  {
+    "id": "provider-anthropic",
+    "slug": "anthropic",
+    "name": "Anthropic Claude",
+    "provider": "Anthropic",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 60,
+    "stale_risk": "high",
+    "official_source_ids": [
+      "official-claude-prompting-overview",
+      "official-claude-tool-use",
+      "official-claude-code-prompts"
+    ],
+    "stable_guidance": "Define success criteria first, separate data from instructions, and use Claude-specific tool guidance for tools.",
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "fast_stale_areas": [
+      "model-specific prompting",
+      "extended thinking",
+      "Claude Code behavior"
+    ],
+    "remaining_gaps": [
+      "Live cross-model behavior has not been independently benchmarked in this repository."
+    ],
+    "acceptance_criteria": [
+      "Official sources are cited by ID.",
+      "Durable guidance is separated from fast-stale model details.",
+      "Unverified compatibility claims are labeled."
+    ]
+  },
+  {
+    "id": "provider-google",
+    "slug": "google",
+    "name": "Google Gemini",
+    "provider": "Google",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 60,
+    "stale_risk": "high",
+    "official_source_ids": [
+      "official-gemini-prompting",
+      "official-gemini-structured-output",
+      "official-gemini-function-calling"
+    ],
+    "stable_guidance": "Treat multimodal inputs and structured outputs as first-class prompt contracts.",
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "fast_stale_areas": [
+      "model availability",
+      "media limits",
+      "thinking behavior"
+    ],
+    "remaining_gaps": [
+      "Live cross-model behavior has not been independently benchmarked in this repository."
+    ],
+    "acceptance_criteria": [
+      "Official sources are cited by ID.",
+      "Durable guidance is separated from fast-stale model details.",
+      "Unverified compatibility claims are labeled."
+    ]
+  },
+  {
+    "id": "provider-microsoft",
+    "slug": "microsoft",
+    "name": "Microsoft Azure OpenAI and Copilot",
+    "provider": "Microsoft",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 60,
+    "stale_risk": "high",
+    "official_source_ids": [
+      "official-azure-prompt-engineering",
+      "official-azure-function-calling",
+      "official-copilot-prompt-gallery"
+    ],
+    "stable_guidance": "Separate Azure OpenAI API prompts from Microsoft 365 Copilot prompt gallery guidance.",
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "fast_stale_areas": [
+      "regional model availability",
+      "Copilot licensing",
+      "prompt gallery behavior"
+    ],
+    "remaining_gaps": [
+      "Live cross-model behavior has not been independently benchmarked in this repository."
+    ],
+    "acceptance_criteria": [
+      "Official sources are cited by ID.",
+      "Durable guidance is separated from fast-stale model details.",
+      "Unverified compatibility claims are labeled."
+    ]
+  },
+  {
+    "id": "provider-aws",
+    "slug": "aws",
+    "name": "Amazon Bedrock",
+    "provider": "AWS",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 60,
+    "stale_risk": "high",
+    "official_source_ids": [
+      "official-bedrock-prompt-guidelines",
+      "official-bedrock-agents",
+      "official-bedrock-guardrails"
+    ],
+    "stable_guidance": "Prompt design must account for provider model differences behind Bedrock.",
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "fast_stale_areas": [
+      "model-provider behavior",
+      "guardrail configuration",
+      "agent features"
+    ],
+    "remaining_gaps": [
+      "Live cross-model behavior has not been independently benchmarked in this repository."
+    ],
+    "acceptance_criteria": [
+      "Official sources are cited by ID.",
+      "Durable guidance is separated from fast-stale model details.",
+      "Unverified compatibility claims are labeled."
+    ]
+  },
+  {
+    "id": "provider-meta",
+    "slug": "meta",
+    "name": "Meta Llama",
+    "provider": "Meta",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 60,
+    "stale_risk": "high",
+    "official_source_ids": [
+      "official-llama-docs",
+      "repo-meta-llama-cookbook",
+      "official-llama-prompt-format"
+    ],
+    "stable_guidance": "Preserve chat template and prompt format for the target Llama model and serving stack.",
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "fast_stale_areas": [
+      "prompt format tokens",
+      "model cards",
+      "hosted serving behavior"
+    ],
+    "remaining_gaps": [
+      "Live cross-model behavior has not been independently benchmarked in this repository."
+    ],
+    "acceptance_criteria": [
+      "Official sources are cited by ID.",
+      "Durable guidance is separated from fast-stale model details.",
+      "Unverified compatibility claims are labeled."
+    ]
+  },
+  {
+    "id": "provider-mistral",
+    "slug": "mistral",
+    "name": "Mistral AI",
+    "provider": "Mistral AI",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 60,
+    "stale_risk": "high",
+    "official_source_ids": [
+      "official-mistral-prompting",
+      "official-mistral-function-calling",
+      "official-mistral-structured-output"
+    ],
+    "stable_guidance": "Use concise prompts, explicit structure, and provider-native tool or structured-output docs.",
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "fast_stale_areas": [
+      "agent APIs",
+      "model lineup",
+      "tool support"
+    ],
+    "remaining_gaps": [
+      "Live cross-model behavior has not been independently benchmarked in this repository."
+    ],
+    "acceptance_criteria": [
+      "Official sources are cited by ID.",
+      "Durable guidance is separated from fast-stale model details.",
+      "Unverified compatibility claims are labeled."
+    ]
+  },
+  {
+    "id": "provider-open-models",
+    "slug": "open-models",
+    "name": "Open models",
+    "provider": "Mixed",
+    "status": "active",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 60,
+    "stale_risk": "high",
+    "official_source_ids": [
+      "repo-meta-llama-cookbook",
+      "repo-llamaindex"
+    ],
+    "stable_guidance": "Always verify chat templates, system-message handling, and serving-library defaults for the specific model.",
+    "model_specific_guidance_separated": true,
+    "stable_guidance_separated": true,
+    "fast_stale_areas": [
+      "model forks",
+      "serving wrappers",
+      "quantization effects"
+    ],
+    "remaining_gaps": [
+      "Live cross-model behavior has not been independently benchmarked in this repository."
+    ],
+    "acceptance_criteria": [
+      "Official sources are cited by ID.",
+      "Durable guidance is separated from fast-stale model details.",
+      "Unverified compatibility claims are labeled."
+    ]
+  }
+]

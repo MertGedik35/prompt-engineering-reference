@@ -1,170 +1,51 @@
 [
   {
-    "id": "context-01",
-    "topic": "System and developer instructions",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing system and developer instructions in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
+    "id": "context-system",
+    "topic": "System instructions",
+    "priority": 1,
+    "practice": "Keep non-negotiable behavior concise and durable.",
+    "last_reviewed": "2026-07-28"
   },
   {
-    "id": "context-02",
+    "id": "context-developer",
+    "topic": "Developer instructions",
+    "priority": 2,
+    "practice": "Use repository or workflow rules to constrain implementation.",
+    "last_reviewed": "2026-07-28"
+  },
+  {
+    "id": "context-user",
     "topic": "User prompts",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing user prompts in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
+    "priority": 3,
+    "practice": "Extract objective, constraints, and missing inputs.",
+    "last_reviewed": "2026-07-28"
   },
   {
-    "id": "context-03",
+    "id": "context-retrieved",
     "topic": "Retrieved context",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing retrieved context in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
+    "priority": 4,
+    "practice": "Attach source, freshness, and trust level.",
+    "last_reviewed": "2026-07-28"
   },
   {
-    "id": "context-04",
-    "topic": "Conversation state",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing conversation state in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
-  },
-  {
-    "id": "context-05",
-    "topic": "Memory",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing memory in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
-  },
-  {
-    "id": "context-06",
-    "topic": "Tools",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing tools in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
-  },
-  {
-    "id": "context-07",
+    "id": "context-tool-output",
     "topic": "Tool outputs",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing tool outputs in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
+    "priority": 5,
+    "practice": "Record command, result, and transformation.",
+    "last_reviewed": "2026-07-28"
   },
   {
-    "id": "context-08",
-    "topic": "Policies",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing policies in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
+    "id": "context-memory",
+    "topic": "Memory",
+    "priority": 6,
+    "practice": "Use memory only when relevant and current.",
+    "last_reviewed": "2026-07-28"
   },
   {
-    "id": "context-09",
-    "topic": "Repository instructions",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing repository instructions in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
-  },
-  {
-    "id": "context-10",
-    "topic": "Context prioritization",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing context prioritization in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
-  },
-  {
-    "id": "context-11",
+    "id": "context-compression",
     "topic": "Compression",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing compression in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
-  },
-  {
-    "id": "context-12",
-    "topic": "Provenance",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing provenance in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
-  },
-  {
-    "id": "context-13",
-    "topic": "Conflicting instructions",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing conflicting instructions in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
-  },
-  {
-    "id": "context-14",
-    "topic": "Agent state",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "summary": "Operational guidance for managing agent state in reusable prompts and agents.",
-    "acceptance_criteria": [
-      "Priority is explicit.",
-      "Source and authority are recorded.",
-      "Compression or conflict handling is defined where relevant."
-    ]
+    "priority": 7,
+    "practice": "Preserve decisions, evidence, constraints, and risks.",
+    "last_reviewed": "2026-07-28"
   }
 ]

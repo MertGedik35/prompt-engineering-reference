@@ -1,0 +1,42 @@
+{
+  "id": "eval-json-extraction",
+  "title": "JSON extraction",
+  "before_prompt": "Extract the data as JSON.",
+  "after_prompt": "Extract into the supplied JSON Schema, use null for missing fields, and return only JSON that validates.",
+  "rubric_dimensions": [
+    "Objective",
+    "Context",
+    "Inputs",
+    "Instructions",
+    "Constraints",
+    "Tools and Sources",
+    "Output Contract",
+    "Evaluation"
+  ],
+  "rubric_scores_before": [
+    3,
+    2,
+    2,
+    2,
+    1,
+    2,
+    1,
+    4
+  ],
+  "rubric_scores_after": [
+    5,
+    4,
+    5,
+    5,
+    5,
+    4,
+    5,
+    4
+  ],
+  "acceptance_criteria": [
+    "JSON parses.",
+    "Required fields are present.",
+    "Unknown values follow null policy."
+  ],
+  "last_reviewed": "2026-07-28"
+}

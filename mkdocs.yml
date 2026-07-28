@@ -1,5 +1,5 @@
 site_name: Prompt Engineering Reference
-site_description: Practical prompt engineering patterns, templates, evaluations, and provider guidance.
+site_description: Learn prompt engineering from first principles, then use a tested reference library.
 site_url: https://mertgedik35.github.io/prompt-engineering-reference/
 repo_url: https://github.com/MertGedik35/prompt-engineering-reference
 edit_uri: edit/main/docs/
@@ -26,31 +26,67 @@ theme:
         name: Switch to light mode
 plugins:
   - search
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/MertGedik35/prompt-engineering-reference
 nav:
   - Home: index.md
-  - Research Positioning: research-positioning.md
-  - Prompt Contract: prompt-contract.md
-  - Patterns: patterns.md
-  - Templates: templates.md
-  - Evaluations: evaluations.md
-  - Prompt Doctor: prompt-doctor.md
-  - Provider Guides:
+  - Learn:
+      - Overview: learn/index.md
+      - Orientation: learn/orientation.md
+      - LLM Foundations: learn/llm-foundations.md
+      - Prompt Anatomy: learn/prompt-anatomy.md
+      - Core Techniques: learn/core-techniques.md
+      - Grounding and Long Context: learn/grounding-long-context.md
+      - Structured Outputs: learn/structured-outputs.md
+      - Evaluation: learn/evaluation.md
+      - Agents and Tools: learn/agents-tools.md
+      - Context Engineering: learn/context-engineering.md
+      - Security: learn/security.md
+      - Multimodal: learn/multimodal.md
+      - Production Operations: learn/production-operations.md
+      - Portfolio and Capstone: learn/portfolio-capstone.md
+  - Reference:
+      - Overview: reference/index.md
+      - Patterns: generated/pattern-index.md
+      - Templates: generated/template-index.md
+      - Prompt Doctor: generated/prompt-doctor-index.md
+      - Glossary: generated/glossary-index.md
+  - Providers:
       - Overview: providers/index.md
       - OpenAI: providers/openai.md
       - Anthropic Claude: providers/anthropic.md
-      - Google Gemini: providers/gemini.md
-      - Microsoft Azure OpenAI: providers/azure-openai.md
-      - Meta Llama: providers/llama.md
+      - Google Gemini: providers/google.md
+      - Microsoft: providers/microsoft.md
+      - AWS Bedrock: providers/aws.md
+      - Meta Llama: providers/meta.md
       - Mistral AI: providers/mistral.md
-      - Amazon Bedrock: providers/amazon-bedrock.md
-  - Context Engineering: context-engineering.md
-  - Security: security.md
-  - Resources: resources.md
-  - Generated:
-      - Pattern Index: generated/pattern-index.md
-      - Template Index: generated/template-index.md
-      - Resource Index: generated/resource-index.md
-  - Contributing: contributing.md
+      - Open Models: providers/open-models.md
+  - Resources:
+      - Overview: resources/index.md
+      - Official Resources: generated/official-resource-index.md
+      - Repositories: generated/repository-index.md
+      - Courses: generated/course-index.md
+      - Credentials: generated/credential-index.md
+      - Videos: generated/video-index.md
+      - Papers: generated/paper-index.md
+      - Books: generated/book-index.md
+      - Tools: generated/tool-index.md
+      - Communities: generated/community-index.md
+  - Labs:
+      - Overview: labs/index.md
+      - Capstones: labs/capstones.md
+  - Contribute:
+      - Contributing: contribute/index.md
+  - Project:
+      - V1 Content Audit: project/v1-content-audit.md
+      - Privacy Audit: project/privacy-audit.md
+      - V2 Architecture: project/v2-architecture.md
+      - V1 to V2 Migration: project/v1-to-v2-migration.md
+      - V2 Release Gates: project/v2-release-gates.md
+      - Draft Release Notes: project/v2-draft-release-notes.md
+      - Draft PR Description: project/v2-pr-description.md
 markdown_extensions:
   - admonition
   - tables

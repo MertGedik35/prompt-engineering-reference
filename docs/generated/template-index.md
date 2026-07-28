@@ -1,87 +1,81 @@
-# Template Index
+<!-- Generated file. Do not edit manually. -->
 
-Generated from `catalog/templates.json`.
+# Template Index
 
 ## Agents, tools, and workflows
 
-| ID | Title | Related pattern |
+| ID | Title | Pattern |
 | --- | --- | --- |
-| `template-agents-tools-and-workflows-01` | Tool-use agent brief | `pattern-citation-before-answer` |
-| `template-agents-tools-and-workflows-02` | Human approval gate | `pattern-clarify-or-proceed-policy` |
-| `template-agents-tools-and-workflows-03` | Handoff summary | `pattern-assumption-ledger` |
-| `template-agents-tools-and-workflows-04` | Multi-agent task split | `pattern-decision-matrix` |
-| `template-agents-tools-and-workflows-05` | RAG answer policy | `pattern-rubric-driven-critique` |
-| `template-agents-tools-and-workflows-06` | Autonomous workflow guardrails | `pattern-diff-explained-rewrite` |
-| `template-agents-tools-and-workflows-07` | Tool failure recovery | `pattern-acceptance-self-check` |
+| `template-agent-tool-policy` | Tool-use agent policy | `pattern-tool-selection` |
+| `template-agent-handoff-summary` | Agent handoff summary | `pattern-agent-state-ledger` |
+| `template-agent-delegation-brief` | Delegation brief | `pattern-delegation-contract` |
+| `template-rag-answer-policy` | RAG answer policy | `pattern-source-hierarchy` |
 
 ## Business and decision support
 
-| ID | Title | Related pattern |
+| ID | Title | Pattern |
 | --- | --- | --- |
-| `template-business-and-decision-support-01` | Decision memo | `pattern-safe-refusal-alternative` |
-| `template-business-and-decision-support-02` | Market landscape snapshot | `pattern-schema-bound-extraction` |
-| `template-business-and-decision-support-03` | Risk register | `pattern-error-recovery-prompt` |
-| `template-business-and-decision-support-04` | Customer interview synthesis | `pattern-prompt-compression` |
-| `template-business-and-decision-support-05` | Roadmap prioritization | `pattern-eval-case-generation` |
-| `template-business-and-decision-support-06` | Vendor comparison | `pattern-direct-instruction-framing` |
-| `template-business-and-decision-support-07` | Operating review summary | `pattern-context-boundary-marking` |
+| `template-business-decision-memo` | Decision memo | `pattern-rubric-first-evaluation` |
+| `template-business-risk-register` | Risk register | `pattern-secure-output-validation` |
+| `template-product-experiment-plan` | Product experiment plan | `pattern-regression-case` |
 
 ## Data and documents
 
-| ID | Title | Related pattern |
+| ID | Title | Pattern |
 | --- | --- | --- |
-| `template-data-and-documents-01` | Structured extraction | `pattern-diff-explained-rewrite` |
-| `template-data-and-documents-02` | Spreadsheet cleanup plan | `pattern-acceptance-self-check` |
-| `template-data-and-documents-03` | Contract clause table | `pattern-tool-selection-policy` |
-| `template-data-and-documents-04` | Document comparison | `pattern-tool-result-provenance` |
-| `template-data-and-documents-05` | Meeting transcript summary | `pattern-long-document-map-reduce` |
-| `template-data-and-documents-06` | Dataset quality audit | `pattern-state-handoff-summary` |
-| `template-data-and-documents-07` | Policy digest | `pattern-delegation-contract` |
+| `template-data-schema-extraction` | Schema-bound data extraction | `pattern-output-schema` |
+| `template-doc-comparison` | Document comparison table | `pattern-source-hierarchy` |
+| `template-transcript-action-summary` | Transcript action summary | `pattern-context-compression` |
 
 ## Multimodal work
 
-| ID | Title | Related pattern |
+| ID | Title | Pattern |
 | --- | --- | --- |
-| `template-multimodal-work-01` | Image inspection | `pattern-tool-selection-policy` |
-| `template-multimodal-work-02` | Chart explanation | `pattern-tool-result-provenance` |
-| `template-multimodal-work-03` | Slide critique | `pattern-long-document-map-reduce` |
-| `template-multimodal-work-04` | Diagram extraction | `pattern-state-handoff-summary` |
-| `template-multimodal-work-05` | Video scene summary | `pattern-delegation-contract` |
-| `template-multimodal-work-06` | Design QA checklist | `pattern-safe-refusal-alternative` |
-| `template-multimodal-work-07` | OCR correction | `pattern-schema-bound-extraction` |
+| `template-multimodal-image-inspection` | Image inspection | `pattern-multimodal-observation-first` |
+| `template-multimodal-chart-qa` | Chart QA | `pattern-multimodal-observation-first` |
+| `template-multimodal-image-brief` | Image generation brief | `pattern-accessible-visual-brief` |
+
+## Production operations
+
+| ID | Title | Pattern |
+| --- | --- | --- |
+| `template-production-prompt-change` | Production prompt change request | `pattern-production-change-log` |
+| `template-production-cost-review` | Prompt cost and latency review | `pattern-cost-latency-budget` |
+
+## Provider operations
+
+| ID | Title | Pattern |
+| --- | --- | --- |
+| `template-provider-portability-check` | Provider portability check | `pattern-cross-model-eval` |
 
 ## Research and synthesis
 
-| ID | Title | Related pattern |
+| ID | Title | Pattern |
 | --- | --- | --- |
-| `template-research-and-synthesis-01` | Source-grounded brief | `pattern-direct-instruction-framing` |
-| `template-research-and-synthesis-02` | Literature scan matrix | `pattern-context-boundary-marking` |
-| `template-research-and-synthesis-03` | Competing claims analysis | `pattern-role-responsibility-framing` |
-| `template-research-and-synthesis-04` | Executive evidence memo | `pattern-output-contract-first` |
-| `template-research-and-synthesis-05` | Reference repository review | `pattern-few-shot-calibration` |
-| `template-research-and-synthesis-06` | Trend synthesis | `pattern-positive-constraints` |
-| `template-research-and-synthesis-07` | Citation-backed FAQ | `pattern-decomposition-planning` |
+| `template-research-source-grounded-brief` | Source-grounded research brief | `pattern-evidence-table` |
+| `template-research-competing-claims` | Competing claims analysis | `pattern-source-hierarchy` |
+| `template-research-paper-reading` | Paper reading note | `pattern-evidence-table` |
+
+## Security and safety
+
+| ID | Title | Pattern |
+| --- | --- | --- |
+| `template-security-injection-review` | Prompt injection review | `pattern-defensive-injection-check` |
+| `template-security-tool-abuse-check` | Tool abuse checklist | `pattern-human-approval` |
+| `template-security-secret-exposure` | Secret exposure response | `pattern-secure-output-validation` |
 
 ## Software engineering and coding agents
 
-| ID | Title | Related pattern |
+| ID | Title | Pattern |
 | --- | --- | --- |
-| `template-software-engineering-and-coding-agents-01` | Bug reproduction plan | `pattern-checkpointed-execution` |
-| `template-software-engineering-and-coding-agents-02` | Code review finding pass | `pattern-retrieval-grounded-answering` |
-| `template-software-engineering-and-coding-agents-03` | Repository change plan | `pattern-citation-before-answer` |
-| `template-software-engineering-and-coding-agents-04` | Test case expansion | `pattern-clarify-or-proceed-policy` |
-| `template-software-engineering-and-coding-agents-05` | Migration assistant | `pattern-assumption-ledger` |
-| `template-software-engineering-and-coding-agents-06` | Release note drafter | `pattern-decision-matrix` |
-| `template-software-engineering-and-coding-agents-07` | CI failure triage | `pattern-rubric-driven-critique` |
+| `template-code-agent-repo-change` | Coding-agent repository change | `pattern-agent-state-ledger` |
+| `template-code-review-findings` | Code review finding pass | `pattern-rubric-first-evaluation` |
+| `template-ci-failure-triage` | CI failure triage | `pattern-retry-with-diagnosis` |
 
 ## Writing and communication
 
-| ID | Title | Related pattern |
+| ID | Title | Pattern |
 | --- | --- | --- |
-| `template-writing-and-communication-01` | Audience rewrite | `pattern-role-responsibility-framing` |
-| `template-writing-and-communication-02` | Launch announcement | `pattern-output-contract-first` |
-| `template-writing-and-communication-03` | Support response | `pattern-few-shot-calibration` |
-| `template-writing-and-communication-04` | Technical explainer | `pattern-positive-constraints` |
-| `template-writing-and-communication-05` | Editing checklist | `pattern-decomposition-planning` |
-| `template-writing-and-communication-06` | Tone transformation | `pattern-checkpointed-execution` |
-| `template-writing-and-communication-07` | Argument strengthening | `pattern-retrieval-grounded-answering` |
+| `template-writing-audience-rewrite` | Audience rewrite | `pattern-objective-contract` |
+| `template-writing-technical-explainer` | Technical explainer | `pattern-context-boundary` |
+| `template-support-response` | Support response | `pattern-clarify-or-proceed` |

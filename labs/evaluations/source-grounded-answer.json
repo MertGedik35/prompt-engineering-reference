@@ -1,0 +1,41 @@
+{
+  "id": "eval-source-grounded-answer",
+  "title": "Source-grounded answer",
+  "before_prompt": "Answer the question using the sources.",
+  "after_prompt": "List source IDs first, answer only from those sources, mark unsupported claims as not found, and finish with confidence.",
+  "rubric_dimensions": [
+    "Objective",
+    "Context",
+    "Inputs",
+    "Instructions",
+    "Constraints",
+    "Tools and Sources",
+    "Output Contract",
+    "Evaluation"
+  ],
+  "rubric_scores_before": [
+    2,
+    2,
+    2,
+    1,
+    1,
+    1,
+    1,
+    4
+  ],
+  "rubric_scores_after": [
+    5,
+    5,
+    5,
+    4,
+    5,
+    5,
+    5,
+    4
+  ],
+  "acceptance_criteria": [
+    "Every factual claim maps to a source ID.",
+    "Unsupported claims are labeled."
+  ],
+  "last_reviewed": "2026-07-28"
+}
