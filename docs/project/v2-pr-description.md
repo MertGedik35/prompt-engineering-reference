@@ -28,6 +28,16 @@ examples, exercise structure, quiz question counts, explained solutions, and det
 similarity limits. Deliberately shallow test fixtures demonstrate that these checks fail for the
 previous content shape.
 
+## README landing page and navigation
+
+The repository README now serves as the primary discovery and navigation surface. It provides
+linked routes for beginners, practitioners, developers, security reviewers, researchers, career
+learners, and contributors; links all 13 curriculum modules and eight provider guides; exposes the
+reference and resource catalogs; and links exercises, quizzes, solutions, evaluation fixtures, and
+all three current capstones. A deterministic README validator prevents required destinations,
+primary calls to action, provider links, module links, and linked audience routes from silently
+disappearing.
+
 ## Work deliberately not claimed complete
 
 The current pattern, template, provider-guide, course, and credential catalogs still require later
@@ -41,6 +51,7 @@ benchmarks have not been performed.
 - Curriculum semantic validation passes for 13 lessons, exercises, quizzes, and solutions.
 - The test suite contains 45 passing tests.
 - Internal-link validation and MkDocs strict build pass.
+- README navigation validation passes for 49 required destinations.
 - Current-tree privacy and secret checks have no active findings.
 
 Final-head GitHub Actions results must be confirmed after the latest push.

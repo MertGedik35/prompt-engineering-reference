@@ -15,6 +15,7 @@ validate: schemas
 	$(PYTHON) scripts/check_freshness.py
 	$(PYTHON) scripts/generate_docs_indexes.py --check
 	$(PYTHON) scripts/check_internal_links.py
+	$(PYTHON) scripts/check_readme_navigation.py
 
 privacy:
 	$(PYTHON) scripts/audit_privacy.py --include-site --include-git --history-warn-only

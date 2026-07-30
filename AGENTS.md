@@ -23,6 +23,7 @@ python scripts/audit_privacy.py --include-site --include-git --history-warn-only
 python scripts/check_freshness.py
 python scripts/generate_docs_indexes.py --check
 python scripts/check_internal_links.py
+python scripts/check_readme_navigation.py
 python -m ruff format --check .
 python -m ruff check .
 python -m mypy scripts tests
