@@ -20,8 +20,8 @@ def test_catalog_validation_passes() -> None:
 
 
 def test_content_quality_passes() -> None:
-    _, errors = run_checks()
-    assert errors == []
+    report = run_checks()
+    assert report.errors == []
 
 
 def test_template_prompts_are_task_specific() -> None:
