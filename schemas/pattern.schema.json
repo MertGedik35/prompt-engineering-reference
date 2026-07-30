@@ -21,6 +21,7 @@
     "acceptance_criteria",
     "failure_modes",
     "verification",
+    "verification_cases",
     "related_lessons",
     "related_patterns",
     "trade_offs",
@@ -121,6 +122,15 @@
       }
     },
     "verification": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 120
+      }
+    },
+    "verification_cases": {
       "type": "array",
       "minItems": 3,
       "maxItems": 3,

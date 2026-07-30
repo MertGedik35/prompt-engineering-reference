@@ -26,7 +26,7 @@ PATTERN_SIMILARITY_LIMITS = {
     "bad_prompt": 0.86,
     "acceptance_criteria": 0.88,
     "failure_modes": 0.88,
-    "verification": 0.88,
+    "verification_cases": 0.88,
 }
 PATTERN_GENERIC_PHRASES = (
     "the task needs the pattern mechanism to be reviewed or reused",
@@ -237,6 +237,7 @@ def check_pattern_quality(patterns: list[dict[str, Any]], report: QualityReport)
                     "acceptance_criteria",
                     "failure_modes",
                     "verification",
+                    "verification_cases",
                 )
             },
         )
@@ -290,7 +291,7 @@ def check_pattern_quality(patterns: list[dict[str, Any]], report: QualityReport)
         if not isinstance(failure_modes, list) or len(failure_modes) < 3:
             report.errors.append(f"pattern failure modes < 3: {pattern_id}")
 
-        verification = record.get("verification", [])
+        verification = record.get("verification_cases", [])
         if not isinstance(verification, list):
             report.errors.append(f"pattern verification is not a list: {pattern_id}")
             continue

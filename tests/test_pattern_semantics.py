@@ -67,8 +67,8 @@ def test_known_artificial_bad_prompt_is_rejected() -> None:
 @pytest.mark.parametrize("case_type", ["normal", "edge", "failure"])
 def test_missing_verification_case_type_is_rejected(case_type: str) -> None:
     records = pair()
-    records[0]["verification"] = [
-        case for case in records[0]["verification"] if case["type"] != case_type
+    records[0]["verification_cases"] = [
+        case for case in records[0]["verification_cases"] if case["type"] != case_type
     ]
     assert any(f"missing unique {case_type} case" in error for error in report_for(records).errors)
 
@@ -76,7 +76,7 @@ def test_missing_verification_case_type_is_rejected(case_type: str) -> None:
 @pytest.mark.parametrize("signal", ["pass_signal", "failure_signal"])
 def test_verification_requires_both_signals(signal: str) -> None:
     records = pair()
-    records[0]["verification"][0][signal] = ""
+    records[0]["verification_cases"][0][signal] = ""
     assert any(f"missing {signal}" in error for error in report_for(records).errors)
 
 
@@ -103,7 +103,9 @@ def test_fewer_than_three_failure_modes_are_rejected() -> None:
 
 def test_duplicate_verification_scenarios_are_rejected() -> None:
     records = pair()
-    records[1]["verification"][0]["scenario"] = records[0]["verification"][0]["scenario"]
+    records[1]["verification_cases"][0]["scenario"] = records[0]["verification_cases"][0][
+        "scenario"
+    ]
     assert any(
         "duplicate pattern verification scenario" in error for error in report_for(records).errors
     )

@@ -98,7 +98,7 @@ def pattern_index() -> str:
                             cell(case["pass_signal"]),
                             cell(case["failure_signal"]),
                         ]
-                        for case in record["verification"]
+                        for case in record["verification_cases"]
                     ],
                 ),
                 "\n### Trade-offs\n\n",

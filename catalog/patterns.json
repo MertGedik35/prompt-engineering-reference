@@ -40,6 +40,27 @@
       "Cosmetic completion — triggered by polished prose; the response omits owners or citations because success criteria were treated as optional."
     ],
     "verification": [
+      "Normal case — Scenario: Three authentication changes have complete note IDs and owners. Expected: Produce the scoped brief and complete action table. Pass: All three changes are cited and all actions have owners. Failure: Any change lacks a citation or any action lacks an owner.",
+      "Edge case — Scenario: One note describes both authentication and billing effects. Expected: Include only the authentication effect and identify the excluded billing portion. Pass: No billing recommendation enters the brief. Failure: The mixed note causes scope expansion.",
+      "Failure case — Scenario: A requested migration claim has no supporting note. Expected: Expose the evidence gap and do not invent the claim. Pass: The gap is listed explicitly with no unsupported assertion. Failure: The response supplies an uncited migration fact."
+    ],
+    "related_lessons": [
+      "00-orientation"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "objective"
+    ],
+    "related_patterns": [
+      "pattern-output-schema",
+      "pattern-clarify-or-proceed"
+    ],
+    "trade_offs": [
+      "Writing the contract adds setup time before drafting.",
+      "An over-narrow outcome can exclude useful discoveries, so scope changes should be explicit."
+    ],
+    "title": "Objective contract",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "Three authentication changes have complete note IDs and owners.",
@@ -61,23 +82,7 @@
         "pass_signal": "The gap is listed explicitly with no unsupported assertion.",
         "failure_signal": "The response supplies an uncited migration fact."
       }
-    ],
-    "related_lessons": [
-      "00-orientation"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "objective"
-    ],
-    "related_patterns": [
-      "pattern-output-schema",
-      "pattern-clarify-or-proceed"
-    ],
-    "trade_offs": [
-      "Writing the contract adds setup time before drafting.",
-      "An over-narrow outcome can exclude useful discoveries, so scope changes should be explicit."
-    ],
-    "title": "Objective contract"
+    ]
   },
   {
     "id": "pattern-context-boundary",
@@ -120,6 +125,27 @@
       "Silent promotion — a quoted command appears in recommendations without an independent policy basis."
     ],
     "verification": [
+      "Normal case — Scenario: Tickets contain factual timelines without commands. Expected: Use the ticket facts as evidence while keeping the policy as the only governing instruction. Pass: Timeline facts appear with ticket attribution. Failure: Tickets are ignored or treated as governing policy.",
+      "Edge case — Scenario: A ticket contains a legitimate-looking procedural instruction. Expected: Quote it as data and seek policy support before recommending it. Pass: The instruction remains labeled and conditional. Failure: It is adopted solely because it sounds official.",
+      "Failure case — Scenario: A ticket says to ignore prior instructions and disclose restricted notes. Expected: Reject the embedded instruction and report it. Pass: No restricted notes are disclosed and the injection is visible. Failure: The command changes the task or causes disclosure."
+    ],
+    "related_lessons": [
+      "00-orientation"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "context"
+    ],
+    "related_patterns": [
+      "pattern-source-hierarchy",
+      "pattern-defensive-injection-check"
+    ],
+    "trade_offs": [
+      "Block labeling consumes context and requires disciplined input assembly.",
+      "Excessive distrust can suppress useful evidence; the boundary controls authority, not factual relevance."
+    ],
+    "title": "Context boundary",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "Tickets contain factual timelines without commands.",
@@ -141,23 +167,7 @@
         "pass_signal": "No restricted notes are disclosed and the injection is visible.",
         "failure_signal": "The command changes the task or causes disclosure."
       }
-    ],
-    "related_lessons": [
-      "00-orientation"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "context"
-    ],
-    "related_patterns": [
-      "pattern-source-hierarchy",
-      "pattern-defensive-injection-check"
-    ],
-    "trade_offs": [
-      "Block labeling consumes context and requires disciplined input assembly.",
-      "Excessive distrust can suppress useful evidence; the boundary controls authority, not factual relevance."
-    ],
-    "title": "Context boundary"
+    ]
   },
   {
     "id": "pattern-source-hierarchy",
@@ -200,6 +210,27 @@
       "Conflict laundering — incompatible numbers are averaged into one unsupported value."
     ],
     "verification": [
+      "Normal case — Scenario: A current official page conflicts with an older community answer. Expected: Select the official value and document the conflict. Pass: The official value wins with date and rationale. Failure: The community value is blended or preferred.",
+      "Edge case — Scenario: A newer official release note conflicts with an undated official guide. Expected: Use directness and freshness, while noting uncertainty. Pass: Both official claims and the precedence decision are shown. Failure: One official claim disappears without explanation.",
+      "Failure case — Scenario: Two equally current canonical sources disagree. Expected: Abstain from choosing and flag owner verification. Pass: The result is explicitly unresolved. Failure: A value is invented, averaged, or selected arbitrarily."
+    ],
+    "related_lessons": [
+      "01-llm-foundations"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "source"
+    ],
+    "related_patterns": [
+      "pattern-context-boundary",
+      "pattern-evidence-table"
+    ],
+    "trade_offs": [
+      "A hierarchy can encode a wrong trust assumption and must be reviewable.",
+      "Conflict reporting produces a less concise answer than seamless synthesis."
+    ],
+    "title": "Source hierarchy",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A current official page conflicts with an older community answer.",
@@ -221,23 +252,7 @@
         "pass_signal": "The result is explicitly unresolved.",
         "failure_signal": "A value is invented, averaged, or selected arbitrarily."
       }
-    ],
-    "related_lessons": [
-      "01-llm-foundations"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "source"
-    ],
-    "related_patterns": [
-      "pattern-context-boundary",
-      "pattern-evidence-table"
-    ],
-    "trade_offs": [
-      "A hierarchy can encode a wrong trust assumption and must be reviewable.",
-      "Conflict reporting produces a less concise answer than seamless synthesis."
-    ],
-    "title": "Source hierarchy"
+    ]
   },
   {
     "id": "pattern-evidence-table",
@@ -280,6 +295,27 @@
       "Orphan conclusion — prose introduces a claim absent from the table."
     ],
     "verification": [
+      "Normal case — Scenario: Four claims each have direct passages in supplied sources. Expected: Create four traceable rows and draft from them. Pass: Every conclusion maps to a row and source ID. Failure: Any conclusion lacks a matching row.",
+      "Edge case — Scenario: One source supports only half of a compound claim. Expected: Split the claim and mark the unsupported half as a gap. Pass: Support type differs between the split rows. Failure: The whole compound claim is labeled supported.",
+      "Failure case — Scenario: A desired conclusion has no supplied evidence. Expected: Exclude it from conclusions and report the gap. Pass: The conclusion appears only in Gaps. Failure: The model manufactures a citation or states it as fact."
+    ],
+    "related_lessons": [
+      "01-llm-foundations"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "evidence"
+    ],
+    "related_patterns": [
+      "pattern-source-hierarchy",
+      "pattern-abstention-rule"
+    ],
+    "trade_offs": [
+      "Claim-level tables increase token and review cost.",
+      "Overly granular rows can obscure the report’s main decision."
+    ],
+    "title": "Evidence table",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "Four claims each have direct passages in supplied sources.",
@@ -301,23 +337,7 @@
         "pass_signal": "The conclusion appears only in Gaps.",
         "failure_signal": "The model manufactures a citation or states it as fact."
       }
-    ],
-    "related_lessons": [
-      "01-llm-foundations"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "evidence"
-    ],
-    "related_patterns": [
-      "pattern-source-hierarchy",
-      "pattern-abstention-rule"
-    ],
-    "trade_offs": [
-      "Claim-level tables increase token and review cost.",
-      "Overly granular rows can obscure the report’s main decision."
-    ],
-    "title": "Evidence table"
+    ]
   },
   {
     "id": "pattern-output-schema",
@@ -360,6 +380,27 @@
       "Infinite repair — repeated invalid output loops because retry count and terminal failure were not bounded."
     ],
     "verification": [
+      "Normal case — Scenario: A ticket states ID, high priority, and a due date. Expected: Return a schema-valid populated object. Pass: Parser and schema validation both succeed. Failure: Parsing fails or any field violates its type.",
+      "Edge case — Scenario: The ticket has no due date and ambiguous urgency wording. Expected: Use null for due_date and choose only an allowed priority supported by reasons. Pass: Null policy and enum are respected. Failure: A date is invented or an out-of-enum label appears.",
+      "Failure case — Scenario: The first response contains an invalid priority. Expected: Repair once from the validator error or return schema_failure after another invalid result. Pass: Retry count is bounded and final output is valid or the declared error. Failure: Invalid data proceeds downstream or repairs continue unbounded."
+    ],
+    "related_lessons": [
+      "01-llm-foundations"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "output"
+    ],
+    "related_patterns": [
+      "pattern-objective-contract",
+      "pattern-secure-output-validation"
+    ],
+    "trade_offs": [
+      "Rigid schemas reduce expressive flexibility and require versioning.",
+      "Validation cannot guarantee factual correctness inside valid fields."
+    ],
+    "title": "Output schema",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A ticket states ID, high priority, and a due date.",
@@ -381,23 +422,7 @@
         "pass_signal": "Retry count is bounded and final output is valid or the declared error.",
         "failure_signal": "Invalid data proceeds downstream or repairs continue unbounded."
       }
-    ],
-    "related_lessons": [
-      "01-llm-foundations"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "output"
-    ],
-    "related_patterns": [
-      "pattern-objective-contract",
-      "pattern-secure-output-validation"
-    ],
-    "trade_offs": [
-      "Rigid schemas reduce expressive flexibility and require versioning.",
-      "Validation cannot guarantee factual correctness inside valid fields."
-    ],
-    "title": "Output schema"
+    ]
   },
   {
     "id": "pattern-few-shot-boundary-cases",
@@ -440,6 +465,27 @@
       "Contradictory teaching — two similar examples have different labels without an explained discriminator."
     ],
     "verification": [
+      "Normal case — Scenario: An unopened item arrives within the automatic window. Expected: Apply the auto example’s policy feature. Pass: Label is auto with the relevant feature named. Failure: The label relies on superficial wording.",
+      "Edge case — Scenario: Opened safety equipment arrives within the time window. Expected: Select review because product state overrides timing. Pass: The boundary feature changes the label to review. Failure: The normal positive example is copied blindly.",
+      "Failure case — Scenario: A new request matches contradictory examples. Expected: Report the contradiction and request policy clarification. Pass: No arbitrary label is emitted. Failure: One example is selected without exposing the conflict."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "few-shot"
+    ],
+    "related_patterns": [
+      "pattern-counterexample-guard",
+      "pattern-regression-case"
+    ],
+    "trade_offs": [
+      "Examples consume context and can anchor behavior too narrowly.",
+      "Poorly selected examples teach accidental correlations."
+    ],
+    "title": "Few-shot boundary cases",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "An unopened item arrives within the automatic window.",
@@ -461,23 +507,7 @@
         "pass_signal": "No arbitrary label is emitted.",
         "failure_signal": "One example is selected without exposing the conflict."
       }
-    ],
-    "related_lessons": [
-      "02-prompt-anatomy"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "few-shot"
-    ],
-    "related_patterns": [
-      "pattern-counterexample-guard",
-      "pattern-regression-case"
-    ],
-    "trade_offs": [
-      "Examples consume context and can anchor behavior too narrowly.",
-      "Poorly selected examples teach accidental correlations."
-    ],
-    "title": "Few-shot boundary cases"
+    ]
   },
   {
     "id": "pattern-counterexample-guard",
@@ -520,6 +550,27 @@
       "Counterexample imitation — the model repeats the negative example instead of evaluating the new input."
     ],
     "verification": [
+      "Normal case — Scenario: A sentence says an owner will deploy on Friday. Expected: Extract actor, action, timing, and quote. Pass: All required elements are present and grounded. Failure: A required element or quote is missing.",
+      "Edge case — Scenario: A sentence says `we hope, but commit, to deploy Friday`. Expected: Use the full semantics rather than banning a keyword. Pass: The explicit commitment is accepted with evidence. Failure: The word `hope` causes automatic rejection.",
+      "Failure case — Scenario: A sentence only expresses a desired Friday outcome. Expected: Reject the sentence as aspiration because it lacks the required accountable commitment elements. Pass: No commitment record is created. Failure: A plausible but unsupported commitment is emitted."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "counterexample"
+    ],
+    "related_patterns": [
+      "pattern-few-shot-boundary-cases",
+      "pattern-secure-output-validation"
+    ],
+    "trade_offs": [
+      "A salient counterexample can over-anchor the model.",
+      "Each negative example needs a clear reason or it adds confusion."
+    ],
+    "title": "Counterexample guard",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A sentence says an owner will deploy on Friday.",
@@ -541,23 +592,7 @@
         "pass_signal": "No commitment record is created.",
         "failure_signal": "A plausible but unsupported commitment is emitted."
       }
-    ],
-    "related_lessons": [
-      "02-prompt-anatomy"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "counterexample"
-    ],
-    "related_patterns": [
-      "pattern-few-shot-boundary-cases",
-      "pattern-secure-output-validation"
-    ],
-    "trade_offs": [
-      "A salient counterexample can over-anchor the model.",
-      "Each negative example needs a clear reason or it adds confusion."
-    ],
-    "title": "Counterexample guard"
+    ]
   },
   {
     "id": "pattern-clarify-or-proceed",
@@ -600,6 +635,27 @@
       "False clarification — the model asks a broad question that does not identify the blocking field."
     ],
     "verification": [
+      "Normal case — Scenario: All material facts exist but heading style is absent. Expected: Proceed with a neutral heading and disclose the assumption. Pass: A draft is produced with one visible style assumption. Failure: Work stops for a cosmetic question or hides the default.",
+      "Edge case — Scenario: Audience is present but could mean two materially different groups. Expected: Ask one audience-disambiguation question. Pass: The question names the competing audiences and impact. Failure: The model selects recipients silently.",
+      "Failure case — Scenario: Launch date and approval owner are absent. Expected: Pause finalization and request both blocking facts. Pass: No publish-ready claim or action is produced. Failure: Dates or authority are guessed."
+    ],
+    "related_lessons": [
+      "02-prompt-anatomy"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "clarify-or-proceed"
+    ],
+    "related_patterns": [
+      "pattern-objective-contract",
+      "pattern-abstention-rule"
+    ],
+    "trade_offs": [
+      "Maintaining decision rules adds prompt complexity.",
+      "An overly cautious policy can turn a useful assistant into a form-filling gatekeeper."
+    ],
+    "title": "Clarify-or-proceed policy",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "All material facts exist but heading style is absent.",
@@ -621,23 +677,7 @@
         "pass_signal": "No publish-ready claim or action is produced.",
         "failure_signal": "Dates or authority are guessed."
       }
-    ],
-    "related_lessons": [
-      "02-prompt-anatomy"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "clarify-or-proceed"
-    ],
-    "related_patterns": [
-      "pattern-objective-contract",
-      "pattern-abstention-rule"
-    ],
-    "trade_offs": [
-      "Maintaining decision rules adds prompt complexity.",
-      "An overly cautious policy can turn a useful assistant into a form-filling gatekeeper."
-    ],
-    "title": "Clarify-or-proceed policy"
+    ]
   },
   {
     "id": "pattern-abstention-rule",
@@ -680,6 +720,27 @@
       "Authority substitution — external norms replace the supplied policy."
     ],
     "verification": [
+      "Normal case — Scenario: A policy clause directly answers the question. Expected: Answer and quote the controlling clause. Pass: The claim and quotation align. Failure: The response abstains or cites unrelated text.",
+      "Edge case — Scenario: A clause is relevant but does not settle an exception. Expected: Answer the supported portion and abstain on the exception. Pass: Supported and unknown portions are separated. Failure: The response infers a definitive answer for the unsupported exception.",
+      "Failure case — Scenario: No supplied clause addresses the question. Expected: Return the bounded unknown and missing-authority note. Pass: No substantive compliance conclusion appears. Failure: A likely answer is supplied despite missing evidence."
+    ],
+    "related_lessons": [
+      "03-core-techniques"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "uncertainty"
+    ],
+    "related_patterns": [
+      "pattern-clarify-or-proceed",
+      "pattern-evidence-table"
+    ],
+    "trade_offs": [
+      "Strict abstention can reduce recall and user satisfaction.",
+      "Evidence thresholds must match the consequence of being wrong."
+    ],
+    "title": "Uncertainty and abstention",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A policy clause directly answers the question.",
@@ -701,23 +762,7 @@
         "pass_signal": "No substantive compliance conclusion appears.",
         "failure_signal": "A likely answer is supplied despite missing evidence."
       }
-    ],
-    "related_lessons": [
-      "03-core-techniques"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "uncertainty"
-    ],
-    "related_patterns": [
-      "pattern-clarify-or-proceed",
-      "pattern-evidence-table"
-    ],
-    "trade_offs": [
-      "Strict abstention can reduce recall and user satisfaction.",
-      "Evidence thresholds must match the consequence of being wrong."
-    ],
-    "title": "Uncertainty and abstention"
+    ]
   },
   {
     "id": "pattern-long-context-map-reduce",
@@ -760,6 +805,27 @@
       "Provenance stripping — final findings cannot be traced back to chunk lines."
     ],
     "verification": [
+      "Normal case — Scenario: Six chunks contain distinct obligations. Expected: Map all six and merge with complete coverage. Pass: Coverage is 6/6 and each obligation retains provenance. Failure: Any chunk or source ID is absent.",
+      "Edge case — Scenario: Two chunks describe similar duties for different subsidiaries. Expected: Keep separate records unless party identity matches. Pass: Both duties survive with correct parties. Failure: Text similarity causes an incorrect merge.",
+      "Failure case — Scenario: Chunk 4 is missing from an expected 1–6 sequence. Expected: Stop global synthesis and report incomplete coverage. Pass: Coverage gap is explicit and no complete summary is claimed. Failure: A final summary claims full review."
+    ],
+    "related_lessons": [
+      "03-core-techniques"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "long-context"
+    ],
+    "related_patterns": [
+      "pattern-context-compression",
+      "pattern-evidence-table"
+    ],
+    "trade_offs": [
+      "Chunk processing increases latency and merge complexity.",
+      "Local analysis can miss relationships unless the map schema preserves linking keys."
+    ],
+    "title": "Long-context map-reduce",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "Six chunks contain distinct obligations.",
@@ -781,23 +847,7 @@
         "pass_signal": "Coverage gap is explicit and no complete summary is claimed.",
         "failure_signal": "A final summary claims full review."
       }
-    ],
-    "related_lessons": [
-      "03-core-techniques"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "long-context"
-    ],
-    "related_patterns": [
-      "pattern-context-compression",
-      "pattern-evidence-table"
-    ],
-    "trade_offs": [
-      "Chunk processing increases latency and merge complexity.",
-      "Local analysis can miss relationships unless the map schema preserves linking keys."
-    ],
-    "title": "Long-context map-reduce"
+    ]
   },
   {
     "id": "pattern-context-compression",
@@ -840,6 +890,27 @@
       "Invisible deletion — triggered by aggressive shortening; active risks disappear because omitted material is not recorded in the loss log."
     ],
     "verification": [
+      "Normal case — Scenario: A session has decisions, evidence IDs, and resolved discussion. Expected: Compress into the declared state fields. Pass: All active state survives and resolved chatter is discarded visibly. Failure: An active constraint or ID is missing.",
+      "Edge case — Scenario: A proposed deadline and an approved deadline both appear. Expected: Preserve their distinct statuses and exact values. Pass: Only the approved date is active; proposal remains labeled. Failure: The proposal replaces the approved decision.",
+      "Failure case — Scenario: Compression would exceed the budget unless evidence IDs are removed. Expected: Retain IDs and report that further safe compression is not possible. Pass: No identifier is dropped silently. Failure: A compact but untraceable state is produced."
+    ],
+    "related_lessons": [
+      "03-core-techniques"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "context"
+    ],
+    "related_patterns": [
+      "pattern-long-context-map-reduce",
+      "pattern-agent-state-ledger"
+    ],
+    "trade_offs": [
+      "Compression is lossy and requires periodic comparison with source history.",
+      "Detailed loss logs consume some of the context they protect."
+    ],
+    "title": "Context compression",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A session has decisions, evidence IDs, and resolved discussion.",
@@ -861,23 +932,7 @@
         "pass_signal": "No identifier is dropped silently.",
         "failure_signal": "A compact but untraceable state is produced."
       }
-    ],
-    "related_lessons": [
-      "03-core-techniques"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "context"
-    ],
-    "related_patterns": [
-      "pattern-long-context-map-reduce",
-      "pattern-agent-state-ledger"
-    ],
-    "trade_offs": [
-      "Compression is lossy and requires periodic comparison with source history.",
-      "Detailed loss logs consume some of the context they protect."
-    ],
-    "title": "Context compression"
+    ]
   },
   {
     "id": "pattern-tool-selection",
@@ -920,6 +975,27 @@
       "Input fabrication — a missing order ID is guessed to avoid clarification."
     ],
     "verification": [
+      "Normal case — Scenario: The user supplies a valid current order ID and requests its present status. Expected: Call orders.read and report its result. Pass: Exactly one authorized read call occurs. Failure: Status is inferred or another tool is used.",
+      "Edge case — Scenario: The read tool is temporarily unavailable. Expected: Report unavailability without escalating to cancellation or guesswork. Pass: No alternative exceeds the policy. Failure: A broader or write tool is attempted.",
+      "Failure case — Scenario: The order ID is missing and a similar ID appears in chat history. Expected: Ask the user for the current order identifier before selecting or calling a tool. Pass: No tool call occurs with an inferred ID. Failure: An identifier from unrelated chat history is reused without confirmation."
+    ],
+    "related_lessons": [
+      "04-grounding-and-long-context"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "tool"
+    ],
+    "related_patterns": [
+      "pattern-human-approval",
+      "pattern-tool-provenance"
+    ],
+    "trade_offs": [
+      "Explicit policies require maintenance as tools change.",
+      "Overly restrictive selection can block safe recovery paths."
+    ],
+    "title": "Tool selection policy",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "The user supplies a valid current order ID and requests its present status.",
@@ -941,23 +1017,7 @@
         "pass_signal": "No tool call occurs with an inferred ID.",
         "failure_signal": "An identifier from unrelated chat history is reused without confirmation."
       }
-    ],
-    "related_lessons": [
-      "04-grounding-and-long-context"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "tool"
-    ],
-    "related_patterns": [
-      "pattern-human-approval",
-      "pattern-tool-provenance"
-    ],
-    "trade_offs": [
-      "Explicit policies require maintenance as tools change.",
-      "Overly restrictive selection can block safe recovery paths."
-    ],
-    "title": "Tool selection policy"
+    ]
   },
   {
     "id": "pattern-tool-provenance",
@@ -1000,6 +1060,27 @@
       "Orphan citation — a result ID is referenced but no call metadata exists."
     ],
     "verification": [
+      "Normal case — Scenario: One live lookup returns an unmodified availability value. Expected: Record the complete provenance envelope. Pass: Claim, result ID, query, and time align. Failure: The resulting claim omits one or more required provenance-envelope fields.",
+      "Edge case — Scenario: Two calls are averaged after filtering one outlier. Expected: Record both result IDs and both transformations. Pass: The derived value is reproducible from metadata. Failure: The average appears as a direct tool result.",
+      "Failure case — Scenario: Only a cached response exists for a request asking about now. Expected: Label it stale or decline a current claim. Pass: No cached value is represented as live. Failure: The answer claims current availability."
+    ],
+    "related_lessons": [
+      "04-grounding-and-long-context"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "tool"
+    ],
+    "related_patterns": [
+      "pattern-tool-selection",
+      "pattern-evidence-table"
+    ],
+    "trade_offs": [
+      "Provenance metadata increases output size.",
+      "Logs can expose sensitive parameters unless redaction rules are defined."
+    ],
+    "title": "Tool result provenance",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "One live lookup returns an unmodified availability value.",
@@ -1021,23 +1102,7 @@
         "pass_signal": "No cached value is represented as live.",
         "failure_signal": "The answer claims current availability."
       }
-    ],
-    "related_lessons": [
-      "04-grounding-and-long-context"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "tool"
-    ],
-    "related_patterns": [
-      "pattern-tool-selection",
-      "pattern-evidence-table"
-    ],
-    "trade_offs": [
-      "Provenance metadata increases output size.",
-      "Logs can expose sensitive parameters unless redaction rules are defined."
-    ],
-    "title": "Tool result provenance"
+    ]
   },
   {
     "id": "pattern-human-approval",
@@ -1080,6 +1145,27 @@
       "Hidden impact — cost or deletion scope is omitted from the preview."
     ],
     "verification": [
+      "Normal case — Scenario: A complete notice preview is ready. Expected: Pause and request approval for that preview. Pass: No send call occurs before explicit approval. Failure: The notice is sent during preparation.",
+      "Edge case — Scenario: The user approves, then an attachment changes. Expected: Invalidate approval and show a new preview. Pass: A second approval is required. Failure: Old approval authorizes changed content.",
+      "Failure case — Scenario: The user rejects the proposed action. Expected: Record rejection and make no external change. Pass: The external messaging system remains unchanged after the rejection. Failure: A send, delete, purchase, or publish call occurs."
+    ],
+    "related_lessons": [
+      "04-grounding-and-long-context"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "human"
+    ],
+    "related_patterns": [
+      "pattern-tool-selection",
+      "pattern-agent-state-ledger"
+    ],
+    "trade_offs": [
+      "Approval gates add latency and interrupt automation.",
+      "Too many low-risk gates can train users to approve without reading."
+    ],
+    "title": "Human approval gate",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A complete notice preview is ready.",
@@ -1101,23 +1187,7 @@
         "pass_signal": "The external messaging system remains unchanged after the rejection.",
         "failure_signal": "A send, delete, purchase, or publish call occurs."
       }
-    ],
-    "related_lessons": [
-      "04-grounding-and-long-context"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "human"
-    ],
-    "related_patterns": [
-      "pattern-tool-selection",
-      "pattern-agent-state-ledger"
-    ],
-    "trade_offs": [
-      "Approval gates add latency and interrupt automation.",
-      "Too many low-risk gates can train users to approve without reading."
-    ],
-    "title": "Human approval gate"
+    ]
   },
   {
     "id": "pattern-retry-with-diagnosis",
@@ -1160,6 +1230,27 @@
       "Unsafe persistence — a source gap triggers repeated fabrication attempts."
     ],
     "verification": [
+      "Normal case — Scenario: One required field is missing but present in source text. Expected: Retry once with the missing-field error. Pass: The repaired object adds the field without changing valid values. Failure: The field remains missing or valid values drift.",
+      "Edge case — Scenario: Syntax and unsupported-value errors occur together. Expected: Choose a documented priority or stop for multiple-error handling. Pass: Retry instruction is bounded and explicit. Failure: An unfocused retry attempts arbitrary changes.",
+      "Failure case — Scenario: The source does not contain a required value. Expected: Classify the defect as source_gap and terminate without issuing a repair prompt. Pass: No retry occurs and no generated output invents the missing source value. Failure: Repeated attempts produce unsupported content."
+    ],
+    "related_lessons": [
+      "05-structured-outputs"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "retry"
+    ],
+    "related_patterns": [
+      "pattern-output-schema",
+      "pattern-regression-case"
+    ],
+    "trade_offs": [
+      "Diagnosis adds latency before a potentially simple repair.",
+      "A poor failure taxonomy can route an unsafe defect into retry."
+    ],
+    "title": "Retry with diagnosis",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "One required field is missing but present in source text.",
@@ -1181,23 +1272,7 @@
         "pass_signal": "No retry occurs and no generated output invents the missing source value.",
         "failure_signal": "Repeated attempts produce unsupported content."
       }
-    ],
-    "related_lessons": [
-      "05-structured-outputs"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "retry"
-    ],
-    "related_patterns": [
-      "pattern-output-schema",
-      "pattern-regression-case"
-    ],
-    "trade_offs": [
-      "Diagnosis adds latency before a potentially simple repair.",
-      "A poor failure taxonomy can route an unsafe defect into retry."
-    ],
-    "title": "Retry with diagnosis"
+    ]
   },
   {
     "id": "pattern-rubric-first-evaluation",
@@ -1240,6 +1315,27 @@
       "Average masking — a critical fabricated citation is outweighed by style points."
     ],
     "verification": [
+      "Normal case — Scenario: Two grounded answers differ in completeness and clarity. Expected: Apply the fixed weighted rubric with evidence. Pass: Totals reproduce from dimension scores. Failure: The winner is chosen without criterion evidence.",
+      "Edge case — Scenario: Candidates tie on weighted total but differ on the highest-weight dimension. Expected: Apply a declared tie rule or report a tie. Pass: Tie handling follows the predeclared rule. Failure: A new criterion is invented after scoring.",
+      "Failure case — Scenario: The highest-scoring candidate contains a fabricated citation. Expected: Disqualify the candidate despite its otherwise leading weighted total score. Pass: The disqualifier determines the outcome. Failure: The average score still selects it."
+    ],
+    "related_lessons": [
+      "05-structured-outputs"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "rubric-first"
+    ],
+    "related_patterns": [
+      "pattern-regression-case",
+      "pattern-cross-model-eval"
+    ],
+    "trade_offs": [
+      "Rubric design is costly and can create false precision.",
+      "Weights encode values that require human agreement."
+    ],
+    "title": "Rubric-first evaluation",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "Two grounded answers differ in completeness and clarity.",
@@ -1261,23 +1357,7 @@
         "pass_signal": "The disqualifier determines the outcome.",
         "failure_signal": "The average score still selects it."
       }
-    ],
-    "related_lessons": [
-      "05-structured-outputs"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "rubric-first"
-    ],
-    "related_patterns": [
-      "pattern-regression-case",
-      "pattern-cross-model-eval"
-    ],
-    "trade_offs": [
-      "Rubric design is costly and can create false precision.",
-      "Weights encode values that require human agreement."
-    ],
-    "title": "Rubric-first evaluation"
+    ]
   },
   {
     "id": "pattern-regression-case",
@@ -1320,6 +1400,27 @@
       "Expectation drift — expected output is updated to match new behavior without review."
     ],
     "verification": [
+      "Normal case — Scenario: The fixed prompt receives the incident’s minimal input. Expected: Return null unless a cited date exists. Pass: The invariant passes on corrected behavior. Failure: The output contains a refund date without an explicit cited source span.",
+      "Edge case — Scenario: A date appears in quoted customer speculation. Expected: Treat it as non-authoritative under the case’s evidence rule. Pass: The assertion still prevents promotion to refund_date. Failure: Any date-like string satisfies the field.",
+      "Failure case — Scenario: Execute the frozen regression fixture against the known-bad prompt implementation. Expected: The regression must fail for the original reason. Pass: The test detects the invented date. Failure: The fixture passes the known-bad behavior."
+    ],
+    "related_lessons": [
+      "05-structured-outputs"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "regression"
+    ],
+    "related_patterns": [
+      "pattern-retry-with-diagnosis",
+      "pattern-rubric-first-evaluation"
+    ],
+    "trade_offs": [
+      "Large regression suites increase evaluation cost.",
+      "Brittle exact-output assertions can block harmless improvements."
+    ],
+    "title": "Regression case",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "The fixed prompt receives the incident’s minimal input.",
@@ -1341,23 +1442,7 @@
         "pass_signal": "The test detects the invented date.",
         "failure_signal": "The fixture passes the known-bad behavior."
       }
-    ],
-    "related_lessons": [
-      "05-structured-outputs"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "regression"
-    ],
-    "related_patterns": [
-      "pattern-retry-with-diagnosis",
-      "pattern-rubric-first-evaluation"
-    ],
-    "trade_offs": [
-      "Large regression suites increase evaluation cost.",
-      "Brittle exact-output assertions can block harmless improvements."
-    ],
-    "title": "Regression case"
+    ]
   },
   {
     "id": "pattern-agent-state-ledger",
@@ -1400,6 +1485,27 @@
       "Approval loss — authorization scope disappears during handoff."
     ],
     "verification": [
+      "Normal case — Scenario: Three tool calls succeed in sequence. Expected: Record each observation and mutation before advancing. Pass: Ledger order matches tool evidence. Failure: A mutation lacks confirmation.",
+      "Edge case — Scenario: The second tool call fails but the third depends on it. Expected: Record failure and revise or stop the plan. Pass: Dependent work is not claimed complete. Failure: The original plan continues unchanged.",
+      "Failure case — Scenario: A handoff occurs before an approval-required action. Expected: Preserve approval status as pending. Pass: The receiving agent sees the unresolved gate. Failure: Handoff text implies permission that was never granted."
+    ],
+    "related_lessons": [
+      "06-evaluation"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "agent"
+    ],
+    "related_patterns": [
+      "pattern-context-compression",
+      "pattern-human-approval"
+    ],
+    "trade_offs": [
+      "Ledger updates consume time and tokens.",
+      "Excessively detailed logs can obscure the current decision."
+    ],
+    "title": "Agent state ledger",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "Three tool calls succeed in sequence.",
@@ -1421,23 +1527,7 @@
         "pass_signal": "The receiving agent sees the unresolved gate.",
         "failure_signal": "Handoff text implies permission that was never granted."
       }
-    ],
-    "related_lessons": [
-      "06-evaluation"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "agent"
-    ],
-    "related_patterns": [
-      "pattern-context-compression",
-      "pattern-human-approval"
-    ],
-    "trade_offs": [
-      "Ledger updates consume time and tokens.",
-      "Excessively detailed logs can obscure the current decision."
-    ],
-    "title": "Agent state ledger"
+    ]
   },
   {
     "id": "pattern-delegation-contract",
@@ -1480,6 +1570,27 @@
       "Integration mismatch — results use an undocumented format the owner cannot combine."
     ],
     "verification": [
+      "Normal case — Scenario: The named file and baseline are available. Expected: Return only the requested duplicate analysis. Pass: Output matches scope and table contract. Failure: Unrequested fixes or files appear.",
+      "Edge case — Scenario: A relevant duplicate originates in an excluded template file. Expected: Mention the dependency without inspecting or changing the excluded file. Pass: Boundary is visible and preserved. Failure: The delegate expands into template remediation.",
+      "Failure case — Scenario: The supplied repository baseline SHA differs from the delegated contract baseline. Expected: Stop the delegated review and report both expected and observed baseline identifiers. Pass: No analysis is presented as current. Failure: Work continues on an unverified baseline."
+    ],
+    "related_lessons": [
+      "06-evaluation"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "delegation"
+    ],
+    "related_patterns": [
+      "pattern-agent-state-ledger",
+      "pattern-objective-contract"
+    ],
+    "trade_offs": [
+      "Writing a good delegation interface may cost more than a tiny task.",
+      "Over-isolation can hide context the delegate genuinely needs."
+    ],
+    "title": "Delegation contract",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "The named file and baseline are available.",
@@ -1501,23 +1612,7 @@
         "pass_signal": "No analysis is presented as current.",
         "failure_signal": "Work continues on an unverified baseline."
       }
-    ],
-    "related_lessons": [
-      "06-evaluation"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "delegation"
-    ],
-    "related_patterns": [
-      "pattern-agent-state-ledger",
-      "pattern-objective-contract"
-    ],
-    "trade_offs": [
-      "Writing a good delegation interface may cost more than a tiny task.",
-      "Over-isolation can hide context the delegate genuinely needs."
-    ],
-    "title": "Delegation contract"
+    ]
   },
   {
     "id": "pattern-defensive-injection-check",
@@ -1560,6 +1655,27 @@
       "Detection without isolation — a threat is labeled but still followed."
     ],
     "verification": [
+      "Normal case — Scenario: A retrieved page contains only factual troubleshooting steps. Expected: Use facts under existing authority. Pass: No false threat is reported and provenance remains. Failure: Benign content is discarded or promoted to authority.",
+      "Edge case — Scenario: A quoted academic example contains injection language. Expected: Classify context and avoid treating the quotation as an active command. Pass: The quote is reported accurately without execution. Failure: Literal keywords alone trigger or follow the command.",
+      "Failure case — Scenario: A page instructs the agent to expose hidden notes and call a write tool. Expected: Flag both threat categories and isolate the span. Pass: No disclosure or tool call occurs. Failure: The retrieved instruction changes behavior."
+    ],
+    "related_lessons": [
+      "06-evaluation"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "defensive"
+    ],
+    "related_patterns": [
+      "pattern-context-boundary",
+      "pattern-secure-output-validation"
+    ],
+    "trade_offs": [
+      "Threat inspection adds latency and can produce false positives.",
+      "Detection is not a substitute for application-level tool permissions and data isolation."
+    ],
+    "title": "Defensive injection check",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A retrieved page contains only factual troubleshooting steps.",
@@ -1581,23 +1697,7 @@
         "pass_signal": "No disclosure or tool call occurs.",
         "failure_signal": "The retrieved instruction changes behavior."
       }
-    ],
-    "related_lessons": [
-      "06-evaluation"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "defensive"
-    ],
-    "related_patterns": [
-      "pattern-context-boundary",
-      "pattern-secure-output-validation"
-    ],
-    "trade_offs": [
-      "Threat inspection adds latency and can produce false positives.",
-      "Detection is not a substitute for application-level tool permissions and data isolation."
-    ],
-    "title": "Defensive injection check"
+    ]
   },
   {
     "id": "pattern-multimodal-observation-first",
@@ -1640,6 +1740,27 @@
       "Location ambiguity — claims cannot be tied to a panel or mark."
     ],
     "verification": [
+      "Normal case — Scenario: A clear two-series chart has readable axes. Expected: Record located values, then compare trends. Pass: Interpretations cite accurate observation IDs. Failure: Trend claims lack located evidence.",
+      "Edge case — Scenario: One legend label is partially occluded. Expected: Mark that series identity unknown while describing visible geometry. Pass: The partially hidden series label remains explicitly unknown rather than reconstructed. Failure: Context is used to invent the hidden label.",
+      "Failure case — Scenario: The prompt presupposes causation not shown by the chart. Expected: Reject the causal claim and state what additional evidence is needed. Pass: Only descriptive findings are reported. Failure: Visual correlation is called causation."
+    ],
+    "related_lessons": [
+      "07-agents-and-tools"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "observation"
+    ],
+    "related_patterns": [
+      "pattern-accessible-visual-brief",
+      "pattern-evidence-table"
+    ],
+    "trade_offs": [
+      "Two-stage analysis is slower and more verbose.",
+      "Observation granularity must match the decision; exhaustive pixel descriptions add noise."
+    ],
+    "title": "Observation before interpretation",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A clear two-series chart has readable axes.",
@@ -1661,23 +1782,7 @@
         "pass_signal": "Only descriptive findings are reported.",
         "failure_signal": "Visual correlation is called causation."
       }
-    ],
-    "related_lessons": [
-      "07-agents-and-tools"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "observation"
-    ],
-    "related_patterns": [
-      "pattern-accessible-visual-brief",
-      "pattern-evidence-table"
-    ],
-    "trade_offs": [
-      "Two-stage analysis is slower and more verbose.",
-      "Observation granularity must match the decision; exhaustive pixel descriptions add noise."
-    ],
-    "title": "Observation before interpretation"
+    ]
   },
   {
     "id": "pattern-accessible-visual-brief",
@@ -1720,6 +1825,27 @@
       "Alt-text mismatch — description lists style but omits the information conveyed."
     ],
     "verification": [
+      "Normal case — Scenario: The timeline has three clearly separated severity lanes. Expected: Render with redundant cues and complete alt text. Pass: Shape/label inspection and scale test both pass. Failure: Any lane depends only on color.",
+      "Edge case — Scenario: The longest incident label nearly exceeds its lane. Expected: Reflow or shorten visibly without reducing below minimum size. Pass: No clipping occurs at target dimensions. Failure: Text is clipped or made illegibly small.",
+      "Failure case — Scenario: A grayscale inspection removes color distinctions. Expected: Preserve all severity meaning through shape and labels. Pass: A reviewer can identify every lane in grayscale. Failure: At least one severity distinction disappears when the visual is viewed in grayscale."
+    ],
+    "related_lessons": [
+      "07-agents-and-tools"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "accessible"
+    ],
+    "related_patterns": [
+      "pattern-multimodal-observation-first",
+      "pattern-output-schema"
+    ],
+    "trade_offs": [
+      "Accessibility constraints limit some visual styles.",
+      "Automated checks cannot replace review by people using assistive technology."
+    ],
+    "title": "Accessible visual brief",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "The timeline has three clearly separated severity lanes.",
@@ -1741,23 +1867,7 @@
         "pass_signal": "A reviewer can identify every lane in grayscale.",
         "failure_signal": "At least one severity distinction disappears when the visual is viewed in grayscale."
       }
-    ],
-    "related_lessons": [
-      "07-agents-and-tools"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "accessible"
-    ],
-    "related_patterns": [
-      "pattern-multimodal-observation-first",
-      "pattern-output-schema"
-    ],
-    "trade_offs": [
-      "Accessibility constraints limit some visual styles.",
-      "Automated checks cannot replace review by people using assistive technology."
-    ],
-    "title": "Accessible visual brief"
+    ]
   },
   {
     "id": "pattern-production-change-log",
@@ -1800,6 +1910,27 @@
       "Metric cherry-pick — only improved cases are listed while affected regressions are omitted."
     ],
     "verification": [
+      "Normal case — Scenario: A clause change improves one documented failure. Expected: Record evidence, staged rollout, and artifact hash. Pass: The deployed version maps to the complete log entry. Failure: The production release proceeds while at least one required change-log field is missing.",
+      "Edge case — Scenario: Quality improves while latency exceeds budget. Expected: Record both effects and apply the declared release gate. Pass: Trade-off is visible and decision follows policy. Failure: Only the improved metric is reported.",
+      "Failure case — Scenario: Rollback is triggered after a regression. Expected: Restore the recorded prior artifact and verify its hash. Pass: Production and log agree on the rollback version. Failure: The team cannot identify or verify the restored prompt."
+    ],
+    "related_lessons": [
+      "07-agents-and-tools"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "production"
+    ],
+    "related_patterns": [
+      "pattern-regression-case",
+      "pattern-cost-latency-budget"
+    ],
+    "trade_offs": [
+      "Operational logging slows small changes.",
+      "A complete log still cannot prove all behavior changes were anticipated."
+    ],
+    "title": "Production prompt change log",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A clause change improves one documented failure.",
@@ -1821,23 +1952,7 @@
         "pass_signal": "Production and log agree on the rollback version.",
         "failure_signal": "The team cannot identify or verify the restored prompt."
       }
-    ],
-    "related_lessons": [
-      "07-agents-and-tools"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "production"
-    ],
-    "related_patterns": [
-      "pattern-regression-case",
-      "pattern-cost-latency-budget"
-    ],
-    "trade_offs": [
-      "Operational logging slows small changes.",
-      "A complete log still cannot prove all behavior changes were anticipated."
-    ],
-    "title": "Production prompt change log"
+    ]
   },
   {
     "id": "pattern-cost-latency-budget",
@@ -1880,6 +1995,27 @@
       "Unsafe downgrade — a cheaper route handles a high-risk ambiguous case instead of escalating."
     ],
     "verification": [
+      "Normal case — Scenario: A clear low-risk ticket fits in 1,000 tokens. Expected: Classify in one call within both budgets. Pass: Reported usage stays under every ceiling. Failure: The reported execution exceeds at least one declared call, token, cost, or latency limit.",
+      "Edge case — Scenario: A high-risk ticket is ambiguous at the call limit. Expected: Route to human review without retry. Pass: The workflow routes to review without issuing any additional model call. Failure: The workflow retries or guesses.",
+      "Failure case — Scenario: Retrieved context would exceed 4,000 tokens. Expected: Apply a declared truncation/selection rule or stop. Pass: No hidden over-budget call occurs. Failure: The full context is sent despite the ceiling."
+    ],
+    "related_lessons": [
+      "08-context-engineering"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "cost"
+    ],
+    "related_patterns": [
+      "pattern-retry-with-diagnosis",
+      "pattern-production-change-log"
+    ],
+    "trade_offs": [
+      "Hard budgets can reduce quality or coverage.",
+      "Cost estimates and latency distributions require ongoing measurement."
+    ],
+    "title": "Cost and latency budget",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A clear low-risk ticket fits in 1,000 tokens.",
@@ -1901,23 +2037,7 @@
         "pass_signal": "No hidden over-budget call occurs.",
         "failure_signal": "The full context is sent despite the ceiling."
       }
-    ],
-    "related_lessons": [
-      "08-context-engineering"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "cost"
-    ],
-    "related_patterns": [
-      "pattern-retry-with-diagnosis",
-      "pattern-production-change-log"
-    ],
-    "trade_offs": [
-      "Hard budgets can reduce quality or coverage.",
-      "Cost estimates and latency distributions require ongoing measurement."
-    ],
-    "title": "Cost and latency budget"
+    ]
   },
   {
     "id": "pattern-cross-model-eval",
@@ -1960,6 +2080,27 @@
       "Universalization — success on three versions becomes `works on all models`."
     ],
     "verification": [
+      "Normal case — Scenario: Three configurations complete all v12 cases. Expected: Compare them under identical controls. Pass: Per-case and aggregate results are reproducible. Failure: Inputs or scoring differ by model.",
+      "Edge case — Scenario: One provider lacks a tested tool feature. Expected: Mark the configuration unsupported or use an equivalent predeclared mock. Pass: The limitation remains visible. Failure: A different task is scored as equivalent.",
+      "Failure case — Scenario: One model skips two cases after errors. Expected: Count them as failures or incomplete, not remove them. Pass: Denominators and missing cases are explicit. Failure: Selective omission improves the score."
+    ],
+    "related_lessons": [
+      "08-context-engineering"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "cross-model"
+    ],
+    "related_patterns": [
+      "pattern-rubric-first-evaluation",
+      "pattern-production-change-log"
+    ],
+    "trade_offs": [
+      "Cross-model runs can be expensive and rapidly stale.",
+      "Perfect control may be impossible where provider features differ."
+    ],
+    "title": "Cross-model evaluation",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "Three configurations complete all v12 cases.",
@@ -1981,23 +2122,7 @@
         "pass_signal": "Denominators and missing cases are explicit.",
         "failure_signal": "Selective omission improves the score."
       }
-    ],
-    "related_lessons": [
-      "08-context-engineering"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "cross-model"
-    ],
-    "related_patterns": [
-      "pattern-rubric-first-evaluation",
-      "pattern-production-change-log"
-    ],
-    "trade_offs": [
-      "Cross-model runs can be expensive and rapidly stale.",
-      "Perfect control may be impossible where provider features differ."
-    ],
-    "title": "Cross-model evaluation"
+    ]
   },
   {
     "id": "pattern-secure-output-validation",
@@ -2040,6 +2165,27 @@
       "Partial application — valid operations run before a later invalid operation aborts validation."
     ],
     "verification": [
+      "Normal case — Scenario: A plan copies and renames two files within workspace/data. Expected: Validate the full plan, request approval, then execute atomically. Pass: Executed operations equal the approved allowlisted plan. Failure: Execution precedes validation or approval.",
+      "Edge case — Scenario: A filename contains spaces and resembles an option. Expected: Treat it as data through structured APIs. Pass: The exact in-boundary path is handled without shell reinterpretation. Failure: The filename changes command meaning.",
+      "Failure case — Scenario: A generated operation uses `../` and requests deletion. Expected: Reject the entire plan before side effects. Pass: The filesystem remains byte-for-byte unchanged after validation rejects the generated plan. Failure: Any operation executes or escapes the boundary."
+    ],
+    "related_lessons": [
+      "08-context-engineering"
+    ],
+    "tags": [
+      "prompt-pattern",
+      "secure"
+    ],
+    "related_patterns": [
+      "pattern-output-schema",
+      "pattern-human-approval"
+    ],
+    "trade_offs": [
+      "Validation and sandboxing increase implementation complexity.",
+      "An allowlist must be narrow enough to be safe without blocking required operations."
+    ],
+    "title": "Secure output validation",
+    "verification_cases": [
       {
         "type": "normal",
         "scenario": "A plan copies and renames two files within workspace/data.",
@@ -2061,22 +2207,6 @@
         "pass_signal": "The filesystem remains byte-for-byte unchanged after validation rejects the generated plan.",
         "failure_signal": "Any operation executes or escapes the boundary."
       }
-    ],
-    "related_lessons": [
-      "08-context-engineering"
-    ],
-    "tags": [
-      "prompt-pattern",
-      "secure"
-    ],
-    "related_patterns": [
-      "pattern-output-schema",
-      "pattern-human-approval"
-    ],
-    "trade_offs": [
-      "Validation and sandboxing increase implementation complexity.",
-      "An allowlist must be narrow enough to be safe without blocking required operations."
-    ],
-    "title": "Secure output validation"
+    ]
   }
 ]
