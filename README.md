@@ -29,16 +29,35 @@ verified resource.
 
 ## Quick navigation
 
-| Learn and practice | Design and diagnose | Providers and resources |
-| --- | --- | --- |
-| [Learning Path](LEARNING_PATH.md) | [Prompt Patterns](docs/generated/pattern-index.md) | [Provider Guides](docs/providers/index.md) |
-| [Exercises](labs/exercises/README.md) | [Prompt Templates](docs/generated/template-index.md) | [Official Resources](docs/generated/official-resource-index.md) |
-| [Quizzes](labs/quizzes/README.md) | [Prompt Contract](catalog/prompt_contracts.json) | [Courses](docs/generated/course-index.md) |
-| [Solutions](labs/solutions/) | [Prompt Doctor](docs/generated/prompt-doctor-index.md) | [Credentials](docs/generated/credential-index.md) |
-| [Capstones](labs/capstones/README.md) | [Glossary](docs/generated/glossary-index.md) | [Videos](docs/generated/video-index.md) |
-| [Security](curriculum/09-security/README.md) | [Security Checklist](reference/checklists/security.md) | [Papers](docs/generated/paper-index.md) |
-| [Contributing](CONTRIBUTING.md) | [Decision Guides](reference/decision-guides/provider-selection.md) | [Reference Repositories](docs/generated/repository-index.md) |
-| [Documentation Site](https://mertgedik35.github.io/prompt-engineering-reference/) | [Evaluation Cases](labs/evaluations/README.md) | [Tools](docs/generated/tool-index.md) |
+### Learn and practice
+
+[Learning Path](LEARNING_PATH.md) · [Exercises](labs/exercises/README.md) ·
+[Quizzes](labs/quizzes/README.md) · [Solutions](labs/solutions/) ·
+[Capstones](labs/capstones/README.md) · [Security](curriculum/09-security/README.md) ·
+[Contributing](CONTRIBUTING.md) ·
+[Documentation Site](https://mertgedik35.github.io/prompt-engineering-reference/)
+
+### Design and diagnose
+
+[Prompt Patterns](docs/generated/pattern-index.md) ·
+[Prompt Templates](docs/generated/template-index.md) ·
+[Prompt Contract](catalog/prompt_contracts.json) ·
+[Prompt Doctor](docs/generated/prompt-doctor-index.md) ·
+[Glossary](docs/generated/glossary-index.md) ·
+[Security Checklist](reference/checklists/security.md) ·
+[Decision Guides](reference/decision-guides/provider-selection.md) ·
+[Evaluation Cases](labs/evaluations/README.md)
+
+### Providers and resources
+
+[Provider Guides](docs/providers/index.md) ·
+[Official Resources](docs/generated/official-resource-index.md) ·
+[Courses](docs/generated/course-index.md) ·
+[Credentials](docs/generated/credential-index.md) ·
+[Videos](docs/generated/video-index.md) ·
+[Papers](docs/generated/paper-index.md) ·
+[Reference Repositories](docs/generated/repository-index.md) ·
+[Tools](docs/generated/tool-index.md)
 
 ## Choose your path
 
@@ -165,19 +184,25 @@ issuer's canonical page; a course-completion certificate is not a formal certifi
 
 ## Provider guidance
 
-Provider pages carry their own verification dates and fast-stale notes. Use them for scoped
-guidance, then confirm current syntax and feature support against the linked official source.
+Provider pages carry their own verification dates and fast-stale notes. Use each dated guide for
+scoped guidance, then confirm current syntax and feature support against its official sources.
 
-| Provider | Dated guide | Scope |
-| --- | --- | --- |
-| OpenAI | [Guide](docs/providers/openai.md) | Prompting, tools, structured output, evaluation, and current gaps |
-| Anthropic Claude | [Guide](docs/providers/anthropic.md) | Prompt structure, XML, tools, long context, and current gaps |
-| Google Gemini | [Guide](docs/providers/google.md) | Multimodal prompting, grounding, tools, and current gaps |
-| Microsoft | [Guide](docs/providers/microsoft.md) | Azure and Microsoft learning references with dated boundaries |
-| AWS Bedrock | [Guide](docs/providers/aws.md) | Bedrock prompting, model portability, and operational boundaries |
-| Meta Llama | [Guide](docs/providers/meta.md) | Open-model prompting, model cards, and deployment responsibility |
-| Mistral AI | [Guide](docs/providers/mistral.md) | Mistral prompting, tools, structured output, and current gaps |
-| Open models | [Guide](docs/providers/open-models.md) | Model cards, serving stacks, templates, licenses, and evaluation |
+- [OpenAI — dated guide](docs/providers/openai.md): prompting, tools, structured output,
+  evaluation, and current gaps.
+- [Anthropic Claude — dated guide](docs/providers/anthropic.md): prompt structure, XML, tools, long
+  context, and current gaps.
+- [Google Gemini — dated guide](docs/providers/google.md): multimodal prompting, grounding, tools,
+  and current gaps.
+- [Microsoft — dated guide](docs/providers/microsoft.md): Azure and Microsoft learning references
+  with dated boundaries.
+- [AWS Bedrock — dated guide](docs/providers/aws.md): Bedrock prompting, model portability, and
+  operational boundaries.
+- [Meta Llama — dated guide](docs/providers/meta.md): model cards, open-model prompting, and
+  deployment responsibility.
+- [Mistral AI — dated guide](docs/providers/mistral.md): prompting, tools, structured output, and
+  current gaps.
+- [Open models — dated guide](docs/providers/open-models.md): model cards, serving stacks,
+  templates, licenses, and evaluation.
 
 ## Repository map
 
