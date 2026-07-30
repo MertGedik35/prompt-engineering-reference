@@ -9,12 +9,17 @@ import pytest
 
 from scripts.check_content_quality import QualityReport, check_pattern_quality
 from scripts.generate_docs_indexes import pattern_index
-from scripts.validate_catalog import pattern_reference_errors
+from scripts.validate_catalog import (
+    PATTERN_ALLOWED_RELATED_LESSONS,
+    PATTERN_PRIMARY_LESSONS,
+    pattern_reference_errors,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 PATTERNS: list[dict[str, Any]] = json.loads(
     (ROOT / "catalog/patterns.json").read_text(encoding="utf-8")
 )
+LESSON_IDS = {path.parent.name for path in (ROOT / "curriculum").glob("*/README.md")}
 
 
 def report_for(records: list[dict[str, Any]]) -> QualityReport:
@@ -114,7 +119,7 @@ def test_duplicate_verification_scenarios_are_rejected() -> None:
 def test_invalid_related_lesson_reference_is_rejected() -> None:
     records = pair()
     records[0]["related_lessons"] = ["99-missing-lesson"]
-    errors = pattern_reference_errors(records, {"00-orientation"})
+    errors = pattern_reference_errors(records, LESSON_IDS)
     assert any("broken pattern lesson reference" in error for error in errors)
 
 
@@ -144,3 +149,126 @@ def test_valid_twenty_six_record_catalog_passes_pattern_checks() -> None:
 
 def test_generated_pattern_documentation_is_current() -> None:
     assert (ROOT / "docs/generated/pattern-index.md").read_text(encoding="utf-8") == pattern_index()
+
+
+def test_all_stable_patterns_use_the_approved_primary_lesson() -> None:
+    assert set(PATTERN_PRIMARY_LESSONS) == {record["id"] for record in PATTERNS}
+    assert len(PATTERN_PRIMARY_LESSONS) == 26
+    for record in PATTERNS:
+        assert record["primary_lesson"] == PATTERN_PRIMARY_LESSONS[record["id"]]
+        assert set(record["related_lessons"]).issubset(
+            PATTERN_ALLOWED_RELATED_LESSONS[record["id"]]
+        )
+
+
+@pytest.mark.parametrize(
+    ("pattern_id", "wrong_lesson"),
+    [
+        ("pattern-output-schema", "01-llm-foundations"),
+        ("pattern-tool-selection", "04-grounding-and-long-context"),
+        ("pattern-defensive-injection-check", "06-evaluation"),
+        ("pattern-multimodal-observation-first", "07-agents-and-tools"),
+        ("pattern-objective-contract", "00-orientation"),
+    ],
+)
+def test_existing_but_semantically_wrong_primary_lesson_is_rejected(
+    pattern_id: str, wrong_lesson: str
+) -> None:
+    records = copy.deepcopy(PATTERNS)
+    record = next(item for item in records if item["id"] == pattern_id)
+    record["primary_lesson"] = wrong_lesson
+    assert any(
+        "wrong pattern primary lesson" in error
+        for error in pattern_reference_errors(records, LESSON_IDS)
+    )
+
+
+def test_missing_primary_lesson_is_rejected() -> None:
+    records = copy.deepcopy(PATTERNS)
+    record = records[0]
+    record.pop("primary_lesson")
+    assert any(
+        "wrong pattern primary lesson" in error
+        for error in pattern_reference_errors(records, LESSON_IDS)
+    )
+
+
+def test_missing_approved_mapping_is_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delitem(PATTERN_PRIMARY_LESSONS, PATTERNS[0]["id"])
+    assert any(
+        "pattern lesson taxonomy coverage mismatch" in error
+        for error in pattern_reference_errors(copy.deepcopy(PATTERNS), LESSON_IDS)
+    )
+
+
+def test_valid_multi_lesson_mapping_passes() -> None:
+    records = copy.deepcopy(PATTERNS)
+    context_boundary = next(
+        record for record in records if record["id"] == "pattern-context-boundary"
+    )
+    assert context_boundary["primary_lesson"] == "08-context-engineering"
+    assert context_boundary["related_lessons"] == ["09-security"]
+    assert pattern_reference_errors(records, LESSON_IDS) == []
+
+
+def test_structured_verification_is_the_only_catalog_source() -> None:
+    schema = json.loads((ROOT / "schemas/pattern.schema.json").read_text(encoding="utf-8"))
+    assert "verification_cases" in schema["required"]
+    assert "verification" not in schema["required"]
+    assert "verification" not in schema["properties"]
+    for record in PATTERNS:
+        assert "verification_cases" in record
+        assert "verification" not in record
+
+
+def test_generator_reads_canonical_verification_cases(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    records = copy.deepcopy(PATTERNS)
+    record = records[0]
+    record["verification"] = ["LEGACY PROJECTION MUST NOT RENDER"]
+    monkeypatch.setattr(
+        "scripts.generate_docs_indexes.load",
+        lambda path: records if path == "catalog/patterns.json" else [],
+    )
+    rendered = pattern_index()
+    assert record["verification_cases"][0]["scenario"] in rendered
+    assert "LEGACY PROJECTION MUST NOT RENDER" not in rendered
+
+
+def test_pattern_consumers_do_not_read_legacy_verification() -> None:
+    for relative_path in (
+        "scripts/check_content_quality.py",
+        "scripts/generate_docs_indexes.py",
+        "scripts/validate_catalog.py",
+    ):
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        assert 'record["verification"]' not in text
+        assert 'record.get("verification"' not in text
+
+
+def test_name_is_the_single_pattern_display_label() -> None:
+    schema = json.loads((ROOT / "schemas/pattern.schema.json").read_text(encoding="utf-8"))
+    assert "name" in schema["required"]
+    assert "title" not in schema["properties"]
+    assert all("name" in record and "title" not in record for record in PATTERNS)
+
+
+def test_prompt_contract_fields_are_catalog_level_policy() -> None:
+    rendered = pattern_index()
+    assert all("prompt_contract_fields" not in record for record in PATTERNS)
+    assert "Objective, Context, Inputs, Instructions, Constraints" in rendered
+
+
+def test_title_substituted_prompt_contract_metadata_is_rejected() -> None:
+    records = pair()
+    records[0]["prompt_contract_fields"] = [
+        f"{records[0]['name']} objective",
+        f"{records[0]['name']} context",
+        f"{records[0]['name']} output",
+        f"{records[0]['name']} evaluation",
+    ]
+    assert any(
+        f"deprecated pattern field present: {records[0]['id']}.prompt_contract_fields" in error
+        for error in report_for(records).errors
+    )
