@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from collections import defaultdict
 from collections.abc import Callable
 from pathlib import Path
@@ -9,6 +10,21 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 HEADER = "<!-- Generated file. Do not edit manually. -->\n\n"
+LESSON_DOCS = {
+    "00-orientation": "orientation",
+    "01-llm-foundations": "llm-foundations",
+    "02-prompt-anatomy": "prompt-anatomy",
+    "03-core-techniques": "core-techniques",
+    "04-grounding-and-long-context": "grounding-long-context",
+    "05-structured-outputs": "structured-outputs",
+    "06-evaluation": "evaluation",
+    "07-agents-and-tools": "agents-tools",
+    "08-context-engineering": "context-engineering",
+    "09-security": "security",
+    "10-multimodal": "multimodal",
+    "11-production-operations": "production-operations",
+    "12-portfolio-and-capstone": "portfolio-capstone",
+}
 
 
 def load(path: str) -> list[dict[str, Any]]:
@@ -21,9 +37,99 @@ def table(headers: list[str], rows: list[list[str]]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def bullets(values: list[str]) -> str:
+    return "\n".join(f"- {value}" for value in values) + "\n"
+
+
+def fenced(text: str) -> str:
+    return f"```text\n{text}\n```\n"
+
+
+def cell(text: str) -> str:
+    return text.replace("|", "\\|").replace("\n", " ")
+
+
+def anchor(text: str) -> str:
+    return re.sub(r"[^a-z0-9 -]", "", text.lower()).strip().replace(" ", "-")
+
+
 def pattern_index() -> str:
-    rows = [[f"`{r['id']}`", r["name"], r["summary"]] for r in load("catalog/patterns.json")]
-    return HEADER + "# Pattern Index\n\n" + table(["ID", "Name", "Mechanism"], rows)
+    records = load("catalog/patterns.json")
+    by_id = {record["id"]: record for record in records}
+    rows = [[f"`{record['id']}`", record["name"], cell(record["summary"])] for record in records]
+    parts = [
+        HEADER,
+        "# Pattern Index\n\n",
+        "Generated from `catalog/patterns.json`. Each pattern defines a distinct mechanism, "
+        "application boundary, copyable example, and three canonical verification cases.\n\n",
+        "All patterns can be expressed through the repository Prompt Contract fields: Objective, "
+        "Context, Inputs, Instructions, Constraints, Tools and Sources, Output Contract, and "
+        "Evaluation. That universal contract is documented once here instead of repeated as "
+        "record metadata.\n\n",
+        table(["ID", "Name", "Purpose"], rows),
+    ]
+    for record in records:
+        parts.extend(
+            [
+                f"\n## {record['name']}\n\n",
+                f"**ID:** `{record['id']}` · **Status:** {record['status']} · "
+                f"**Last reviewed:** {record['last_reviewed']}\n\n",
+                f"{record['summary']}\n\n",
+                "### Mechanism\n\n",
+                f"{record['mechanism']}\n\n",
+                "### Use when\n\n",
+                bullets(record["use_when"]),
+                "\n### Avoid when\n\n",
+                bullets(record["avoid_when"]),
+                "\n### Good prompt\n\n",
+                fenced(record["example_prompt"]),
+                "\n### Bad prompt\n\n",
+                fenced(record["bad_prompt"]),
+                "\n### Why it works\n\n",
+                f"{record['why_it_works']}\n\n",
+                "### Acceptance criteria\n\n",
+                bullets(record["acceptance_criteria"]),
+                "\n### Failure modes\n\n",
+                bullets(record["failure_modes"]),
+                "\n### Verification cases\n\n",
+                table(
+                    ["Type", "Scenario", "Expected behavior", "Pass signal", "Failure signal"],
+                    [
+                        [
+                            case["type"],
+                            cell(case["scenario"]),
+                            cell(case["expected_behavior"]),
+                            cell(case["pass_signal"]),
+                            cell(case["failure_signal"]),
+                        ]
+                        for case in record["verification_cases"]
+                    ],
+                ),
+                "\n### Trade-offs\n\n",
+                bullets(record["trade_offs"]),
+                "\n### Related material\n\n",
+                "**Primary lesson:** "
+                + f"[`{record['primary_lesson']}`]"
+                + f"(../learn/{LESSON_DOCS[record['primary_lesson']]}.md)\n\n",
+                (
+                    "**Additional lessons:** "
+                    + ", ".join(
+                        f"[`{lesson}`](../learn/{LESSON_DOCS[lesson]}.md)"
+                        for lesson in record["related_lessons"]
+                    )
+                    + "\n\n"
+                    if record["related_lessons"]
+                    else ""
+                ),
+                "**Related patterns:** "
+                + ", ".join(
+                    f"[{by_id[pattern_id]['name']}](#{anchor(by_id[pattern_id]['name'])})"
+                    for pattern_id in record["related_patterns"]
+                )
+                + "\n",
+            ]
+        )
+    return "".join(parts)
 
 
 def template_index() -> str:

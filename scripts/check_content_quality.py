@@ -18,6 +18,25 @@ SOLUTION_MIN_WORDS = 500
 LESSON_SHINGLE_SIZE = 5
 LESSON_SIMILARITY_LIMIT = 0.72
 GENERIC_EXERCISE = "rewrite a weak prompt using the module concept"
+PATTERN_SIMILARITY_LIMITS = {
+    "mechanism": 0.82,
+    "use_when": 0.88,
+    "avoid_when": 0.88,
+    "example_prompt": 0.86,
+    "bad_prompt": 0.86,
+    "acceptance_criteria": 0.88,
+    "failure_modes": 0.88,
+    "verification_cases": 0.88,
+}
+PATTERN_GENERIC_PHRASES = (
+    "the task needs the pattern mechanism to be reviewed or reused",
+    "the failure is unrelated to pattern and should be solved by a different pattern",
+    "handle this with pattern and make it good",
+    "the prompt explicitly applies pattern",
+    "run one normal case that exercises pattern",
+    "run one edge case where pattern should prevent failure",
+    "score the result with the prompt quality rubric",
+)
 
 LESSON_HEADINGS = (
     "Learning objectives",
@@ -77,8 +96,10 @@ def load(root: Path, path: str) -> list[dict[str, Any]]:
 
 
 def normalize(value: object) -> str:
-    text = json.dumps(value, sort_keys=True) if not isinstance(value, str) else value
-    text = re.sub(r"\{[^}]+\}", "{var}", text.lower())
+    if isinstance(value, str):
+        text = re.sub(r"\{[^}]+\}", "{var}", value.lower())
+    else:
+        text = json.dumps(value, sort_keys=True).lower()
     text = re.sub(r"\b(?:module|lesson|exercise)\s+\d+[a-z-]*\b", " topic ", text)
     text = re.sub(r"\b\d{2}-[a-z0-9-]+\b", " topic ", text)
     text = re.sub(r"template-[a-z0-9-]+|pattern-[a-z0-9-]+", "id", text)
@@ -144,6 +165,174 @@ def high_similarity(records: list[dict[str, Any]], field_name: str, threshold: f
             if score >= threshold:
                 pairs.append(f"{left_id} ~ {right_id}: {score:.3f}")
     return pairs
+
+
+def pattern_normalize(record: dict[str, Any], value: object) -> str:
+    text = normalize(value)
+    identity_tokens = {
+        token
+        for field_name in ("id", "slug", "name", "title")
+        for token in normalize(record.get(field_name, "")).split()
+        if len(token) > 2 and token not in {"pattern"}
+    }
+    for token in sorted(identity_tokens, key=len, reverse=True):
+        text = re.sub(rf"\b{re.escape(token)}\b", " pattern ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def pattern_similarity_pairs(
+    records: list[dict[str, Any]], field_name: str
+) -> list[tuple[str, str, float]]:
+    values = [
+        (record["id"], pattern_normalize(record, record.get(field_name, ""))) for record in records
+    ]
+    pairs: list[tuple[str, str, float]] = []
+    for (left_id, left), (right_id, right) in combinations(values, 2):
+        if left and right:
+            pairs.append((left_id, right_id, SequenceMatcher(None, left, right).ratio()))
+    return sorted(pairs, key=lambda item: item[2], reverse=True)
+
+
+def check_pattern_quality(patterns: list[dict[str, Any]], report: QualityReport) -> None:
+    for field_name, threshold in PATTERN_SIMILARITY_LIMITS.items():
+        pairs = pattern_similarity_pairs(patterns, field_name)
+        if pairs:
+            left_id, right_id, highest = pairs[0]
+            report.details.append(
+                f"pattern similarity {field_name}: highest={left_id} ~ {right_id} "
+                f"score={highest:.3f} limit={threshold:.2f}"
+            )
+        for left_id, right_id, score in pairs:
+            if score >= threshold:
+                report.errors.append(
+                    f"pattern similarity: {left_id} ~ {right_id} field={field_name} "
+                    f"score={score:.3f} threshold={threshold:.2f}"
+                )
+
+    normalized_blocks: dict[str, dict[str, str]] = {
+        field_name: {} for field_name in PATTERN_SIMILARITY_LIMITS
+    }
+    verification_scenarios: dict[str, tuple[str, str]] = {}
+    for record in patterns:
+        pattern_id = str(record.get("id", "<missing-id>"))
+        for field_name, values in normalized_blocks.items():
+            value = pattern_normalize(record, record.get(field_name, ""))
+            if value in values:
+                report.errors.append(
+                    f"duplicate pattern field: {values[value]} ~ {pattern_id} field={field_name}"
+                )
+            elif value:
+                values[value] = pattern_id
+
+        combined = pattern_normalize(
+            record,
+            {
+                field_name: record.get(field_name, "")
+                for field_name in (
+                    "mechanism",
+                    "use_when",
+                    "avoid_when",
+                    "example_prompt",
+                    "bad_prompt",
+                    "acceptance_criteria",
+                    "failure_modes",
+                    "verification_cases",
+                )
+            },
+        )
+        for removed_field in ("verification", "title", "prompt_contract_fields"):
+            if removed_field in record:
+                report.errors.append(
+                    f"deprecated pattern field present: {pattern_id}.{removed_field}"
+                )
+        for phrase in PATTERN_GENERIC_PHRASES:
+            if phrase in combined:
+                report.errors.append(f"generic pattern phrase: {pattern_id}: {phrase}")
+
+        mechanism = pattern_normalize(record, record.get("mechanism", ""))
+        if len(mechanism.split()) < 15:
+            report.errors.append(f"short pattern mechanism: {pattern_id}")
+        mechanism_terms = set(mechanism.split()) - {
+            "a",
+            "an",
+            "and",
+            "applying",
+            "the",
+            "by",
+            "this",
+            "to",
+            "is",
+            "use",
+            "uses",
+            "apply",
+            "applies",
+            "implement",
+            "implements",
+            "mechanism",
+            "pattern",
+        }
+        if not mechanism_terms:
+            report.errors.append(f"circular pattern mechanism: {pattern_id}")
+
+        bad_prompt = pattern_normalize(record, record.get("bad_prompt", ""))
+        if "make it good" in bad_prompt or len(bad_prompt.split()) < 8:
+            report.errors.append(f"artificial pattern bad prompt: {pattern_id}")
+
+        criteria = record.get("acceptance_criteria", [])
+        if not isinstance(criteria, list) or len(criteria) < 3:
+            report.errors.append(f"pattern acceptance criteria < 3: {pattern_id}")
+        else:
+            for index, criterion in enumerate(criteria, start=1):
+                words = normalize(criterion).split()
+                if len(words) < 6 or set(words).issubset(
+                    {"clear", "professional", "useful", "quality", "high", "the", "is", "and"}
+                ):
+                    report.errors.append(
+                        f"non-measurable pattern acceptance criterion: {pattern_id}[{index}]"
+                    )
+
+        failure_modes = record.get("failure_modes", [])
+        if not isinstance(failure_modes, list) or len(failure_modes) < 3:
+            report.errors.append(f"pattern failure modes < 3: {pattern_id}")
+
+        verification = record.get("verification_cases", [])
+        if not isinstance(verification, list):
+            report.errors.append(f"pattern verification is not a list: {pattern_id}")
+            continue
+        case_types = [item.get("type") for item in verification if isinstance(item, dict)]
+        for required_type in ("normal", "edge", "failure"):
+            if case_types.count(required_type) != 1:
+                report.errors.append(
+                    f"pattern verification missing unique {required_type} case: {pattern_id}"
+                )
+        for index, item in enumerate(verification, start=1):
+            if not isinstance(item, dict):
+                report.errors.append(
+                    f"pattern verification case is not structured: {pattern_id}[{index}]"
+                )
+                continue
+            for field_name in (
+                "scenario",
+                "expected_behavior",
+                "pass_signal",
+                "failure_signal",
+            ):
+                if not normalize(item.get(field_name, "")):
+                    report.errors.append(
+                        f"pattern verification missing {field_name}: {pattern_id}[{index}]"
+                    )
+            scenario = pattern_normalize(record, item.get("scenario", ""))
+            if scenario in verification_scenarios:
+                other_id, other_type = verification_scenarios[scenario]
+                report.errors.append(
+                    f"duplicate pattern verification scenario: {other_id}/{other_type} ~ "
+                    f"{pattern_id}/{item.get('type', '<missing>')}"
+                )
+            elif scenario:
+                verification_scenarios[scenario] = (
+                    pattern_id,
+                    str(item.get("type", "<missing>")),
+                )
 
 
 def check_curriculum(root: Path, report: QualityReport) -> None:
@@ -290,17 +479,11 @@ def check_catalogs(root: Path, report: QualityReport) -> None:
     for field_name in ("acceptance_criteria", "failure_modes"):
         for item in duplicate_blocks(templates, field_name):
             report.errors.append(f"duplicate template {field_name}: {item[:80]}")
-    for field_name in ("use_when", "acceptance_criteria", "failure_modes", "verification"):
-        for item in duplicate_blocks(patterns, field_name):
-            report.errors.append(f"duplicate pattern {field_name}: {item[:80]}")
     report.errors.extend(
         f"high similarity template prompt: {item}"
         for item in high_similarity(templates, "prompt", 0.94)
     )
-    report.errors.extend(
-        f"high similarity pattern example: {item}"
-        for item in high_similarity(patterns, "example_prompt", 0.96)
-    )
+    check_pattern_quality(patterns, report)
     for record in templates:
         if len(record.get("prompt", "")) < 250:
             report.errors.append(f"short template prompt: {record['id']}")

@@ -17,6 +17,21 @@ A future `v2.0.0` release requires:
   remain below `0.72`; the checker reports both paths and the measured score.
 - Minimal, production, and bad examples must be distinct across modules. Exercises, quiz
   questions, solutions, and unrelated reading lists must not be normalized duplicates.
+- Every prompt pattern must define a distinct mechanism, observable use and avoidance boundaries,
+  a realistic good and bad prompt, at least three measurable acceptance criteria, at least three
+  pattern-specific failure modes, and exactly one structured normal, edge, and failure
+  verification case. Identity-normalized field similarity must remain below the documented
+  thresholds in `scripts/check_content_quality.py`.
+- `verification_cases` is the sole pattern verification source. The removed legacy `verification`
+  projection must not be restored; consumers must read the structured cases directly.
+- Pattern `name` is the single display label. A duplicate `title` alias is not part of the pattern
+  schema.
+- The universal Prompt Contract fields—Objective, Context, Inputs, Instructions, Constraints,
+  Tools and Sources, Output Contract, and Evaluation—apply at catalog level and are not repeated
+  as identical `prompt_contract_fields` metadata on every pattern.
+- Every stable pattern ID must have the semantically approved primary curriculum lesson enforced
+  by `PATTERN_PRIMARY_LESSONS`; additional lessons are limited by the maintained adjacency
+  taxonomy.
 - Provider guides cite official sources.
 - Time-sensitive resources have freshness fields.
 - Courses and credentials are classified correctly.
