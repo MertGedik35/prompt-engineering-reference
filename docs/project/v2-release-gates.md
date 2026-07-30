@@ -17,6 +17,11 @@ A future `v2.0.0` release requires:
   remain below `0.72`; the checker reports both paths and the measured score.
 - Minimal, production, and bad examples must be distinct across modules. Exercises, quiz
   questions, solutions, and unrelated reading lists must not be normalized duplicates.
+- Every prompt pattern must define a distinct mechanism, observable use and avoidance boundaries,
+  a realistic good and bad prompt, at least three measurable acceptance criteria, at least three
+  pattern-specific failure modes, and exactly one structured normal, edge, and failure
+  verification case. Identity-normalized field similarity must remain below the documented
+  thresholds in `scripts/check_content_quality.py`.
 - Provider guides cite official sources.
 - Time-sensitive resources have freshness fields.
 - Courses and credentials are classified correctly.

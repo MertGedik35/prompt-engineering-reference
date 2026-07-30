@@ -34,6 +34,29 @@ RESOURCE_FILES = [
 ]
 
 
+def pattern_reference_errors(patterns: list[dict[str, Any]], lesson_ids: set[str]) -> list[str]:
+    errors: list[str] = []
+    pattern_ids = {record["id"] for record in patterns}
+    for record in patterns:
+        if record.get("slug") != record["id"].removeprefix("pattern-"):
+            errors.append(f"pattern slug does not match id: {record['id']}")
+        if record.get("title") != record.get("name"):
+            errors.append(f"pattern title does not match name: {record['id']}")
+        for related_pattern in record.get("related_patterns", []):
+            if related_pattern not in pattern_ids:
+                errors.append(
+                    f"broken related pattern reference: {record['id']} -> {related_pattern}"
+                )
+            elif related_pattern == record["id"]:
+                errors.append(f"self-related pattern reference: {record['id']}")
+        for related_lesson in record.get("related_lessons", []):
+            if related_lesson not in lesson_ids:
+                errors.append(
+                    f"broken pattern lesson reference: {record['id']} -> {related_lesson}"
+                )
+    return errors
+
+
 def load(path: str) -> list[dict[str, Any]]:
     data = json.loads((ROOT / path).read_text(encoding="utf-8"))
     if not isinstance(data, list):
@@ -63,6 +86,7 @@ def validate() -> tuple[dict[str, int], list[str]]:
     providers = load("catalog/provider-guides.json")
     resources = [record for file in RESOURCE_FILES for record in load(file)]
     pattern_ids = {record["id"] for record in patterns}
+    lesson_ids = {path.parent.name for path in (ROOT / "curriculum").glob("*/README.md")}
     resource_ids = {record["id"] for record in resources}
     ids = [record["id"] for record in patterns + templates + doctors + providers + resources]
     urls = [record["canonical_url"] for record in resources if "canonical_url" in record]
@@ -75,6 +99,7 @@ def validate() -> tuple[dict[str, int], list[str]]:
     for record in templates:
         if record.get("related_pattern") not in pattern_ids:
             errors.append(f"broken template pattern reference: {record['id']}")
+    errors.extend(pattern_reference_errors(patterns, lesson_ids))
     for record in doctors:
         if record.get("relevant_pattern") not in pattern_ids:
             errors.append(f"broken doctor pattern reference: {record['id']}")
