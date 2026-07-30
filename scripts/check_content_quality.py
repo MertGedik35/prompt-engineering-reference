@@ -236,11 +236,15 @@ def check_pattern_quality(patterns: list[dict[str, Any]], report: QualityReport)
                     "bad_prompt",
                     "acceptance_criteria",
                     "failure_modes",
-                    "verification",
                     "verification_cases",
                 )
             },
         )
+        for removed_field in ("verification", "title", "prompt_contract_fields"):
+            if removed_field in record:
+                report.errors.append(
+                    f"deprecated pattern field present: {pattern_id}.{removed_field}"
+                )
         for phrase in PATTERN_GENERIC_PHRASES:
             if phrase in combined:
                 report.errors.append(f"generic pattern phrase: {pattern_id}: {phrase}")

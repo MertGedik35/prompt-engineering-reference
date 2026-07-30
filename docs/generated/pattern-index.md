@@ -2,7 +2,9 @@
 
 # Pattern Index
 
-Generated from `catalog/patterns.json`. Each pattern defines a distinct mechanism, application boundary, copyable example, and three verification cases.
+Generated from `catalog/patterns.json`. Each pattern defines a distinct mechanism, application boundary, copyable example, and three canonical verification cases.
+
+All patterns can be expressed through the repository Prompt Contract fields: Objective, Context, Inputs, Instructions, Constraints, Tools and Sources, Output Contract, and Evaluation. That universal contract is documented once here instead of repeated as record metadata.
 
 | ID | Name | Purpose |
 | --- | --- | --- |
@@ -96,9 +98,9 @@ Audience, bounded subject, artifact, evidence rule, and completion checks make t
 
 ### Related material
 
-**Lessons:** [`00-orientation`](../learn/orientation.md)
+**Primary lesson:** [`02-prompt-anatomy`](../learn/prompt-anatomy.md)
 
-**Patterns:** [Output schema](#output-schema), [Clarify-or-proceed policy](#clarify-or-proceed-policy)
+**Related patterns:** [Output schema](#output-schema), [Clarify-or-proceed policy](#clarify-or-proceed-policy)
 
 ## Context boundary
 
@@ -163,9 +165,11 @@ Role labels and an explicit non-authority rule prevent retrieved imperatives fro
 
 ### Related material
 
-**Lessons:** [`00-orientation`](../learn/orientation.md)
+**Primary lesson:** [`08-context-engineering`](../learn/context-engineering.md)
 
-**Patterns:** [Source hierarchy](#source-hierarchy), [Defensive injection check](#defensive-injection-check)
+**Additional lessons:** [`09-security`](../learn/security.md)
+
+**Related patterns:** [Source hierarchy](#source-hierarchy), [Defensive injection check](#defensive-injection-check)
 
 ## Source hierarchy
 
@@ -230,9 +234,9 @@ Predeclared precedence and explicit conflict handling stop lower-authority repet
 
 ### Related material
 
-**Lessons:** [`01-llm-foundations`](../learn/llm-foundations.md)
+**Primary lesson:** [`04-grounding-and-long-context`](../learn/grounding-long-context.md)
 
-**Patterns:** [Context boundary](#context-boundary), [Evidence table](#evidence-table)
+**Related patterns:** [Context boundary](#context-boundary), [Evidence table](#evidence-table)
 
 ## Evidence table
 
@@ -297,9 +301,11 @@ Claim-first evidence rows make support auditable and force gaps to surface befor
 
 ### Related material
 
-**Lessons:** [`01-llm-foundations`](../learn/llm-foundations.md)
+**Primary lesson:** [`04-grounding-and-long-context`](../learn/grounding-long-context.md)
 
-**Patterns:** [Source hierarchy](#source-hierarchy), [Uncertainty and abstention](#uncertainty-and-abstention)
+**Additional lessons:** [`06-evaluation`](../learn/evaluation.md)
+
+**Related patterns:** [Source hierarchy](#source-hierarchy), [Uncertainty and abstention](#uncertainty-and-abstention)
 
 ## Output schema
 
@@ -364,9 +370,9 @@ Types, enums, null semantics, prose exclusion, and bounded repair give the calle
 
 ### Related material
 
-**Lessons:** [`01-llm-foundations`](../learn/llm-foundations.md)
+**Primary lesson:** [`05-structured-outputs`](../learn/structured-outputs.md)
 
-**Patterns:** [Objective contract](#objective-contract), [Secure output validation](#secure-output-validation)
+**Related patterns:** [Objective contract](#objective-contract), [Secure output validation](#secure-output-validation)
 
 ## Few-shot boundary cases
 
@@ -431,9 +437,9 @@ Examples on both sides of policy boundaries teach discriminating features and ex
 
 ### Related material
 
-**Lessons:** [`02-prompt-anatomy`](../learn/prompt-anatomy.md)
+**Primary lesson:** [`03-core-techniques`](../learn/core-techniques.md)
 
-**Patterns:** [Counterexample guard](#counterexample-guard), [Regression case](#regression-case)
+**Related patterns:** [Counterexample guard](#counterexample-guard), [Regression case](#regression-case)
 
 ## Counterexample guard
 
@@ -498,9 +504,9 @@ The near-miss identifies the exact semantic distinction—aspiration versus acco
 
 ### Related material
 
-**Lessons:** [`02-prompt-anatomy`](../learn/prompt-anatomy.md)
+**Primary lesson:** [`03-core-techniques`](../learn/core-techniques.md)
 
-**Patterns:** [Few-shot boundary cases](#few-shot-boundary-cases), [Secure output validation](#secure-output-validation)
+**Related patterns:** [Few-shot boundary cases](#few-shot-boundary-cases), [Secure output validation](#secure-output-validation)
 
 ## Clarify-or-proceed policy
 
@@ -565,9 +571,11 @@ Decision-impact categories let the model proceed on reversible presentation choi
 
 ### Related material
 
-**Lessons:** [`02-prompt-anatomy`](../learn/prompt-anatomy.md)
+**Primary lesson:** [`03-core-techniques`](../learn/core-techniques.md)
 
-**Patterns:** [Objective contract](#objective-contract), [Uncertainty and abstention](#uncertainty-and-abstention)
+**Additional lessons:** [`02-prompt-anatomy`](../learn/prompt-anatomy.md)
+
+**Related patterns:** [Objective contract](#objective-contract), [Uncertainty and abstention](#uncertainty-and-abstention)
 
 ## Uncertainty and abstention
 
@@ -632,9 +640,11 @@ A claim threshold and fixed unknown response stop disclaimers from legitimizing 
 
 ### Related material
 
-**Lessons:** [`03-core-techniques`](../learn/core-techniques.md)
+**Primary lesson:** [`03-core-techniques`](../learn/core-techniques.md)
 
-**Patterns:** [Clarify-or-proceed policy](#clarify-or-proceed-policy), [Evidence table](#evidence-table)
+**Additional lessons:** [`04-grounding-and-long-context`](../learn/grounding-long-context.md)
+
+**Related patterns:** [Clarify-or-proceed policy](#clarify-or-proceed-policy), [Evidence table](#evidence-table)
 
 ## Long-context map-reduce
 
@@ -699,9 +709,9 @@ Typed local records preserve provenance; an explicit reduce step detects missing
 
 ### Related material
 
-**Lessons:** [`03-core-techniques`](../learn/core-techniques.md)
+**Primary lesson:** [`04-grounding-and-long-context`](../learn/grounding-long-context.md)
 
-**Patterns:** [Context compression](#context-compression), [Evidence table](#evidence-table)
+**Related patterns:** [Context compression](#context-compression), [Evidence table](#evidence-table)
 
 ## Context compression
 
@@ -766,9 +776,9 @@ Role-based fields and a loss ledger preserve operational state while making omis
 
 ### Related material
 
-**Lessons:** [`03-core-techniques`](../learn/core-techniques.md)
+**Primary lesson:** [`08-context-engineering`](../learn/context-engineering.md)
 
-**Patterns:** [Long-context map-reduce](#long-context-map-reduce), [Agent state ledger](#agent-state-ledger)
+**Related patterns:** [Long-context map-reduce](#long-context-map-reduce), [Agent state ledger](#agent-state-ledger)
 
 ## Tool selection policy
 
@@ -833,9 +843,9 @@ Condition-to-tool mapping and fallback rules separate information retrieval from
 
 ### Related material
 
-**Lessons:** [`04-grounding-and-long-context`](../learn/grounding-long-context.md)
+**Primary lesson:** [`07-agents-and-tools`](../learn/agents-tools.md)
 
-**Patterns:** [Human approval gate](#human-approval-gate), [Tool result provenance](#tool-result-provenance)
+**Related patterns:** [Human approval gate](#human-approval-gate), [Tool result provenance](#tool-result-provenance)
 
 ## Tool result provenance
 
@@ -900,9 +910,11 @@ A stable result ID plus retrieval and transformation metadata lets reviewers dis
 
 ### Related material
 
-**Lessons:** [`04-grounding-and-long-context`](../learn/grounding-long-context.md)
+**Primary lesson:** [`07-agents-and-tools`](../learn/agents-tools.md)
 
-**Patterns:** [Tool selection policy](#tool-selection-policy), [Evidence table](#evidence-table)
+**Additional lessons:** [`08-context-engineering`](../learn/context-engineering.md)
+
+**Related patterns:** [Tool selection policy](#tool-selection-policy), [Evidence table](#evidence-table)
 
 ## Human approval gate
 
@@ -967,9 +979,11 @@ A preview-bound gate makes consent specific, reviewable, and invalidated by mate
 
 ### Related material
 
-**Lessons:** [`04-grounding-and-long-context`](../learn/grounding-long-context.md)
+**Primary lesson:** [`07-agents-and-tools`](../learn/agents-tools.md)
 
-**Patterns:** [Tool selection policy](#tool-selection-policy), [Agent state ledger](#agent-state-ledger)
+**Additional lessons:** [`09-security`](../learn/security.md)
+
+**Related patterns:** [Tool selection policy](#tool-selection-policy), [Agent state ledger](#agent-state-ledger)
 
 ## Retry with diagnosis
 
@@ -1034,9 +1048,11 @@ Failure classes determine whether and how to retry; bounded correction prevents 
 
 ### Related material
 
-**Lessons:** [`05-structured-outputs`](../learn/structured-outputs.md)
+**Primary lesson:** [`07-agents-and-tools`](../learn/agents-tools.md)
 
-**Patterns:** [Output schema](#output-schema), [Regression case](#regression-case)
+**Additional lessons:** [`11-production-operations`](../learn/production-operations.md)
+
+**Related patterns:** [Output schema](#output-schema), [Regression case](#regression-case)
 
 ## Rubric-first evaluation
 
@@ -1101,9 +1117,9 @@ Precommitted weights, anchors, evidence, and disqualifiers make comparisons repr
 
 ### Related material
 
-**Lessons:** [`05-structured-outputs`](../learn/structured-outputs.md)
+**Primary lesson:** [`06-evaluation`](../learn/evaluation.md)
 
-**Patterns:** [Regression case](#regression-case), [Cross-model evaluation](#cross-model-evaluation)
+**Related patterns:** [Regression case](#regression-case), [Cross-model evaluation](#cross-model-evaluation)
 
 ## Regression case
 
@@ -1168,9 +1184,11 @@ A frozen reproducer and executable invariant turn institutional memory into a re
 
 ### Related material
 
-**Lessons:** [`05-structured-outputs`](../learn/structured-outputs.md)
+**Primary lesson:** [`06-evaluation`](../learn/evaluation.md)
 
-**Patterns:** [Retry with diagnosis](#retry-with-diagnosis), [Rubric-first evaluation](#rubric-first-evaluation)
+**Additional lessons:** [`11-production-operations`](../learn/production-operations.md)
+
+**Related patterns:** [Retry with diagnosis](#retry-with-diagnosis), [Rubric-first evaluation](#rubric-first-evaluation)
 
 ## Agent state ledger
 
@@ -1235,9 +1253,11 @@ Distinct planned/observed/mutated states force completion claims to depend on to
 
 ### Related material
 
-**Lessons:** [`06-evaluation`](../learn/evaluation.md)
+**Primary lesson:** [`07-agents-and-tools`](../learn/agents-tools.md)
 
-**Patterns:** [Context compression](#context-compression), [Human approval gate](#human-approval-gate)
+**Additional lessons:** [`08-context-engineering`](../learn/context-engineering.md)
+
+**Related patterns:** [Context compression](#context-compression), [Human approval gate](#human-approval-gate)
 
 ## Delegation contract
 
@@ -1302,9 +1322,9 @@ A narrow artifact, explicit authority, stop condition, and integration owner let
 
 ### Related material
 
-**Lessons:** [`06-evaluation`](../learn/evaluation.md)
+**Primary lesson:** [`07-agents-and-tools`](../learn/agents-tools.md)
 
-**Patterns:** [Agent state ledger](#agent-state-ledger), [Objective contract](#objective-contract)
+**Related patterns:** [Agent state ledger](#agent-state-ledger), [Objective contract](#objective-contract)
 
 ## Defensive injection check
 
@@ -1369,9 +1389,11 @@ Specific threat categories turn suspicious imperatives into inspectable data whi
 
 ### Related material
 
-**Lessons:** [`06-evaluation`](../learn/evaluation.md)
+**Primary lesson:** [`09-security`](../learn/security.md)
 
-**Patterns:** [Context boundary](#context-boundary), [Secure output validation](#secure-output-validation)
+**Additional lessons:** [`08-context-engineering`](../learn/context-engineering.md)
+
+**Related patterns:** [Context boundary](#context-boundary), [Secure output validation](#secure-output-validation)
 
 ## Observation before interpretation
 
@@ -1436,9 +1458,9 @@ Location-grounded observation IDs constrain later interpretations and expose whe
 
 ### Related material
 
-**Lessons:** [`07-agents-and-tools`](../learn/agents-tools.md)
+**Primary lesson:** [`10-multimodal`](../learn/multimodal.md)
 
-**Patterns:** [Accessible visual brief](#accessible-visual-brief), [Evidence table](#evidence-table)
+**Related patterns:** [Accessible visual brief](#accessible-visual-brief), [Evidence table](#evidence-table)
 
 ## Accessible visual brief
 
@@ -1503,9 +1525,9 @@ Concrete size, redundancy, contrast, alt-text, and inspection constraints make a
 
 ### Related material
 
-**Lessons:** [`07-agents-and-tools`](../learn/agents-tools.md)
+**Primary lesson:** [`10-multimodal`](../learn/multimodal.md)
 
-**Patterns:** [Observation before interpretation](#observation-before-interpretation), [Output schema](#output-schema)
+**Related patterns:** [Observation before interpretation](#observation-before-interpretation), [Output schema](#output-schema)
 
 ## Production prompt change log
 
@@ -1570,9 +1592,9 @@ A versioned hypothesis, evidence set, deployment identity, and trigger make beha
 
 ### Related material
 
-**Lessons:** [`07-agents-and-tools`](../learn/agents-tools.md)
+**Primary lesson:** [`11-production-operations`](../learn/production-operations.md)
 
-**Patterns:** [Regression case](#regression-case), [Cost and latency budget](#cost-and-latency-budget)
+**Related patterns:** [Regression case](#regression-case), [Cost and latency budget](#cost-and-latency-budget)
 
 ## Cost and latency budget
 
@@ -1637,9 +1659,9 @@ Numeric ceilings and a defined degradation path force uncertainty to route safel
 
 ### Related material
 
-**Lessons:** [`08-context-engineering`](../learn/context-engineering.md)
+**Primary lesson:** [`11-production-operations`](../learn/production-operations.md)
 
-**Patterns:** [Retry with diagnosis](#retry-with-diagnosis), [Production prompt change log](#production-prompt-change-log)
+**Related patterns:** [Retry with diagnosis](#retry-with-diagnosis), [Production prompt change log](#production-prompt-change-log)
 
 ## Cross-model evaluation
 
@@ -1704,9 +1726,11 @@ Controlled cases and explicit tested scope separate observed performance from un
 
 ### Related material
 
-**Lessons:** [`08-context-engineering`](../learn/context-engineering.md)
+**Primary lesson:** [`06-evaluation`](../learn/evaluation.md)
 
-**Patterns:** [Rubric-first evaluation](#rubric-first-evaluation), [Production prompt change log](#production-prompt-change-log)
+**Additional lessons:** [`11-production-operations`](../learn/production-operations.md)
+
+**Related patterns:** [Rubric-first evaluation](#rubric-first-evaluation), [Production prompt change log](#production-prompt-change-log)
 
 ## Secure output validation
 
@@ -1771,6 +1795,8 @@ A typed allowlist, path boundary, sandbox, and approval step keep model output f
 
 ### Related material
 
-**Lessons:** [`08-context-engineering`](../learn/context-engineering.md)
+**Primary lesson:** [`09-security`](../learn/security.md)
 
-**Patterns:** [Output schema](#output-schema), [Human approval gate](#human-approval-gate)
+**Additional lessons:** [`05-structured-outputs`](../learn/structured-outputs.md)
+
+**Related patterns:** [Output schema](#output-schema), [Human approval gate](#human-approval-gate)

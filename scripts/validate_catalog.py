@@ -32,28 +32,104 @@ RESOURCE_FILES = [
     "catalog/tools.json",
     "catalog/communities.json",
 ]
+PATTERN_PRIMARY_LESSONS = {
+    "pattern-objective-contract": "02-prompt-anatomy",
+    "pattern-context-boundary": "08-context-engineering",
+    "pattern-source-hierarchy": "04-grounding-and-long-context",
+    "pattern-evidence-table": "04-grounding-and-long-context",
+    "pattern-output-schema": "05-structured-outputs",
+    "pattern-few-shot-boundary-cases": "03-core-techniques",
+    "pattern-counterexample-guard": "03-core-techniques",
+    "pattern-clarify-or-proceed": "03-core-techniques",
+    "pattern-abstention-rule": "03-core-techniques",
+    "pattern-long-context-map-reduce": "04-grounding-and-long-context",
+    "pattern-context-compression": "08-context-engineering",
+    "pattern-tool-selection": "07-agents-and-tools",
+    "pattern-tool-provenance": "07-agents-and-tools",
+    "pattern-human-approval": "07-agents-and-tools",
+    "pattern-retry-with-diagnosis": "07-agents-and-tools",
+    "pattern-rubric-first-evaluation": "06-evaluation",
+    "pattern-regression-case": "06-evaluation",
+    "pattern-agent-state-ledger": "07-agents-and-tools",
+    "pattern-delegation-contract": "07-agents-and-tools",
+    "pattern-defensive-injection-check": "09-security",
+    "pattern-multimodal-observation-first": "10-multimodal",
+    "pattern-accessible-visual-brief": "10-multimodal",
+    "pattern-production-change-log": "11-production-operations",
+    "pattern-cost-latency-budget": "11-production-operations",
+    "pattern-cross-model-eval": "06-evaluation",
+    "pattern-secure-output-validation": "09-security",
+}
+PATTERN_ALLOWED_RELATED_LESSONS = {
+    "pattern-objective-contract": set(),
+    "pattern-context-boundary": {"09-security"},
+    "pattern-source-hierarchy": set(),
+    "pattern-evidence-table": {"06-evaluation"},
+    "pattern-output-schema": set(),
+    "pattern-few-shot-boundary-cases": set(),
+    "pattern-counterexample-guard": set(),
+    "pattern-clarify-or-proceed": {"02-prompt-anatomy"},
+    "pattern-abstention-rule": {"04-grounding-and-long-context"},
+    "pattern-long-context-map-reduce": set(),
+    "pattern-context-compression": set(),
+    "pattern-tool-selection": set(),
+    "pattern-tool-provenance": {"08-context-engineering"},
+    "pattern-human-approval": {"09-security"},
+    "pattern-retry-with-diagnosis": {"11-production-operations"},
+    "pattern-rubric-first-evaluation": set(),
+    "pattern-regression-case": {"11-production-operations"},
+    "pattern-agent-state-ledger": {"08-context-engineering"},
+    "pattern-delegation-contract": set(),
+    "pattern-defensive-injection-check": {"08-context-engineering"},
+    "pattern-multimodal-observation-first": set(),
+    "pattern-accessible-visual-brief": set(),
+    "pattern-production-change-log": set(),
+    "pattern-cost-latency-budget": set(),
+    "pattern-cross-model-eval": {"11-production-operations"},
+    "pattern-secure-output-validation": {"05-structured-outputs"},
+}
 
 
 def pattern_reference_errors(patterns: list[dict[str, Any]], lesson_ids: set[str]) -> list[str]:
     errors: list[str] = []
     pattern_ids = {record["id"] for record in patterns}
+    if pattern_ids != set(PATTERN_PRIMARY_LESSONS):
+        missing = sorted(pattern_ids - set(PATTERN_PRIMARY_LESSONS))
+        stale = sorted(set(PATTERN_PRIMARY_LESSONS) - pattern_ids)
+        errors.append(f"pattern lesson taxonomy coverage mismatch: missing={missing} stale={stale}")
     for record in patterns:
-        if record.get("slug") != record["id"].removeprefix("pattern-"):
+        pattern_id = record["id"]
+        if record.get("slug") != pattern_id.removeprefix("pattern-"):
             errors.append(f"pattern slug does not match id: {record['id']}")
-        if record.get("title") != record.get("name"):
-            errors.append(f"pattern title does not match name: {record['id']}")
+        expected_primary = PATTERN_PRIMARY_LESSONS.get(pattern_id)
+        primary_lesson = record.get("primary_lesson")
+        if primary_lesson != expected_primary:
+            errors.append(
+                f"wrong pattern primary lesson: {pattern_id} -> {primary_lesson}; "
+                f"expected {expected_primary}"
+            )
+        if primary_lesson not in lesson_ids:
+            errors.append(f"broken pattern primary lesson: {pattern_id} -> {primary_lesson}")
         for related_pattern in record.get("related_patterns", []):
             if related_pattern not in pattern_ids:
                 errors.append(
-                    f"broken related pattern reference: {record['id']} -> {related_pattern}"
+                    f"broken related pattern reference: {pattern_id} -> {related_pattern}"
                 )
-            elif related_pattern == record["id"]:
-                errors.append(f"self-related pattern reference: {record['id']}")
+            elif related_pattern == pattern_id:
+                errors.append(f"self-related pattern reference: {pattern_id}")
+        related_lessons = set(record.get("related_lessons", []))
+        unexpected_lessons = related_lessons - PATTERN_ALLOWED_RELATED_LESSONS.get(
+            pattern_id, set()
+        )
+        if unexpected_lessons:
+            errors.append(
+                f"unapproved related lessons: {pattern_id} -> {sorted(unexpected_lessons)}"
+            )
+        if primary_lesson in related_lessons:
+            errors.append(f"primary lesson repeated as related lesson: {pattern_id}")
         for related_lesson in record.get("related_lessons", []):
             if related_lesson not in lesson_ids:
-                errors.append(
-                    f"broken pattern lesson reference: {record['id']} -> {related_lesson}"
-                )
+                errors.append(f"broken pattern lesson reference: {pattern_id} -> {related_lesson}")
     return errors
 
 

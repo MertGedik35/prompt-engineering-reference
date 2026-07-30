@@ -61,7 +61,11 @@ def pattern_index() -> str:
         HEADER,
         "# Pattern Index\n\n",
         "Generated from `catalog/patterns.json`. Each pattern defines a distinct mechanism, "
-        "application boundary, copyable example, and three verification cases.\n\n",
+        "application boundary, copyable example, and three canonical verification cases.\n\n",
+        "All patterns can be expressed through the repository Prompt Contract fields: Objective, "
+        "Context, Inputs, Instructions, Constraints, Tools and Sources, Output Contract, and "
+        "Evaluation. That universal contract is documented once here instead of repeated as "
+        "record metadata.\n\n",
         table(["ID", "Name", "Purpose"], rows),
     ]
     for record in records:
@@ -104,13 +108,20 @@ def pattern_index() -> str:
                 "\n### Trade-offs\n\n",
                 bullets(record["trade_offs"]),
                 "\n### Related material\n\n",
-                "**Lessons:** "
-                + ", ".join(
-                    f"[`{lesson}`](../learn/{LESSON_DOCS[lesson]}.md)"
-                    for lesson in record["related_lessons"]
-                )
-                + "\n\n",
-                "**Patterns:** "
+                "**Primary lesson:** "
+                + f"[`{record['primary_lesson']}`]"
+                + f"(../learn/{LESSON_DOCS[record['primary_lesson']]}.md)\n\n",
+                (
+                    "**Additional lessons:** "
+                    + ", ".join(
+                        f"[`{lesson}`](../learn/{LESSON_DOCS[lesson]}.md)"
+                        for lesson in record["related_lessons"]
+                    )
+                    + "\n\n"
+                    if record["related_lessons"]
+                    else ""
+                ),
+                "**Related patterns:** "
                 + ", ".join(
                     f"[{by_id[pattern_id]['name']}](#{anchor(by_id[pattern_id]['name'])})"
                     for pattern_id in record["related_patterns"]
