@@ -8,7 +8,11 @@ Learn prompt engineering from first principles, then return whenever you need a 
 
 ## Start Learning
 
-Follow [LEARNING_PATH.md](LEARNING_PATH.md) or the documentation site's Learn section. The curriculum starts with LLM foundations and moves through prompt anatomy, grounding, structured outputs, evaluations, agents, context engineering, security, multimodal work, production operations, and capstone projects.
+Follow [LEARNING_PATH.md](LEARNING_PATH.md) or the documentation site's Learn section.
+Authoritative lessons and activities live under `curriculum/<module>/`; `docs/learn/` contains
+navigation entries rather than second lesson copies. The path begins with Orientation and LLM
+Foundations, then moves through prompt anatomy, grounding, structured outputs, evaluation, agents,
+context engineering, security, multimodal work, production operations, and capstone evidence.
 
 ## Use the Reference
 

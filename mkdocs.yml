@@ -83,6 +83,7 @@ nav:
       - V1 Content Audit: project/v1-content-audit.md
       - Privacy Audit: project/privacy-audit.md
       - V2 Architecture: project/v2-architecture.md
+      - V2 Semantic Content Audit: project/v2-semantic-content-audit.md
       - V1 to V2 Migration: project/v1-to-v2-migration.md
       - V2 Release Gates: project/v2-release-gates.md
       - Draft Release Notes: project/v2-draft-release-notes.md

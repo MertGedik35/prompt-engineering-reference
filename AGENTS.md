@@ -7,7 +7,9 @@ Prompt Engineering Reference is a learning platform and daily reference. Preserv
 ## Source of Truth
 
 - Catalog source files: `catalog/*.json`.
-- Curriculum source pages: `curriculum/**`.
+- Authoritative curriculum lessons and activities: `curriculum/<module>/**`.
+- `docs/learn/*.md` files are navigation-only site entries. Do not duplicate or independently
+  rewrite lesson content there.
 - Reference source pages: `reference/**`.
 - Generated site indexes: `docs/generated/*.md`. Do not edit generated files manually.
 
