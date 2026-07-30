@@ -13,6 +13,12 @@ Design a context ledger and compression policy for a five-turn coding task, incl
 
 ## Provided inputs
 
+Five-turn task: update a parser, add tests, diagnose a Windows-only failure, revise the patch, and
+prepare a review summary. Context budget: 12,000 tokens. Root instructions require privacy audit;
+a nested instruction requires fixtures to remain under 5 KB. Memory says the parser accepts YAML,
+but the current dependency file pins a JSON-only version. Terminal output includes 4,000 redundant
+log lines and one causal exception.
+
 - **Card 1 — Instruction layers:** System, developer, and user instructions carry different authority. Their exact names vary by platform, but the design principle is to preserve control boundaries.
 - **Card 2 — Retrieved and conversational context:** Documents and conversation history supply data and prior decisions. They can be stale, irrelevant, contradictory, or malicious.
 - **Card 3 — Memory:** Memory is selected persisted information, not perfect recall. Entries need provenance, scope, freshness, and deletion or correction rules.

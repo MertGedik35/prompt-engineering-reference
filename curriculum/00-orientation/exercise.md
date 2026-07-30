@@ -13,6 +13,12 @@ Create justified repository routes for three fictional personas without treating
 
 ## Provided inputs
 
+Use these personas:
+
+- **Aylin:** new to LLMs, four hours this week, wants to write better internal summaries, no provider selected.
+- **Bora:** software developer, knows APIs, is designing a read-only research agent and needs security guidance.
+- **Cem:** experienced analyst, has six weeks, wants a credible credential but has no fixed budget and requires current official evidence.
+
 - **Card 1 — Learning mode:** A sequenced path that builds vocabulary and judgment through lessons, exercises, quizzes, and explained solutions. It is the right default when the learner cannot yet explain why a technique works.
 - **Card 2 — Reference mode:** A task-first lookup surface for patterns, templates, provider notes, checklists, and diagnostics. It assumes the user can adapt an asset and evaluate the result rather than copying it blindly.
 - **Card 3 — Source classes:** Official sources describe a provider's current product; academic sources support research claims; community sources offer experience; commercial sources may teach useful material while carrying sales incentives.

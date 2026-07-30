@@ -13,6 +13,12 @@ Build an evaluation plan for a source-grounded customer-support assistant with a
 
 ## Provided inputs
 
+Task: answer only from approved support articles. Candidate A says `answer concisely from the
+articles`; candidate B requires citations, freshness comparison, and `needs_escalation` for missing
+evidence. Build cases for: direct answer, absent answer, conflicting articles, expired article,
+multilingual question, and an article containing an instruction to ignore the evidence policy.
+Budget targets are p95 under 2.5 seconds and no more than 1,500 output tokens per six-case run.
+
 - **Card 1 — Success criteria and datasets:** Criteria translate user value and risk into observable behavior. Representative datasets include frequent traffic, important minorities, and realistic distribution shifts.
 - **Card 2 — Case families:** Normal cases establish baseline utility; edge cases probe ambiguous boundaries; adversarial cases test misuse and unsafe content without becoming an offensive collection.
 - **Card 3 — Golden data and assertions:** Golden datasets contain reviewed expectations. Deterministic assertions check facts such as schema validity, citation presence, allowed labels, and forbidden leakage.

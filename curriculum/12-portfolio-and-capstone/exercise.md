@@ -13,6 +13,12 @@ Create a portfolio-ready capstone proposal with problem statement, evidence plan
 
 ## Provided inputs
 
+Candidate project: a source-grounded assistant for six synthetic support articles. Available
+artifacts are three prompt versions, six English test cases, assertion results, two human rubric
+reviews, and latency measurements from one model. There is no production traffic, credential,
+non-English evaluation, or cross-model benchmark. One failed citation case must remain in the
+reported dataset.
+
 - **Card 1 — Project selection:** A useful capstone has a real user, bounded task, available non-sensitive data, observable success, and enough complexity to demonstrate judgment.
 - **Card 2 — Problem statements:** Describe the baseline problem, stakeholders, constraints, consequence of error, and what is explicitly outside scope.
 - **Card 3 — Evidence design:** Artifacts should include prompt versions, representative cases, source or schema contracts, evaluation code, results, and decisions caused by evidence.

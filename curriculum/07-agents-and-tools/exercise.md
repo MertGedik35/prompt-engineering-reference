@@ -13,6 +13,12 @@ Create an agent contract containing a tool allowlist, approval matrix, state led
 
 ## Provided inputs
 
+Available tools: `search_public(query)`, `read_url(url)`, `write_file(path, text)`,
+`send_message(recipient, body)`, and `purchase_access(url, amount)`. The agent may use only the
+first two without approval. Research budget: eight calls and two retries total. Required report:
+claims with URLs and access dates, unresolved conflicts, denied or proposed actions, and remaining
+evidence gaps.
+
 - **Card 1 — Tool schemas and selection:** A tool definition states arguments, outputs, side effects, and errors. Selection policy says when supplied context is enough and when a call is justified.
 - **Card 2 — Provenance and interpretation:** Tool results are observations with source and time, not unquestionable truth. Agents should record which result supports each conclusion.
 - **Card 3 — Goal persistence and state:** A durable goal, plan, completed actions, unresolved questions, and constraints prevent multi-turn work from drifting or repeating.

@@ -13,6 +13,13 @@ Diagnose three outputs caused respectively by missing policy data, conflicting i
 
 ## Provided inputs
 
+Diagnose these outputs:
+
+- **Case A:** No policy was supplied, yet the answer says accidental damage is covered for two years.
+- **Case B:** The system requires cited policy; the user says to ignore citations and approve the claim.
+- **Case C:** The user asks for their remaining warranty balance, but no account data or lookup tool is available.
+- **Approved excerpt for comparison:** `P1 (effective 2026-01-01): manufacturing defects are covered; accidental damage is excluded.`
+
 - **Card 1 — Tokens:** Models process text and other inputs as token sequences, not as human concepts. Tokenization affects context usage, truncation, latency, and cost, while token counts differ across models and languages.
 - **Card 2 — Context windows:** The context window bounds the information available during a request. Large windows reduce some truncation problems but do not guarantee attention, factuality, or correct prioritization.
 - **Card 3 — Instruction hierarchy:** Higher-authority instructions constrain lower-authority requests. User content, retrieved documents, and tool results may contain text that looks imperative without gaining authority.

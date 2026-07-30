@@ -13,6 +13,12 @@ Create a model-migration plan with inventory, baseline, evaluation gates, staged
 
 ## Provided inputs
 
+Current configuration: prompt `extract-v3`, model `model-a-2026-01`, schema `2.1`, p95 latency 1.8
+seconds, parse success 99.4%, and 0.3% unsupported-date rate. Candidate model B lowers median cost
+by 12% in a small trial but raises p95 latency to 2.6 seconds and unsupported dates to 1.1%.
+Release gates require p95 at most 2.2 seconds, no critical assertion regression, and an immediate
+rollback target.
+
 - **Card 1 — Ownership and versioning:** Every production prompt needs an accountable owner, semantic version, repository history, runtime configuration, and consumers. Prompt text alone is not the deployed artifact.
 - **Card 2 — Change logs and gates:** A change record explains intent, diff, affected cases, expected metrics, approvals, and rollback. Evaluation gates block regressions before deployment.
 - **Card 3 — Deployment and rollback:** Staged rollout, canaries, feature flags, and retained prior configurations make behavior changes observable and reversible.

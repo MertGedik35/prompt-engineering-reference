@@ -13,6 +13,12 @@ Design one chart-analysis prompt and one image-generation brief from fictional a
 
 ## Provided inputs
 
+Analytical asset: a fictional quarterly revenue chart with a zero-to-100 vertical axis, dollars in
+millions, four quarters, two similar blue series, and a cropped legend; source data is unavailable.
+Generative asset: a 16:9 hero illustration for an accessibility guide, with high contrast, no
+embedded body text, room for an HTML heading, and alt-text intent. Do not infer exact chart values
+when labels are unreadable.
+
 - **Card 1 — Image understanding:** Requests should identify the inspection goal, relevant regions, acceptable inference, and uncertainty. Visible pixels do not prove identity, intent, or events outside the frame.
 - **Card 2 — Screenshots and documents:** Layout, cropping, resolution, hidden content, OCR errors, and page order affect interpretation. Text extraction should retain page or region references.
 - **Card 3 — Charts and diagrams:** Axes, units, legends, baselines, encodings, and annotations must be inspected before conclusions. Source data is preferable for exact calculations.
