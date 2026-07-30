@@ -4,7 +4,7 @@ Last verified: 2026-07-30
 
 ## Official and canonical sources
 
-- [OpenAI vision guide](https://platform.openai.com/docs/guides/images-vision) — official or canonical guidance used for mutable behavior.
+- [OpenAI vision guide](https://developers.openai.com/api/docs/guides/images-vision) — official or canonical guidance used for mutable behavior.
 - [Google image understanding](https://ai.google.dev/gemini-api/docs/image-understanding) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources

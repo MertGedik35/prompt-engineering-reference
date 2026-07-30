@@ -199,7 +199,7 @@ automatic failure regardless of the total.
 ## Official sources
 
 - [OpenAI prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering)
-- [Anthropic prompt engineering overview](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview)
+- [Anthropic prompt engineering overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification
 date; URLs alone do not prove that a feature, price, limit, or credential remains unchanged.

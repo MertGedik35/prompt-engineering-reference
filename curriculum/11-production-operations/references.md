@@ -4,12 +4,12 @@ Last verified: 2026-07-30
 
 ## Official and canonical sources
 
-- [OpenAI production best practices](https://platform.openai.com/docs/guides/production-best-practices) — official or canonical guidance used for mutable behavior.
-- [Google generative AI evaluation](https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview) — official or canonical guidance used for mutable behavior.
+- [OpenAI production best practices](https://developers.openai.com/api/docs/guides/production-best-practices) — official or canonical guidance used for mutable behavior.
+- [Google generative AI evaluation](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/evaluation-overview) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources
 
-- [Hidden Technical Debt in Machine Learning Systems](https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems) — research context; verify transfer to current systems.
+- [Hidden Technical Debt in Machine Learning Systems](https://papers.nips.cc/paper_files/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html) — research context; verify transfer to current systems.
 
 ## Reading guidance
 

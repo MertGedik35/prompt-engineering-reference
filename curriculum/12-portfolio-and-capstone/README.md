@@ -198,7 +198,7 @@ automatic failure regardless of the total.
 
 ## Official sources
 
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [NIST AI Risk Management Framework](https://airc.nist.gov/airmf-resources/airmf/)
 - [GitHub documentation on repository visibility](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification

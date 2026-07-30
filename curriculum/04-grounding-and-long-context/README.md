@@ -198,7 +198,7 @@ automatic failure regardless of the total.
 
 ## Official sources
 
-- [OpenAI retrieval guide](https://platform.openai.com/docs/guides/retrieval)
+- [OpenAI retrieval guide](https://developers.openai.com/api/docs/guides/retrieval)
 - [Microsoft RAG guidance](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification

@@ -4,8 +4,8 @@ Last verified: 2026-07-30
 
 ## Official and canonical sources
 
-- [OpenAI evaluation best practices](https://platform.openai.com/docs/guides/evals) — official or canonical guidance used for mutable behavior.
-- [Google model evaluation](https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview) — official or canonical guidance used for mutable behavior.
+- [OpenAI evaluation best practices](https://developers.openai.com/api/docs/guides/evals) — official or canonical guidance used for mutable behavior.
+- [Google model evaluation](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/evaluation-overview) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources
 

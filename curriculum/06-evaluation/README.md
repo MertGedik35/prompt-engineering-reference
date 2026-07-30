@@ -198,8 +198,8 @@ automatic failure regardless of the total.
 
 ## Official sources
 
-- [OpenAI evaluation best practices](https://platform.openai.com/docs/guides/evals)
-- [Google model evaluation](https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview)
+- [OpenAI evaluation best practices](https://developers.openai.com/api/docs/guides/evals)
+- [Google model evaluation](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/evaluation-overview)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification
 date; URLs alone do not prove that a feature, price, limit, or credential remains unchanged.

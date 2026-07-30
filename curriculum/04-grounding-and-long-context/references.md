@@ -4,7 +4,7 @@ Last verified: 2026-07-30
 
 ## Official and canonical sources
 
-- [OpenAI retrieval guide](https://platform.openai.com/docs/guides/retrieval) — official or canonical guidance used for mutable behavior.
+- [OpenAI retrieval guide](https://developers.openai.com/api/docs/guides/retrieval) — official or canonical guidance used for mutable behavior.
 - [Microsoft RAG guidance](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources

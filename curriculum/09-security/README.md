@@ -199,7 +199,7 @@ automatic failure regardless of the total.
 ## Official sources
 
 - [OWASP LLM Prompt Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html)
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
+- [NIST AI Risk Management Framework](https://airc.nist.gov/airmf-resources/airmf/)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification
 date; URLs alone do not prove that a feature, price, limit, or credential remains unchanged.

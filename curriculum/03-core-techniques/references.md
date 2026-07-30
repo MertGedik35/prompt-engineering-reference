@@ -4,7 +4,7 @@ Last verified: 2026-07-30
 
 ## Official and canonical sources
 
-- [Anthropic prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) — official or canonical guidance used for mutable behavior.
+- [Anthropic prompting best practices](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview) — official or canonical guidance used for mutable behavior.
 - [Google prompting strategies](https://ai.google.dev/gemini-api/docs/prompting-strategies) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources

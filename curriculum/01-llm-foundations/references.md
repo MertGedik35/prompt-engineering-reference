@@ -5,7 +5,7 @@ Last verified: 2026-07-30
 ## Official and canonical sources
 
 - [OpenAI prompt engineering](https://developers.openai.com/api/docs/guides/prompt-engineering) — official or canonical guidance used for mutable behavior.
-- [Anthropic prompt engineering overview](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) — official or canonical guidance used for mutable behavior.
+- [Anthropic prompt engineering overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources
 

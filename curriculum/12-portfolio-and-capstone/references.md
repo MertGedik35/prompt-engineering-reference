@@ -4,7 +4,7 @@ Last verified: 2026-07-30
 
 ## Official and canonical sources
 
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) — official or canonical guidance used for mutable behavior.
+- [NIST AI Risk Management Framework](https://airc.nist.gov/airmf-resources/airmf/) — official or canonical guidance used for mutable behavior.
 - [GitHub documentation on repository visibility](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources

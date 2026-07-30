@@ -198,15 +198,15 @@ automatic failure regardless of the total.
 
 ## Official sources
 
-- [OpenAI production best practices](https://platform.openai.com/docs/guides/production-best-practices)
-- [Google generative AI evaluation](https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview)
+- [OpenAI production best practices](https://developers.openai.com/api/docs/guides/production-best-practices)
+- [Google generative AI evaluation](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/evaluation-overview)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification
 date; URLs alone do not prove that a feature, price, limit, or credential remains unchanged.
 
 ## Research sources
 
-- [Hidden Technical Debt in Machine Learning Systems](https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems)
+- [Hidden Technical Debt in Machine Learning Systems](https://papers.nips.cc/paper_files/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html)
 
 Research informs mechanisms and limitations, but a paper's experimental setting may not match a
 current hosted model. Record that transfer as a hypothesis until it is tested.

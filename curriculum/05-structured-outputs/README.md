@@ -199,7 +199,7 @@ automatic failure regardless of the total.
 ## Official sources
 
 - [JSON Schema specification](https://json-schema.org/specification)
-- [OpenAI Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)
+- [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification
 date; URLs alone do not prove that a feature, price, limit, or credential remains unchanged.

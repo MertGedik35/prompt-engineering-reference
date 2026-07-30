@@ -198,7 +198,7 @@ automatic failure regardless of the total.
 
 ## Official sources
 
-- [OpenAI vision guide](https://platform.openai.com/docs/guides/images-vision)
+- [OpenAI vision guide](https://developers.openai.com/api/docs/guides/images-vision)
 - [Google image understanding](https://ai.google.dev/gemini-api/docs/image-understanding)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification

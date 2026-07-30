@@ -5,7 +5,7 @@ Last verified: 2026-07-30
 ## Official and canonical sources
 
 - [JSON Schema specification](https://json-schema.org/specification) — official or canonical guidance used for mutable behavior.
-- [OpenAI Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs) — official or canonical guidance used for mutable behavior.
+- [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources
 

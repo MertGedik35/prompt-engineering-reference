@@ -9,7 +9,7 @@ Last verified: 2026-07-30
 
 ## Research and long-form sources
 
-- [The Craft of Research](https://press.uchicago.edu/ucp/books/book/chicago/C/bo23521678.html) — research context; verify transfer to current systems.
+- [The Craft of Research](https://press.uchicago.edu/ucp/books/book/chicago/C/bo215874008) — research context; verify transfer to current systems.
 
 ## Reading guidance
 

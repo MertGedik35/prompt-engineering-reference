@@ -206,7 +206,7 @@ date; URLs alone do not prove that a feature, price, limit, or credential remain
 
 ## Research sources
 
-- [The Craft of Research](https://press.uchicago.edu/ucp/books/book/chicago/C/bo23521678.html)
+- [The Craft of Research](https://press.uchicago.edu/ucp/books/book/chicago/C/bo215874008)
 
 Research informs mechanisms and limitations, but a paper's experimental setting may not match a
 current hosted model. Record that transfer as a hypothesis until it is tested.

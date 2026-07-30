@@ -198,7 +198,7 @@ automatic failure regardless of the total.
 
 ## Official sources
 
-- [Anthropic prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview)
+- [Anthropic prompting best practices](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
 - [Google prompting strategies](https://ai.google.dev/gemini-api/docs/prompting-strategies)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification

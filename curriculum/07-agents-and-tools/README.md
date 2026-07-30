@@ -198,8 +198,8 @@ automatic failure regardless of the total.
 
 ## Official sources
 
-- [OpenAI function calling](https://platform.openai.com/docs/guides/function-calling)
-- [Anthropic tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)
+- [OpenAI function calling](https://developers.openai.com/api/docs/guides/function-calling)
+- [Anthropic tool use](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview)
 
 Use official sources for current product behavior. Recheck mutable claims after the verification
 date; URLs alone do not prove that a feature, price, limit, or credential remains unchanged.

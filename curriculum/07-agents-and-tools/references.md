@@ -4,8 +4,8 @@ Last verified: 2026-07-30
 
 ## Official and canonical sources
 
-- [OpenAI function calling](https://platform.openai.com/docs/guides/function-calling) — official or canonical guidance used for mutable behavior.
-- [Anthropic tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) — official or canonical guidance used for mutable behavior.
+- [OpenAI function calling](https://developers.openai.com/api/docs/guides/function-calling) — official or canonical guidance used for mutable behavior.
+- [Anthropic tool use](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources
 

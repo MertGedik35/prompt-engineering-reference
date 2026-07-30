@@ -5,7 +5,7 @@ Last verified: 2026-07-30
 ## Official and canonical sources
 
 - [OWASP LLM Prompt Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html) — official or canonical guidance used for mutable behavior.
-- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) — official or canonical guidance used for mutable behavior.
+- [NIST AI Risk Management Framework](https://airc.nist.gov/airmf-resources/airmf/) — official or canonical guidance used for mutable behavior.
 
 ## Research and long-form sources
 
