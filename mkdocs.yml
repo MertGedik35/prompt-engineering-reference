@@ -2,7 +2,7 @@ site_name: Prompt Engineering Reference
 site_description: Learn prompt engineering from first principles, then use a tested reference library.
 site_url: https://mertgedik35.github.io/prompt-engineering-reference/
 repo_url: https://github.com/MertGedik35/prompt-engineering-reference
-edit_uri: edit/main/docs/
+edit_uri: edit/feat/v2-learning-reference/docs/
 theme:
   name: material
   features:
@@ -32,7 +32,7 @@ extra:
       link: https://github.com/MertGedik35/prompt-engineering-reference
 nav:
   - Home: index.md
-  - Learn:
+  - Start Learning:
       - Overview: learn/index.md
       - Orientation: learn/orientation.md
       - LLM Foundations: learn/llm-foundations.md
@@ -47,13 +47,15 @@ nav:
       - Multimodal: learn/multimodal.md
       - Production Operations: learn/production-operations.md
       - Portfolio and Capstone: learn/portfolio-capstone.md
-  - Reference:
+  - Prompt Reference:
       - Overview: reference/index.md
       - Patterns: generated/pattern-index.md
       - Templates: generated/template-index.md
       - Prompt Doctor: generated/prompt-doctor-index.md
       - Glossary: generated/glossary-index.md
-  - Providers:
+      - Security checklist: reference/security-checklist.md
+      - Provider selection: reference/provider-selection.md
+  - Provider Guides:
       - Overview: providers/index.md
       - OpenAI: providers/openai.md
       - Anthropic Claude: providers/anthropic.md
@@ -63,9 +65,10 @@ nav:
       - Meta Llama: providers/meta.md
       - Mistral AI: providers/mistral.md
       - Open Models: providers/open-models.md
-  - Resources:
+  - Courses & Resources:
       - Overview: resources/index.md
       - Official Resources: generated/official-resource-index.md
+      - Official Prompts: resources/official-prompts.md
       - Repositories: generated/repository-index.md
       - Courses: generated/course-index.md
       - Credentials: generated/credential-index.md
@@ -74,8 +77,13 @@ nav:
       - Books: generated/book-index.md
       - Tools: generated/tool-index.md
       - Communities: generated/community-index.md
-  - Labs:
+  - Practice & Labs:
       - Overview: labs/index.md
+      - Exercises: labs/exercises.md
+      - Quizzes: labs/quizzes.md
+      - Solutions: labs/solutions.md
+      - Evaluations: labs/evaluations.md
+      - Datasets: labs/datasets.md
       - Capstones: labs/capstones.md
   - Contribute:
       - Contributing: contribute/index.md
