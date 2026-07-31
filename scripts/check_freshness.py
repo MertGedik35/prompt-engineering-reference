@@ -44,6 +44,26 @@ def load(path: str, root: Path = ROOT) -> list[dict[str, Any]]:
     return [record for record in data if isinstance(record, dict)]
 
 
+def _age_findings(
+    *,
+    location: str,
+    last_verified: date,
+    stale_after: int,
+    risk: str,
+    as_of: date,
+) -> tuple[list[str], list[str]]:
+    age = (as_of - last_verified).days
+    if age <= stale_after:
+        return [], []
+    message = (
+        f"{location} stale by {age - stale_after} days "
+        f"(age={age}, limit={stale_after}, risk={risk})"
+    )
+    if risk == "high":
+        return [], [message]
+    return [message], []
+
+
 def _record_freshness(
     file: str,
     record: dict[str, Any],
@@ -91,16 +111,58 @@ def _record_freshness(
         )
         return warnings, failures
 
-    age = (as_of - last_verified).days
-    if age > stale_after:
-        message = (
-            f"{file}:{record_id} stale by {age - stale_after} days "
-            f"(age={age}, limit={stale_after}, risk={risk})"
+    parent_warnings, parent_failures = _age_findings(
+        location=f"{file}:{record_id}",
+        last_verified=last_verified,
+        stale_after=stale_after,
+        risk=str(risk),
+        as_of=as_of,
+    )
+    warnings.extend(parent_warnings)
+    failures.extend(parent_failures)
+
+    claims = record.get("fast_stale_areas")
+    if not isinstance(claims, list):
+        return warnings, failures
+
+    for index, claim in enumerate(claims):
+        if not isinstance(claim, dict):
+            failures.append(f"{file}:{record_id} fast_stale_areas[{index}] must be an object")
+            continue
+        source_id = claim.get("source_id", "<missing-source>")
+        location = f"{file}:{record_id} fast_stale_areas[{index}] (source_id={source_id})"
+        child_value = claim.get("last_verified")
+        if child_value in (None, ""):
+            failures.append(f"{location} missing last_verified")
+            continue
+        try:
+            child_verified = date.fromisoformat(str(child_value))
+        except ValueError:
+            failures.append(
+                f"{location} invalid last_verified {child_value!r}; expected YYYY-MM-DD"
+            )
+            continue
+        if child_verified > as_of:
+            failures.append(
+                f"{location} last_verified {child_verified.isoformat()} "
+                f"is after as-of {as_of.isoformat()}"
+            )
+            continue
+        if child_verified > last_verified:
+            failures.append(
+                f"{location} last_verified {child_verified.isoformat()} "
+                f"is after parent last_verified {last_verified.isoformat()}"
+            )
+            continue
+        child_warnings, child_failures = _age_findings(
+            location=location,
+            last_verified=child_verified,
+            stale_after=stale_after,
+            risk=str(risk),
+            as_of=as_of,
         )
-        if risk == "high":
-            failures.append(message)
-        else:
-            warnings.append(message)
+        warnings.extend(child_warnings)
+        failures.extend(child_failures)
     return warnings, failures
 
 

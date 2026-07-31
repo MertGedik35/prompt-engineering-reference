@@ -170,3 +170,143 @@ def test_report_contains_same_findings_as_terminal(
     )
     assert exit_code == 1
     assert report_path.read_text(encoding="utf-8") == capsys.readouterr().out
+
+
+def provider_with_child(
+    *,
+    parent_verified: str = "2026-07-31",
+    child_verified: str = "2026-06-01",
+    stale_after_days: int = 30,
+    stale_risk: str = "high",
+) -> dict[str, object]:
+    return {
+        "id": "provider-fixture",
+        "last_verified": parent_verified,
+        "stale_after_days": stale_after_days,
+        "stale_risk": stale_risk,
+        "fast_stale_areas": [
+            {
+                "area": "routing surface",
+                "why_stale": "model routing and pricing change frequently",
+                "source_id": "official-fixture-source",
+                "last_verified": child_verified,
+            }
+        ],
+    }
+
+
+def test_old_high_risk_child_is_failure(tmp_path: Path) -> None:
+    warnings, failures = findings(tmp_path, [provider_with_child()])
+    assert warnings == []
+    assert len(failures) == 1
+    assert "fast_stale_areas[0]" in failures[0]
+    assert "source_id=official-fixture-source" in failures[0]
+    assert "provider-fixture" in failures[0]
+
+
+def test_old_medium_risk_child_is_warning(tmp_path: Path) -> None:
+    warnings, failures = findings(
+        tmp_path,
+        [provider_with_child(stale_risk="medium")],
+    )
+    assert failures == []
+    assert len(warnings) == 1
+    assert "fast_stale_areas[0]" in warnings[0]
+
+
+def test_child_exact_boundary_is_not_stale(tmp_path: Path) -> None:
+    assert findings(
+        tmp_path,
+        [provider_with_child(child_verified="2026-07-01")],
+    ) == ([], [])
+
+
+def test_child_boundary_plus_one_is_stale(tmp_path: Path) -> None:
+    _, failures = findings(
+        tmp_path,
+        [provider_with_child(child_verified="2026-06-30")],
+    )
+    assert len(failures) == 1
+    assert "stale by 1 days" in failures[0]
+
+
+def test_future_child_date_is_failure(tmp_path: Path) -> None:
+    _, failures = findings(
+        tmp_path,
+        [provider_with_child(child_verified="2026-08-01")],
+    )
+    assert "is after as-of 2026-07-31" in failures[0]
+
+
+def test_invalid_child_date_is_failure(tmp_path: Path) -> None:
+    _, failures = findings(
+        tmp_path,
+        [provider_with_child(child_verified="2026-02-30")],
+    )
+    assert "invalid last_verified" in failures[0]
+    assert "fast_stale_areas[0]" in failures[0]
+
+
+def test_child_after_parent_date_is_failure(tmp_path: Path) -> None:
+    _, failures = findings(
+        tmp_path,
+        [
+            provider_with_child(
+                parent_verified="2026-07-01",
+                child_verified="2026-07-15",
+            )
+        ],
+    )
+    assert "is after parent last_verified" in failures[0]
+
+
+def test_current_parent_does_not_mask_old_child(tmp_path: Path) -> None:
+    warnings, failures = findings(
+        tmp_path,
+        [
+            provider_with_child(
+                parent_verified="2026-07-31",
+                child_verified="2026-06-01",
+                stale_risk="high",
+            )
+        ],
+    )
+    assert warnings == []
+    assert len(failures) == 1
+    assert "fast_stale_areas[0]" in failures[0]
+
+
+def test_warn_only_preserves_child_findings(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    write_records(tmp_path, [provider_with_child()])
+    assert main(["--as-of", "2026-07-31"], root=tmp_path, files=(CATALOG_PATH,)) == 1
+    normal_output = capsys.readouterr().out
+    assert (
+        main(
+            ["--as-of", "2026-07-31", "--warn-only"],
+            root=tmp_path,
+            files=(CATALOG_PATH,),
+        )
+        == 0
+    )
+    warn_only_output = capsys.readouterr().out
+    assert normal_output == warn_only_output
+    assert "fast_stale_areas[0]" in warn_only_output
+
+
+def test_report_and_terminal_share_child_findings(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    write_records(tmp_path, [provider_with_child()])
+    report_path = tmp_path / "freshness-child.txt"
+    exit_code = main(
+        ["--as-of", "2026-07-31", "--report", str(report_path)],
+        root=tmp_path,
+        files=(CATALOG_PATH,),
+    )
+    assert exit_code == 1
+    assert report_path.read_text(encoding="utf-8") == capsys.readouterr().out
+    assert "fast_stale_areas[0]" in report_path.read_text(encoding="utf-8")

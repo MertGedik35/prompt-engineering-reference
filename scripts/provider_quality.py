@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 from collections import Counter
+from collections.abc import Sequence
 from datetime import date
 from itertools import combinations
 from pathlib import Path
@@ -48,81 +49,32 @@ INDEX_HEADINGS = (
 PROVIDER_MIN_WORDS = 450
 INDEX_MIN_WORDS = 300
 
-# Seven-token shingles ignore unavoidable shared headings but expose copied explanatory prose.
-# 0.38 means more than a third of all distinct seven-word sequences are shared, which is too high
-# for guides whose products, boundaries, examples, and failure modes are intentionally different.
+# Seven-token shingles are a secondary full-document signal. Example sections use exact
+# identity-normalized equality plus three-token Jaccard near-copy.
+# Calibration on the eight current guides (global identity normalization, 2026-07-31):
+#   legit example-section max j3 ≈ 0.014
+#   controlled near-paraphrase fixture j3 ≈ 0.178
+#   selected SECTION_NEAR_COPY_LIMIT = 0.12 (margin ≈ 0.10 above legit)
 PROVIDER_SHINGLE_SIZE = 7
 PROVIDER_SIMILARITY_LIMIT = 0.38
+SECTION_NEAR_COPY_SHINGLE_SIZE = 3
+SECTION_NEAR_COPY_LIMIT = 0.12
 LONG_PARAGRAPH_WORDS = 35
+LONG_PARAGRAPH_NEAR_COPY_WORDS = 66
 GENERIC_PHRASES = (
     "provider guidance goes here",
     "check the official docs for details",
     "this section will be expanded",
     "generic provider example",
 )
-PROVIDER_SOURCE_LESSONS = {
-    "official-openai-prompt-engineering": {
-        "02-prompt-anatomy",
-        "08-context-engineering",
-    },
-    "official-openai-structured-outputs": {"05-structured-outputs"},
-    "official-openai-function-calling": {"07-agents-and-tools"},
-    "official-openai-evals": {"06-evaluation", "11-production-operations"},
-    "official-claude-prompting-overview": {"02-prompt-anatomy", "06-evaluation"},
-    "official-claude-tool-use": {"07-agents-and-tools"},
-    "official-claude-code-prompts": {
-        "02-prompt-anatomy",
-        "11-production-operations",
-    },
-    "official-gemini-prompting": {
-        "02-prompt-anatomy",
-        "04-grounding-and-long-context",
-        "10-multimodal",
-    },
-    "official-gemini-structured-output": {"05-structured-outputs"},
-    "official-gemini-function-calling": {"07-agents-and-tools"},
-    "official-azure-prompt-engineering": {
-        "02-prompt-anatomy",
-        "04-grounding-and-long-context",
-    },
-    "official-azure-function-calling": {"07-agents-and-tools", "09-security"},
-    "official-copilot-prompt-gallery": {"02-prompt-anatomy"},
-    "official-bedrock-prompt-guidelines": {
-        "02-prompt-anatomy",
-        "08-context-engineering",
-    },
-    "official-bedrock-agents": {"07-agents-and-tools", "11-production-operations"},
-    "official-bedrock-guardrails": {"09-security"},
-    "official-llama-docs": {"02-prompt-anatomy", "11-production-operations"},
-    "repo-meta-llama-cookbook": {
-        "02-prompt-anatomy",
-        "07-agents-and-tools",
-        "11-production-operations",
-    },
-    "official-llama-prompt-format": {
-        "02-prompt-anatomy",
-        "07-agents-and-tools",
-        "11-production-operations",
-    },
-    "official-mistral-prompting": {"02-prompt-anatomy"},
-    "official-mistral-function-calling": {"07-agents-and-tools"},
-    "official-mistral-structured-output": {"05-structured-outputs"},
-    "official-huggingface-chat-templates": {
-        "02-prompt-anatomy",
-        "08-context-engineering",
-        "11-production-operations",
-    },
-    "official-vllm-quantization": {"11-production-operations"},
-    "official-vllm-openai-compatible-server": {
-        "07-agents-and-tools",
-        "11-production-operations",
-    },
-    "repo-llamaindex": {
-        "04-grounding-and-long-context",
-        "07-agents-and-tools",
-        "08-context-engineering",
-    },
-}
+EXAMPLE_HEADINGS = (
+    "Minimal provider-aware example",
+    "Production-oriented example",
+)
+
+
+def curriculum_lesson_ids(root: Path = ROOT) -> set[str]:
+    return {path.parent.name for path in (root / "curriculum").glob("*/README.md")}
 
 
 def load_records(root: Path, path: str) -> list[dict[str, Any]]:
@@ -165,33 +117,39 @@ def word_count(text: str) -> int:
     return len(re.findall(r"\b[\w'-]+\b", without_links, flags=re.UNICODE))
 
 
-def _identity_normalized(record: dict[str, Any], text: str) -> str:
-    value = text.lower()
-    for identity in (
-        str(record.get("id", "")),
-        str(record.get("slug", "")),
-        str(record.get("name", "")),
-        str(record.get("provider", "")),
-    ):
-        if identity:
-            value = value.replace(identity.lower(), " provider ")
+def _identity_aliases(providers: list[dict[str, Any]]) -> list[str]:
+    aliases: set[str] = set()
+    for record in providers:
+        for field_name in ("id", "slug", "name", "provider"):
+            value = str(record.get(field_name, "")).strip()
+            if value:
+                aliases.add(value)
+    return sorted(aliases, key=lambda item: (-len(item), item.lower()))
+
+
+def _identity_normalized(text: str, aliases: Sequence[str]) -> str:
+    value = text
+    for alias in aliases:
+        value = re.sub(re.escape(alias), " provider ", value, flags=re.IGNORECASE)
     value = re.sub(r"https?://\S+", " source-url ", value)
     value = re.sub(r"\b(?:official|repo)-[a-z0-9-]+\b", " source-id ", value)
     value = re.sub(r"\b\d{4}-\d{2}-\d{2}\b", " verification-date ", value)
     return normalize(value)
 
 
-def _shingles(text: str) -> set[tuple[str, ...]]:
+def _shingles(text: str, size: int = PROVIDER_SHINGLE_SIZE) -> set[tuple[str, ...]]:
     words = text.split()
-    return {
-        tuple(words[index : index + PROVIDER_SHINGLE_SIZE])
-        for index in range(len(words) - PROVIDER_SHINGLE_SIZE + 1)
-    }
+    return {tuple(words[index : index + size]) for index in range(len(words) - size + 1)}
 
 
-def similarity(left: str, right: str) -> float:
-    left_shingles = _shingles(left)
-    right_shingles = _shingles(right)
+def similarity(
+    left: str,
+    right: str,
+    *,
+    size: int = PROVIDER_SHINGLE_SIZE,
+) -> float:
+    left_shingles = _shingles(left, size)
+    right_shingles = _shingles(right, size)
     if not left_shingles or not right_shingles:
         return 0.0
     return len(left_shingles & right_shingles) / len(left_shingles | right_shingles)
@@ -219,6 +177,7 @@ def provider_record_errors(
     *,
     as_of: date,
     enforce_inventory: bool = True,
+    lesson_ids: set[str] | None = None,
 ) -> list[str]:
     errors: list[str] = []
     actual = {str(record.get("id", "")): str(record.get("slug", "")) for record in providers}
@@ -295,6 +254,7 @@ def provider_record_errors(
                     f"future provider verification date: {provider_id} -> {verified_value}"
                 )
 
+    known_lessons = lesson_ids if lesson_ids is not None else curriculum_lesson_ids()
     used_source_ids = {
         str(source_id)
         for record in providers
@@ -304,17 +264,23 @@ def provider_record_errors(
     for source_id in sorted(used_source_ids):
         source = resources.get(source_id)
         if source is None:
+            errors.append(f"provider source is unresolved: {source_id}")
             continue
-        expected_lessons = PROVIDER_SOURCE_LESSONS.get(source_id)
-        if expected_lessons is None:
-            errors.append(f"provider source lacks approved lesson mapping: {source_id}")
+        related = source.get("related_lessons")
+        if not isinstance(related, list):
+            errors.append(f"provider source related_lessons must be a list: {source_id}")
             continue
-        actual_lessons = set(source.get("related_lessons", []))
-        if actual_lessons != expected_lessons:
-            errors.append(
-                f"provider source lesson mapping mismatch: {source_id} -> "
-                f"{sorted(actual_lessons)}; expected {sorted(expected_lessons)}"
-            )
+        if not related:
+            errors.append(f"provider source related_lessons is empty: {source_id}")
+            continue
+        if len(related) != len(set(related)):
+            errors.append(f"provider source related_lessons has duplicates: {source_id}")
+        for lesson_id in related:
+            lesson = str(lesson_id)
+            if lesson not in known_lessons:
+                errors.append(
+                    f"provider source related_lessons unresolved: {source_id} -> {lesson}"
+                )
     return errors
 
 
@@ -402,36 +368,62 @@ def provider_cross_document_errors(
 ) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     details: list[str] = []
-    record_by_slug = {str(record.get("slug", "")): record for record in providers}
+    aliases = _identity_aliases(providers)
+    normalized_documents = {
+        slug: _identity_normalized(text, aliases) for slug, text in documents.items()
+    }
 
-    examples: dict[str, tuple[str, str]] = {}
-    paragraphs: dict[str, str] = {}
-    normalized_documents: dict[str, str] = {}
+    section_values: dict[str, tuple[str, str]] = {}
     for slug, text in documents.items():
-        record = record_by_slug.get(slug, {"id": slug, "slug": slug, "name": slug})
-        normalized_documents[slug] = _identity_normalized(record, text)
-        for heading_name in (
-            "Minimal provider-aware example",
-            "Production-oriented example",
-        ):
-            value = _identity_normalized(record, section(text, heading_name))
-            key = f"{heading_name}:{value}"
-            if value and key in examples:
-                other_slug, _ = examples[key]
+        for heading_name in EXAMPLE_HEADINGS:
+            value = _identity_normalized(section(text, heading_name), aliases)
+            if not value:
+                continue
+            if value in section_values:
+                other_slug, other_heading = section_values[value]
                 errors.append(
-                    f"duplicate provider example: {other_slug} ~ {slug} section={heading_name}"
+                    "duplicate provider example: "
+                    f"{other_slug}[{other_heading}] ~ {slug}[{heading_name}]"
                 )
-            elif value:
-                examples[key] = (slug, heading_name)
+            else:
+                section_values[value] = (slug, heading_name)
 
+    paragraphs: dict[str, str] = {}
+    for slug, text in documents.items():
         for paragraph in re.split(r"\n\s*\n", text):
-            value = _identity_normalized(record, paragraph)
-            if len(value.split()) < LONG_PARAGRAPH_WORDS:
+            value = _identity_normalized(paragraph, aliases)
+            word_total = len(value.split())
+            if word_total < LONG_PARAGRAPH_WORDS:
                 continue
             if value in paragraphs:
                 errors.append(f"reused long provider paragraph: {paragraphs[value]} ~ {slug}")
             else:
                 paragraphs[value] = slug
+
+    comparable_blocks: list[tuple[str, str, str]] = []
+    for slug, text in documents.items():
+        for heading_name in EXAMPLE_HEADINGS:
+            value = _identity_normalized(section(text, heading_name), aliases)
+            if value:
+                comparable_blocks.append((slug, heading_name, value))
+
+    for left_index, (left_slug, left_label, left_text) in enumerate(comparable_blocks):
+        for right_slug, right_label, right_text in comparable_blocks[left_index + 1 :]:
+            if left_slug == right_slug:
+                continue
+            if left_text == right_text:
+                continue
+            score = similarity(
+                left_text,
+                right_text,
+                size=SECTION_NEAR_COPY_SHINGLE_SIZE,
+            )
+            if score >= SECTION_NEAR_COPY_LIMIT:
+                errors.append(
+                    "near-copy provider prose: "
+                    f"{left_slug}[{left_label}] ~ {right_slug}[{right_label}] "
+                    f"score={score:.3f} >= {SECTION_NEAR_COPY_LIMIT:.2f}"
+                )
 
     max_pair = ("<none>", "<none>", 0.0)
     for left_slug, right_slug in combinations(sorted(normalized_documents), 2):
@@ -466,7 +458,12 @@ def check_provider_quality(
         for path in ("catalog/official-resources.json", "catalog/repositories.json")
         for record in load_records(root, path)
     }
-    errors = provider_record_errors(providers, resources, as_of=effective_date)
+    errors = provider_record_errors(
+        providers,
+        resources,
+        as_of=effective_date,
+        lesson_ids=curriculum_lesson_ids(root),
+    )
     details: list[str] = []
     documents: dict[str, str] = {}
     for record in providers:
