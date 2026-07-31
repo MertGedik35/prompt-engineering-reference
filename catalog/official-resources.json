@@ -12,12 +12,12 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "08-context-engineering"
     ]
   },
   {
@@ -33,11 +33,10 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
       "05-structured-outputs"
     ]
   },
@@ -54,12 +53,11 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "07-agents-and-tools"
     ]
   },
   {
@@ -75,12 +73,12 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "06-evaluation",
+      "11-production-operations"
     ]
   },
   {
@@ -96,12 +94,12 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "06-evaluation"
     ]
   },
   {
@@ -117,12 +115,11 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "07-agents-and-tools"
     ]
   },
   {
@@ -138,12 +135,12 @@
     "level": "mixed",
     "language": "English",
     "hands_on": true,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "11-production-operations"
     ]
   },
   {
@@ -159,12 +156,13 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "04-grounding-and-long-context",
+      "10-multimodal"
     ]
   },
   {
@@ -180,11 +178,10 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
       "05-structured-outputs"
     ]
   },
@@ -201,12 +198,11 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "07-agents-and-tools"
     ]
   },
   {
@@ -214,7 +210,7 @@
     "title": "Azure OpenAI prompt engineering",
     "resource_type": "official_documentation",
     "provider": "Microsoft",
-    "canonical_url": "https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering",
+    "canonical_url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
     "official": true,
     "description": "Azure OpenAI prompt engineering concepts.",
     "pricing_type": "free",
@@ -222,12 +218,12 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "04-grounding-and-long-context"
     ]
   },
   {
@@ -235,7 +231,7 @@
     "title": "Azure OpenAI function calling",
     "resource_type": "official_documentation",
     "provider": "Microsoft",
-    "canonical_url": "https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/function-calling",
+    "canonical_url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/function-calling",
     "official": true,
     "description": "Azure function calling guidance.",
     "pricing_type": "free",
@@ -243,12 +239,12 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "07-agents-and-tools",
+      "09-security"
     ]
   },
   {
@@ -264,12 +260,11 @@
     "level": "mixed",
     "language": "English",
     "hands_on": true,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "02-prompt-anatomy"
     ]
   },
   {
@@ -285,12 +280,12 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "08-context-engineering"
     ]
   },
   {
@@ -306,12 +301,12 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "07-agents-and-tools",
+      "11-production-operations"
     ]
   },
   {
@@ -327,33 +322,32 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "09-security"
     ]
   },
   {
     "id": "official-llama-docs",
-    "title": "Llama documentation",
+    "title": "Llama model repository",
     "resource_type": "official_documentation",
     "provider": "Meta",
-    "canonical_url": "https://developer.meta.com/ai/docs/overview/",
+    "canonical_url": "https://github.com/meta-llama/llama-models",
     "official": true,
-    "description": "Meta Llama documentation overview.",
+    "description": "Meta-owned Llama model artifacts, model cards, and release documentation.",
     "pricing_type": "free",
     "credential_type": "no_credential",
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "11-production-operations"
     ]
   },
   {
@@ -369,12 +363,13 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "07-agents-and-tools",
+      "11-production-operations"
     ]
   },
   {
@@ -390,12 +385,11 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "02-prompt-anatomy"
     ]
   },
   {
@@ -411,12 +405,11 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
-      "02-prompt-anatomy",
-      "05-structured-outputs"
+      "07-agents-and-tools"
     ]
   },
   {
@@ -432,12 +425,74 @@
     "level": "mixed",
     "language": "English",
     "hands_on": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "05-structured-outputs"
+    ]
+  },
+  {
+    "id": "official-huggingface-chat-templates",
+    "title": "Transformers chat templates",
+    "resource_type": "official_documentation",
+    "provider": "Hugging Face",
+    "canonical_url": "https://huggingface.co/docs/transformers/chat_templating",
+    "official": true,
+    "description": "Tokenizer-owned chat serialization and control-token guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
     "stale_after_days": 90,
     "stale_risk": "high",
     "related_lessons": [
       "02-prompt-anatomy",
-      "05-structured-outputs"
+      "08-context-engineering",
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-vllm-quantization",
+    "title": "vLLM quantization",
+    "resource_type": "official_documentation",
+    "provider": "vLLM",
+    "canonical_url": "https://docs.vllm.ai/en/latest/features/quantization/",
+    "official": true,
+    "description": "Runtime-owned quantization methods and compatibility guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-vllm-openai-compatible-server",
+    "title": "vLLM OpenAI-compatible server",
+    "resource_type": "official_documentation",
+    "provider": "vLLM",
+    "canonical_url": "https://docs.vllm.ai/en/latest/serving/openai_compatible_server/",
+    "official": true,
+    "description": "Runtime-owned HTTP compatibility surface and server extensions.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "07-agents-and-tools",
+      "11-production-operations"
     ]
   }
 ]

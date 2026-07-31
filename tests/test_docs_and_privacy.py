@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 
 from scripts.audit_privacy import PATTERNS, scan_files, scan_text
@@ -45,7 +46,7 @@ def test_mkdocs_material_svg_path_coordinates_are_not_phones() -> None:
 
 
 def test_freshness_has_no_failures() -> None:
-    _, failures = check()
+    _, failures = check(as_of=date(2026, 7, 31))
     assert failures == []
 
 

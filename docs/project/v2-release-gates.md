@@ -46,8 +46,25 @@ A future `v2.0.0` release requires:
 - All 28 stable template IDs must have the approved primary pattern, supporting-pattern allowlist,
   primary curriculum lesson, and additional-lesson allowlist enforced by
   `scripts/template_taxonomy.py`.
-- Provider guides cite official sources.
-- Time-sensitive resources have freshness fields.
+- The eight stable provider IDs and slugs must resolve to eight provider pages. Catalog scope,
+  stable guidance, provider-specific guidance, gaps, acceptance criteria, source IDs, canonical
+  URLs, fast-stale claims, and `last_verified` dates must remain synchronized with those pages.
+- Official provider sources must resolve to records with `official: true`. Non-official but useful
+  material is allowed only through `supporting_source_ids`, and a source cannot occupy both roles.
+- Provider acceptance-criteria and remaining-gap blocks, minimal examples, production examples,
+  and long identity-normalized prose must be distinct. Exact section copies, provider-name swaps,
+  and three-token near-copy scores at or above `0.12` fail. Seven-token full-document similarity
+  remains a secondary signal with limit `0.38`; the checker reports the highest measured pair.
+- Every provider fast-stale claim must carry a declared source ID and verification date. Nested
+  `fast_stale_areas[*].last_verified` ages inherit the parent provider `stale_after_days` and
+  `stale_risk` policy, so a current parent date cannot mask an expired child claim.
+- Provider-used resources take `related_lessons` from the official/supporting catalogs as the
+  single canonical mapping; lesson IDs must resolve to the curriculum inventory and may not be
+  empty or duplicated. Inventory of the eight stable providers remains enforced outside the
+  general provider schema.
+- Time-sensitive resources have valid freshness fields. Freshness uses the current UTC date by
+  default, supports deterministic `--as-of YYYY-MM-DD` audits, rejects future verification dates
+  and invalid risk or stale-period values, and fails expired high-risk records.
 - Courses and credentials are classified correctly.
 - Curriculum modules are internally navigable.
 - Exercises have solutions or solution criteria.

@@ -46,12 +46,13 @@
     "license_status": "check_upstream",
     "maintenance_status": "active_or_reference",
     "official": true,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 120,
     "stale_risk": "medium",
     "related_lessons": [
-      "06-evaluation",
-      "07-agents-and-tools"
+      "02-prompt-anatomy",
+      "07-agents-and-tools",
+      "11-production-operations"
     ],
     "pricing_type": "free",
     "credential_type": "no_credential"
@@ -141,12 +142,13 @@
     "license_status": "check_upstream",
     "maintenance_status": "active_or_reference",
     "official": false,
-    "last_verified": "2026-07-28",
+    "last_verified": "2026-07-31",
     "stale_after_days": 120,
     "stale_risk": "medium",
     "related_lessons": [
-      "06-evaluation",
-      "07-agents-and-tools"
+      "04-grounding-and-long-context",
+      "07-agents-and-tools",
+      "08-context-engineering"
     ],
     "pricing_type": "free",
     "credential_type": "no_credential"
