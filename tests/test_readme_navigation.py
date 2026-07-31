@@ -1,6 +1,13 @@
 from __future__ import annotations
 
-from scripts.check_readme_navigation import DOCS_URL, README, ROOT, check_readme
+from scripts.check_readme_navigation import (
+    DOCS_URL,
+    README,
+    ROOT,
+    check_hub_pages,
+    check_readme,
+    inventory_counts,
+)
 
 
 def current_readme() -> str:
@@ -9,6 +16,19 @@ def current_readme() -> str:
 
 def test_current_readme_navigation_passes() -> None:
     assert check_readme(current_readme(), ROOT) == []
+
+
+def test_inventory_matches_source_of_truth() -> None:
+    counts = inventory_counts(ROOT)
+    assert counts["modules"] == 13
+    assert counts["patterns"] == 26
+    assert counts["templates"] == 28
+    assert counts["providers"] == 8
+    assert counts["capstones"] == 3
+
+
+def test_hub_pages_meet_information_architecture_bar() -> None:
+    assert check_hub_pages(ROOT) == []
 
 
 def test_removing_curriculum_module_fails() -> None:
@@ -38,20 +58,36 @@ def test_removing_capstone_fails() -> None:
 def test_documentation_cta_is_required() -> None:
     text = current_readme().replace(DOCS_URL, "https://example.invalid/")
     errors = check_readme(text, ROOT)
-    assert any("documentation-site link" in error for error in errors)
+    assert any("primary CTA target" in error for error in errors)
 
 
-def test_plain_text_audience_route_fails() -> None:
+def test_resource_cta_is_required() -> None:
+    text = current_readme().replace("docs/resources/index.md", "docs/resources/missing.md")
+    errors = check_readme(text, ROOT)
+    assert any("docs/resources/index.md" in error for error in errors)
+
+
+def test_raw_catalog_cta_fails() -> None:
+    text = current_readme() + "\n[Contracts](catalog/prompt_contracts.json)\n"
+    errors = check_readme(text, ROOT)
+    assert any("raw catalog as visitor CTA" in error for error in errors)
+
+
+def test_inventory_drift_fails() -> None:
+    text = current_readme().replace("| Prompt patterns | 26 |", "| Prompt patterns | 99 |")
+    text = text.replace("| Prompt patterns | 26 records |", "| Prompt patterns | 99 records |")
+    errors = check_readme(text, ROOT)
+    assert any("Prompt patterns" in error and "expected 26" in error for error in errors)
+
+
+def test_intent_route_must_be_linked() -> None:
     text = current_readme().replace(
-        "| Complete beginner | [Orientation](curriculum/00-orientation/README.md)",
-        "| Complete beginner | Orientation",
+        "| Learn from zero | [Learning Path](LEARNING_PATH.md) |",
+        "| Learn from zero | Learning Path |",
         1,
     )
     errors = check_readme(text, ROOT)
-    assert any(
-        "audience route contains an unlinked destination: Complete beginner" in error
-        for error in errors
-    )
+    assert any("intent route missing link: Learn from zero" in error for error in errors)
 
 
 def test_local_absolute_path_fails() -> None:
