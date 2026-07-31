@@ -133,14 +133,163 @@ def pattern_index() -> str:
 
 
 def template_index() -> str:
+    pattern_records = load("catalog/patterns.json")
+    patterns_by_id = {record["id"]: record for record in pattern_records}
     groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in load("catalog/templates.json"):
         groups[str(record["category"])].append(record)
-    parts = [HEADER + "# Template Index\n"]
+    parts = [
+        HEADER,
+        "# Template Index\n\n",
+        "Generated from `catalog/templates.json`. Each entry provides a minimal prompt for quick "
+        "use and a production prompt with task-specific boundaries, output rules, test cases, "
+        "and review evidence.\n",
+    ]
     for category, records in sorted(groups.items()):
         parts.append(f"\n## {category}\n\n")
-        rows = [[f"`{r['id']}`", r["title"], f"`{r['related_pattern']}`"] for r in records]
-        parts.append(table(["ID", "Title", "Pattern"], rows))
+        rows = [
+            [
+                f"[`{record['id']}`](#{anchor(record['title'])})",
+                record["title"],
+                f"`{record['primary_lesson']}`",
+                f"`{record['related_pattern']}`",
+            ]
+            for record in records
+        ]
+        parts.append(table(["ID", "Title", "Primary lesson", "Primary pattern"], rows))
+
+    for record in load("catalog/templates.json"):
+        variables = [
+            [
+                f"`{variable['name']}`",
+                variable["type"],
+                "yes" if variable["required"] else "no",
+                cell(variable["description"]),
+                cell(variable["example"]),
+                cell("; ".join(variable["constraints"])),
+            ]
+            for variable in record["variables"]
+        ]
+        output_sections = [
+            [
+                section["name"],
+                "yes" if section["required"] else "no",
+                cell(section["description"]),
+            ]
+            for section in record["output_contract"]["sections"]
+        ]
+        failure_rows = [
+            [
+                failure["name"],
+                cell(failure["trigger"]),
+                cell(failure["observable_symptom"]),
+                cell(failure["why_it_failed"]),
+            ]
+            for failure in record["failure_modes"]
+        ]
+        test_rows = [
+            [
+                case["type"],
+                cell(case["scenario"]),
+                cell("; ".join(f"{key}={value}" for key, value in case["variable_values"].items())),
+                cell(case["expected_behavior"]),
+                cell("; ".join(case["pass_signals"])),
+                cell("; ".join(case["failure_signals"])),
+            ]
+            for case in record["test_cases"]
+        ]
+        example = record["worked_example"]
+        primary_pattern = patterns_by_id[record["related_pattern"]]
+        supporting_links = ", ".join(
+            f"[{patterns_by_id[pattern_id]['name']}](pattern-index.md"
+            f"#{anchor(patterns_by_id[pattern_id]['name'])})"
+            for pattern_id in record["supporting_patterns"]
+        )
+        parts.extend(
+            [
+                f"\n## {record['title']}\n\n",
+                f"**ID:** `{record['id']}` · **Category:** {record['category']} · "
+                f"**Status:** {record['status']} · **Last reviewed:** "
+                f"{record['last_reviewed']}\n\n",
+                f"{record['summary']}\n\n",
+                "### Use when\n\n",
+                bullets(record["use_when"]),
+                "\n### Avoid when\n\n",
+                bullets(record["avoid_when"]),
+                "\n### Variables\n\n",
+                table(
+                    ["Name", "Type", "Required", "Description", "Example", "Constraints"],
+                    variables,
+                ),
+                "\n### Minimal prompt\n\n",
+                fenced(record["minimal_prompt"]),
+                "\n### Production prompt\n\n",
+                fenced(record["prompt"]),
+                "\n### Expected output contract\n\n",
+                f"**Format:** {record['output_contract']['format']}\n\n",
+                table(["Section", "Required", "Description"], output_sections),
+                f"\n**Unknown value:** {record['output_contract']['unknown_value']}\n\n",
+                f"**Failure response:** {record['output_contract']['failure_response']}\n\n",
+                "### Acceptance criteria\n\n",
+                bullets(record["acceptance_criteria"]),
+                "\n### Failure modes\n\n",
+                table(["Failure", "Trigger", "Observable symptom", "Why it failed"], failure_rows),
+                "\n### Test cases\n\n",
+                table(
+                    [
+                        "Type",
+                        "Scenario",
+                        "Variable values",
+                        "Expected behavior",
+                        "Pass signals",
+                        "Failure signals",
+                    ],
+                    test_rows,
+                ),
+                "\n### Worked example\n\n",
+                "**Variable values:**\n\n",
+                bullets([f"`{key}`: {value}" for key, value in example["variable_values"].items()]),
+                "\n**Representative input:**\n\n",
+                f"{example['input']}\n\n",
+                "**Expected output excerpt:**\n\n",
+                fenced(example["output_excerpt"]),
+                f"\n**Acceptance evidence:** {example['acceptance_evidence']}\n\n",
+                f"**Known limitation:** {example['limitation']}\n\n",
+                "### Adaptation notes\n\n",
+                bullets(record["adaptation_notes"]),
+                "\n### Privacy and security\n\n",
+                f"{record['privacy_and_security']}\n\n",
+                (
+                    f"### Provider considerations\n\n{record['provider_considerations']}\n\n"
+                    if record.get("provider_considerations")
+                    else ""
+                ),
+                "### Limitations\n\n",
+                bullets(record["limitations"]),
+                "\n### Related material\n\n",
+                "**Primary lesson:** "
+                f"[`{record['primary_lesson']}`]"
+                f"(../learn/{LESSON_DOCS[record['primary_lesson']]}.md)\n\n",
+                (
+                    "**Additional lessons:** "
+                    + ", ".join(
+                        f"[`{lesson}`](../learn/{LESSON_DOCS[lesson]}.md)"
+                        for lesson in record["related_lessons"]
+                    )
+                    + "\n\n"
+                    if record["related_lessons"]
+                    else ""
+                ),
+                "**Primary pattern:** "
+                f"[{primary_pattern['name']}](pattern-index.md"
+                f"#{anchor(primary_pattern['name'])})\n\n",
+                (
+                    f"**Supporting patterns:** {supporting_links}\n"
+                    if supporting_links
+                    else "**Supporting patterns:** None\n"
+                ),
+            ]
+        )
     return "".join(parts)
 
 
