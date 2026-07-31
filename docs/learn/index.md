@@ -55,5 +55,4 @@ exercise pass conditions, at least 6 of 8 quiz questions, and an honest checklis
 | 11 Production Operations | Version, deploy, observe, and roll back prompts | [Production Operations](production-operations.md) |
 | 12 Portfolio and Capstone | Present reproducible evidence and limitations | [Portfolio and Capstone](portfolio-capstone.md) |
 
-Detailed prerequisites and completion criteria: see the repository
-[Learning Path](https://github.com/MertGedik35/prompt-engineering-reference/blob/HEAD/LEARNING_PATH.md).
+Detailed prerequisites and completion criteria live in the repository root file `LEARNING_PATH.md`.
