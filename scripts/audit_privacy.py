@@ -18,8 +18,10 @@ ALLOWLIST = [
     re.compile(r"example", re.IGNORECASE),
 ]
 
-TURKISH_MOBILE_RE = r"(?<![\w])(?:\+90|0090|0)?[\s().-]*5\d{2}(?:[\s().-]*\d){7}(?!\d)"
-INTERNATIONAL_PHONE_RE = r"(?<![\w])\+[1-9]\d{0,2}(?:[\s().-]*\d){7,12}(?!\d)"
+# Require an explicit TR trunk/country prefix. Optional prefixes previously
+# matched mkdocs-material SVG path coordinates such as "504 362.9 504 252".
+TURKISH_MOBILE_RE = r"(?<![\w])(?:\+90|0090|0)[\s()-]*5\d{2}(?:[\s()-]*\d){7}(?!\d)"
+INTERNATIONAL_PHONE_RE = r"(?<![\w])\+[1-9]\d{0,2}(?:[\s()-]*\d){7,12}(?!\d)"
 GENERATED_VENDOR_SITE_DIRS = {
     Path("site/assets/javascripts"),
     Path("site/assets/stylesheets"),
