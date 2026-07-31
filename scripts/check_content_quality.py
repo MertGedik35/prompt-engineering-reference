@@ -9,6 +9,19 @@ from itertools import combinations
 from pathlib import Path
 from typing import Any
 
+try:
+    from .template_taxonomy import (
+        TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
+        TEMPLATE_PRIMARY_LESSONS,
+        TEMPLATE_PRIMARY_PATTERNS,
+    )
+except ImportError:  # pragma: no cover - used when run as a script
+    from template_taxonomy import (  # type: ignore[import-not-found,no-redef]
+        TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
+        TEMPLATE_PRIMARY_LESSONS,
+        TEMPLATE_PRIMARY_PATTERNS,
+    )
+
 ROOT = Path(__file__).resolve().parents[1]
 
 # Curriculum thresholds are intentionally above the former 21–25 word lessons.
@@ -37,6 +50,28 @@ PATTERN_GENERIC_PHRASES = (
     "run one edge case where pattern should prevent failure",
     "score the result with the prompt quality rubric",
 )
+TEMPLATE_SIMILARITY_LIMITS = {
+    "minimal_prompt": 0.84,
+    "prompt": 0.82,
+}
+TEMPLATE_GENERIC_ACCEPTANCE = (
+    "the output directly supports",
+    "the response uses the task specific variables",
+    "lists which criteria passed",
+    "clear professional and useful",
+    "high quality",
+)
+TEMPLATE_GENERIC_FAILURE = (
+    "the model uses outside facts without authorization",
+    "the acceptance check is omitted",
+    "produces a generic answer instead",
+)
+TEMPLATE_LEGACY_SKELETON = (
+    "restate the task boundary in one sentence",
+    "use only the supplied inputs unless a tool or source is explicitly authorized",
+    "separate verified facts from assumptions",
+)
+TEMPLATE_PLACEHOLDER_RE = re.compile(r"\{\{([a-z][a-z0-9_]*)\}\}")
 
 LESSON_HEADINGS = (
     "Learning objectives",
@@ -105,6 +140,12 @@ def normalize(value: object) -> str:
     text = re.sub(r"template-[a-z0-9-]+|pattern-[a-z0-9-]+", "id", text)
     text = re.sub(r"[^a-z0-9{}]+", " ", text)
     return re.sub(r"\s+", " ", text).strip()
+
+
+def exact_block(value: object) -> str:
+    if isinstance(value, str):
+        return value
+    return json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
 
 
 def meaningful_text(text: str) -> str:
@@ -191,6 +232,324 @@ def pattern_similarity_pairs(
         if left and right:
             pairs.append((left_id, right_id, SequenceMatcher(None, left, right).ratio()))
     return sorted(pairs, key=lambda item: item[2], reverse=True)
+
+
+def template_normalize(record: dict[str, Any], value: object) -> str:
+    text = normalize(value)
+    variables = record.get("variables", [])
+    variable_names = [
+        str(variable.get("name", "")) for variable in variables if isinstance(variable, dict)
+    ]
+    identity_tokens = {
+        token
+        for identity in (
+            record.get("id", ""),
+            record.get("slug", ""),
+            record.get("title", ""),
+            *variable_names,
+        )
+        for token in normalize(identity).split()
+        if len(token) > 2 and token not in {"template"}
+    }
+    for token in sorted(identity_tokens, key=len, reverse=True):
+        text = re.sub(rf"\b{re.escape(token)}\b", " template ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def template_similarity_pairs(
+    records: list[dict[str, Any]], field_name: str
+) -> list[tuple[str, str, float]]:
+    values = [
+        (
+            str(record.get("id", "<missing-id>")),
+            template_normalize(record, record.get(field_name, "")),
+        )
+        for record in records
+    ]
+    pairs: list[tuple[str, str, float]] = []
+    for (left_id, left), (right_id, right) in combinations(values, 2):
+        if left and right:
+            pairs.append((left_id, right_id, SequenceMatcher(None, left, right).ratio()))
+    return sorted(pairs, key=lambda item: item[2], reverse=True)
+
+
+def repeated_instruction_fingerprints(records: list[dict[str, Any]]) -> list[str]:
+    fingerprints: dict[str, list[str]] = {}
+    for record in records:
+        template_id = str(record.get("id", "<missing-id>"))
+        lines = [
+            template_normalize(record, line)
+            for line in str(record.get("prompt", "")).splitlines()
+            if len(normalize(line).split()) >= 5
+        ]
+        for index in range(len(lines) - 2):
+            fingerprint = " | ".join(lines[index : index + 3])
+            fingerprints.setdefault(fingerprint, []).append(template_id)
+    return [
+        f"{' ~ '.join(ids)}: {fingerprint[:120]}"
+        for fingerprint, ids in fingerprints.items()
+        if len(set(ids)) > 1
+    ]
+
+
+def check_template_quality(templates: list[dict[str, Any]], report: QualityReport) -> None:
+    exact_blocks: dict[str, dict[str, str]] = {
+        field_name: {}
+        for field_name in (
+            "minimal_prompt",
+            "prompt",
+            "output_contract",
+            "acceptance_criteria",
+            "failure_modes",
+            "worked_example",
+            "adaptation_notes",
+        )
+    }
+    normalized_blocks: dict[str, dict[str, str]] = {
+        field_name: {}
+        for field_name in (
+            "minimal_prompt",
+            "prompt",
+            "output_contract",
+            "acceptance_criteria",
+            "failure_modes",
+            "worked_example",
+            "adaptation_notes",
+        )
+    }
+    identity_blocks: dict[str, dict[str, str]] = {
+        field_name: {}
+        for field_name in (
+            "minimal_prompt",
+            "prompt",
+            "output_contract",
+            "acceptance_criteria",
+            "failure_modes",
+            "worked_example",
+            "adaptation_notes",
+        )
+    }
+    test_scenarios: dict[str, tuple[str, str]] = {}
+
+    for field_name, threshold in TEMPLATE_SIMILARITY_LIMITS.items():
+        pairs = template_similarity_pairs(templates, field_name)
+        if pairs:
+            left_id, right_id, highest = pairs[0]
+            report.details.append(
+                f"template similarity {field_name}: highest={left_id} ~ {right_id} "
+                f"score={highest:.3f} limit={threshold:.2f}"
+            )
+        for left_id, right_id, score in pairs:
+            if score >= threshold:
+                report.errors.append(
+                    f"template similarity: {left_id} ~ {right_id} field={field_name} "
+                    f"score={score:.3f} threshold={threshold:.2f} "
+                    "reason=identity-normalized prompt skeleton"
+                )
+
+    for fingerprint in repeated_instruction_fingerprints(templates):
+        report.errors.append(f"repeated template instruction skeleton: {fingerprint}")
+
+    for record in templates:
+        template_id = str(record.get("id", "<missing-id>"))
+        for field_name in exact_blocks:
+            field_value = record.get(field_name, "")
+            normalized_value = normalize(field_value)
+            if not normalized_value:
+                continue
+            exact_value = exact_block(field_value)
+            identity_value = template_normalize(record, field_value)
+            exact_other = exact_blocks[field_name].get(exact_value)
+            normalized_other = normalized_blocks[field_name].get(normalized_value)
+            identity_other = identity_blocks[field_name].get(identity_value)
+            if exact_other:
+                report.errors.append(
+                    f"exact duplicate template field: {exact_other} ~ {template_id} "
+                    f"field={field_name}"
+                )
+            elif normalized_other:
+                report.errors.append(
+                    f"normalized duplicate template field: {normalized_other} ~ "
+                    f"{template_id} field={field_name}"
+                )
+            elif identity_other:
+                report.errors.append(
+                    f"identity-normalized duplicate template field: {identity_other} ~ "
+                    f"{template_id} field={field_name}"
+                )
+            exact_blocks[field_name].setdefault(exact_value, template_id)
+            normalized_blocks[field_name].setdefault(normalized_value, template_id)
+            identity_blocks[field_name].setdefault(identity_value, template_id)
+
+        minimal_prompt = str(record.get("minimal_prompt", ""))
+        production_prompt = str(record.get("prompt", ""))
+        combined_prompt = f"{minimal_prompt}\n{production_prompt}"
+        if len(minimal_prompt) < 180:
+            report.errors.append(f"short template minimal prompt: {template_id}")
+        if len(production_prompt) < 600:
+            report.errors.append(f"short template production prompt: {template_id}")
+        if template_normalize(record, minimal_prompt) == template_normalize(
+            record, production_prompt
+        ):
+            report.errors.append(
+                f"template production prompt repeats minimal prompt: {template_id}"
+            )
+        if len(production_prompt) < len(minimal_prompt) * 1.35:
+            report.errors.append(
+                f"template production prompt lacks operational depth: {template_id}"
+            )
+        if re.search(r"\bpattern-[a-z0-9-]+\b", combined_prompt, flags=re.IGNORECASE):
+            report.errors.append(f"internal pattern id in copyable template prompt: {template_id}")
+        prompt_normalized = normalize(combined_prompt)
+        if all(phrase in prompt_normalized for phrase in TEMPLATE_LEGACY_SKELETON):
+            report.errors.append(f"legacy four-step template skeleton: {template_id}")
+        if any(
+            phrase in prompt_normalized
+            for phrase in (
+                "design the core workflow",
+                "decide the main workflow",
+                "create the workflow you should follow",
+            )
+        ):
+            report.errors.append(f"template delegates core workflow design: {template_id}")
+
+        variables = record.get("variables", [])
+        if not isinstance(variables, list) or not variables:
+            report.errors.append(f"template variables are not structured: {template_id}")
+            variables = []
+        variable_names: list[str] = []
+        for index, variable in enumerate(variables, start=1):
+            if not isinstance(variable, dict):
+                report.errors.append(f"template variable is not structured: {template_id}[{index}]")
+                continue
+            name = str(variable.get("name", ""))
+            variable_names.append(name)
+            missing_metadata = [
+                field_name
+                for field_name in (
+                    "name",
+                    "description",
+                    "required",
+                    "type",
+                    "example",
+                    "constraints",
+                )
+                if field_name not in variable
+                or (field_name != "required" and not normalize(variable.get(field_name, "")))
+            ]
+            if missing_metadata:
+                report.errors.append(
+                    f"template variable missing metadata: {template_id}[{index}] -> "
+                    f"{missing_metadata}"
+                )
+            if variable.get("required") is True and not normalize(variable.get("description", "")):
+                report.errors.append(
+                    f"required template variable lacks description: {template_id}.{name}"
+                )
+        duplicates = [name for name, count in Counter(variable_names).items() if name and count > 1]
+        if duplicates:
+            report.errors.append(
+                f"duplicate template variable names: {template_id} -> {sorted(duplicates)}"
+            )
+        placeholders = set(TEMPLATE_PLACEHOLDER_RE.findall(combined_prompt))
+        declared = set(variable_names)
+        for name in sorted(placeholders - declared):
+            report.errors.append(f"undefined template placeholder: {template_id}.{{{{{name}}}}}")
+        for name in sorted(declared - placeholders):
+            report.errors.append(f"unused declared template variable: {template_id}.{name}")
+
+        output_contract = record.get("output_contract", {})
+        if not isinstance(output_contract, dict) or not normalize(
+            output_contract.get("failure_response", "")
+        ):
+            report.errors.append(f"template output contract lacks failure behavior: {template_id}")
+
+        criteria = record.get("acceptance_criteria", [])
+        if not isinstance(criteria, list) or len(criteria) < 4:
+            report.errors.append(f"template acceptance criteria < 4: {template_id}")
+        else:
+            for index, criterion in enumerate(criteria, start=1):
+                value = normalize(criterion)
+                if len(value.split()) < 6 or any(
+                    phrase in value for phrase in TEMPLATE_GENERIC_ACCEPTANCE
+                ):
+                    report.errors.append(
+                        f"generic template acceptance criterion: {template_id}[{index}]"
+                    )
+
+        failure_modes = record.get("failure_modes", [])
+        if not isinstance(failure_modes, list) or len(failure_modes) < 3:
+            report.errors.append(f"template failure modes < 3: {template_id}")
+        else:
+            for index, failure in enumerate(failure_modes, start=1):
+                if not isinstance(failure, dict):
+                    report.errors.append(
+                        f"template failure mode is not structured: {template_id}[{index}]"
+                    )
+                    continue
+                value = normalize(failure)
+                if any(phrase in value for phrase in TEMPLATE_GENERIC_FAILURE):
+                    report.errors.append(f"generic template failure mode: {template_id}[{index}]")
+
+        test_cases = record.get("test_cases", [])
+        if not isinstance(test_cases, list):
+            report.errors.append(f"template test cases are not structured: {template_id}")
+            test_cases = []
+        case_types = [case.get("type") for case in test_cases if isinstance(case, dict)]
+        for required_type in ("normal", "edge", "failure"):
+            if case_types.count(required_type) != 1:
+                report.errors.append(
+                    f"template test cases missing unique {required_type}: {template_id}"
+                )
+        for index, case in enumerate(test_cases, start=1):
+            if not isinstance(case, dict):
+                report.errors.append(
+                    f"template test case is not structured: {template_id}[{index}]"
+                )
+                continue
+            if not case.get("pass_signals"):
+                report.errors.append(
+                    f"template test case missing pass signals: {template_id}[{index}]"
+                )
+            if not case.get("failure_signals"):
+                report.errors.append(
+                    f"template test case missing failure signals: {template_id}[{index}]"
+                )
+            scenario = normalize(case.get("scenario", ""))
+            if scenario in test_scenarios:
+                other_id, other_type = test_scenarios[scenario]
+                report.errors.append(
+                    f"duplicate template test scenario: {other_id}/{other_type} ~ "
+                    f"{template_id}/{case.get('type', '<missing>')}"
+                )
+            elif scenario:
+                test_scenarios[scenario] = (
+                    template_id,
+                    str(case.get("type", "<missing>")),
+                )
+
+        if not isinstance(record.get("worked_example"), dict):
+            report.errors.append(f"template worked example missing: {template_id}")
+
+        expected_pattern = TEMPLATE_PRIMARY_PATTERNS.get(template_id)
+        if record.get("related_pattern") != expected_pattern:
+            report.errors.append(
+                f"semantically wrong template pattern mapping: {template_id} -> "
+                f"{record.get('related_pattern')}; expected {expected_pattern}"
+            )
+        supporting = set(record.get("supporting_patterns", []))
+        unsupported = supporting - TEMPLATE_ALLOWED_SUPPORTING_PATTERNS.get(template_id, set())
+        if unsupported:
+            report.errors.append(
+                f"semantically unsupported template patterns: "
+                f"{template_id} -> {sorted(unsupported)}"
+            )
+        expected_lesson = TEMPLATE_PRIMARY_LESSONS.get(template_id)
+        if record.get("primary_lesson") != expected_lesson:
+            report.errors.append(
+                f"semantically wrong template lesson mapping: {template_id} -> "
+                f"{record.get('primary_lesson')}; expected {expected_lesson}"
+            )
 
 
 def check_pattern_quality(patterns: list[dict[str, Any]], report: QualityReport) -> None:
@@ -476,17 +835,8 @@ def check_curriculum(root: Path, report: QualityReport) -> None:
 def check_catalogs(root: Path, report: QualityReport) -> None:
     patterns = load(root, "catalog/patterns.json")
     templates = load(root, "catalog/templates.json")
-    for field_name in ("acceptance_criteria", "failure_modes"):
-        for item in duplicate_blocks(templates, field_name):
-            report.errors.append(f"duplicate template {field_name}: {item[:80]}")
-    report.errors.extend(
-        f"high similarity template prompt: {item}"
-        for item in high_similarity(templates, "prompt", 0.94)
-    )
+    check_template_quality(templates, report)
     check_pattern_quality(patterns, report)
-    for record in templates:
-        if len(record.get("prompt", "")) < 250:
-            report.errors.append(f"short template prompt: {record['id']}")
 
 
 def run_checks(root: Path = ROOT) -> QualityReport:

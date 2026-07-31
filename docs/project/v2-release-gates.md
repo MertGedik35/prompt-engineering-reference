@@ -32,6 +32,20 @@ A future `v2.0.0` release requires:
 - Every stable pattern ID must have the semantically approved primary curriculum lesson enforced
   by `PATTERN_PRIMARY_LESSONS`; additional lessons are limited by the maintained adjacency
   taxonomy.
+- Every stable template ID must provide one directly copyable minimal prompt and one operational
+  production prompt, with structured canonical variables, a machine-readable output contract,
+  at least four observable acceptance criteria, at least three structured task-specific failure
+  modes, one worked example, and exactly one normal, edge, and failure test case.
+- Template prompts must implement their mechanisms directly. Internal `pattern-...` instructions,
+  the former four-step universal skeleton, undeclared prompt variables, unused inputs, duplicate
+  prompt or evaluation blocks, and identity-normalized prompt similarity at or above the
+  documented thresholds in `scripts/check_content_quality.py` are release blockers.
+- `variables` is the sole template input-definition source. The removed `required_inputs` and
+  `expected_outputs` projections must not return; output requirements live only in the structured
+  `output_contract`.
+- All 28 stable template IDs must have the approved primary pattern, supporting-pattern allowlist,
+  primary curriculum lesson, and additional-lesson allowlist enforced by
+  `scripts/template_taxonomy.py`.
 - Provider guides cite official sources.
 - Time-sensitive resources have freshness fields.
 - Courses and credentials are classified correctly.

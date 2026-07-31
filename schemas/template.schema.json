@@ -1,43 +1,478 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "id",
+    "slug",
     "title",
+    "summary",
     "category",
+    "status",
+    "version",
+    "last_reviewed",
+    "primary_lesson",
+    "related_lessons",
     "related_pattern",
+    "supporting_patterns",
     "variables",
-    "required_inputs",
+    "use_when",
+    "avoid_when",
+    "minimal_prompt",
     "prompt",
-    "expected_outputs",
+    "output_contract",
     "acceptance_criteria",
     "failure_modes",
-    "last_reviewed"
+    "test_cases",
+    "worked_example",
+    "adaptation_notes",
+    "privacy_and_security",
+    "limitations"
   ],
+  "$defs": {
+    "variable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "description",
+        "required",
+        "type",
+        "example",
+        "constraints"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 30
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "string_list",
+            "object",
+            "object_list",
+            "document",
+            "document_list",
+            "image",
+            "number"
+          ]
+        },
+        "example": {
+          "type": "string",
+          "minLength": 8
+        },
+        "constraints": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 15
+          }
+        }
+      }
+    },
+    "outputSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "description",
+        "required"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "description": {
+          "type": "string",
+          "minLength": 25
+        },
+        "required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "failureMode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "trigger",
+        "observable_symptom",
+        "why_it_failed"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 8
+        },
+        "trigger": {
+          "type": "string",
+          "minLength": 30
+        },
+        "observable_symptom": {
+          "type": "string",
+          "minLength": 30
+        },
+        "why_it_failed": {
+          "type": "string",
+          "minLength": 35
+        }
+      }
+    },
+    "testCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "scenario",
+        "variable_values",
+        "expected_behavior",
+        "pass_signals",
+        "failure_signals"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "normal",
+            "edge",
+            "failure"
+          ]
+        },
+        "scenario": {
+          "type": "string",
+          "minLength": 35
+        },
+        "variable_values": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expected_behavior": {
+          "type": "string",
+          "minLength": 40
+        },
+        "pass_signals": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 20
+          }
+        },
+        "failure_signals": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 20
+          }
+        }
+      }
+    }
+  },
   "properties": {
     "id": {
-      "pattern": "^template-[a-z0-9-]+$",
-      "type": "string"
+      "type": "string",
+      "pattern": "^template-[a-z0-9-]+$"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 8
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 70
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Research and synthesis",
+        "Software engineering and coding agents",
+        "Data and documents",
+        "Business and decision support",
+        "Writing and communication",
+        "Agents, tools, and workflows",
+        "Security and safety",
+        "Multimodal work",
+        "Provider operations",
+        "Production operations"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "stable",
+        "deprecated"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "last_reviewed": {
+      "type": "string",
+      "format": "date"
+    },
+    "primary_lesson": {
+      "type": "string",
+      "pattern": "^\\d{2}-[a-z0-9-]+$"
+    },
+    "related_lessons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^\\d{2}-[a-z0-9-]+$"
+      }
+    },
+    "related_pattern": {
+      "type": "string",
+      "pattern": "^pattern-[a-z0-9-]+$"
+    },
+    "supporting_patterns": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^pattern-[a-z0-9-]+$"
+      }
     },
     "variables": {
       "type": "array",
-      "minItems": 3
+      "minItems": 2,
+      "uniqueItems": true,
+      "contains": {
+        "type": "object",
+        "properties": {
+          "required": {
+            "const": true
+          }
+        },
+        "required": [
+          "required"
+        ]
+      },
+      "minContains": 1,
+      "items": {
+        "$ref": "#/$defs/variable"
+      }
+    },
+    "use_when": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "avoid_when": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 30
+      }
+    },
+    "minimal_prompt": {
+      "type": "string",
+      "minLength": 180
     },
     "prompt": {
       "type": "string",
-      "minLength": 250
+      "minLength": 600
+    },
+    "output_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "sections",
+        "unknown_value",
+        "failure_response"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "minLength": 15
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/outputSection"
+          }
+        },
+        "unknown_value": {
+          "type": "string",
+          "minLength": 10
+        },
+        "failure_response": {
+          "type": "string",
+          "minLength": 30
+        }
+      }
     },
     "acceptance_criteria": {
       "type": "array",
-      "minItems": 3
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 35
+      }
     },
     "failure_modes": {
       "type": "array",
-      "minItems": 3
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/failureMode"
+      }
     },
-    "last_reviewed": {
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-      "type": "string"
+    "test_cases": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "allOf": [
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "normal"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "edge"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "failure"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      ],
+      "items": {
+        "$ref": "#/$defs/testCase"
+      }
+    },
+    "worked_example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "variable_values",
+        "input",
+        "output_excerpt",
+        "acceptance_evidence",
+        "limitation"
+      ],
+      "properties": {
+        "variable_values": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "input": {
+          "type": "string",
+          "minLength": 40
+        },
+        "output_excerpt": {
+          "type": "string",
+          "minLength": 80
+        },
+        "acceptance_evidence": {
+          "type": "string",
+          "minLength": 40
+        },
+        "limitation": {
+          "type": "string",
+          "minLength": 35
+        }
+      }
+    },
+    "adaptation_notes": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 35
+      }
+    },
+    "privacy_and_security": {
+      "type": "string",
+      "minLength": 70
+    },
+    "provider_considerations": {
+      "type": "string",
+      "minLength": 50
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 35
+      }
     }
   }
 }
