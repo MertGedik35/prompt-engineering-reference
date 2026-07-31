@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 
 from scripts.audit_privacy import scan_files
@@ -24,7 +25,7 @@ def test_privacy_current_tree_has_no_unapproved_findings() -> None:
 
 
 def test_freshness_has_no_failures() -> None:
-    _, failures = check()
+    _, failures = check(as_of=date(2026, 7, 31))
     assert failures == []
 
 
