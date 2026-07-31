@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .check_freshness import utc_today
+    from .provider_quality import provider_record_errors
     from .template_taxonomy import (
         TEMPLATE_ALLOWED_RELATED_LESSONS,
         TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
@@ -15,6 +17,10 @@ try:
     )
     from .validate_schemas import validate_all
 except ImportError:  # pragma: no cover - used when run as a script
+    from check_freshness import utc_today  # type: ignore[import-not-found,no-redef]
+    from provider_quality import (  # type: ignore[import-not-found,no-redef]
+        provider_record_errors,
+    )
     from template_taxonomy import (  # type: ignore[import-not-found,no-redef]
         TEMPLATE_ALLOWED_RELATED_LESSONS,
         TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
@@ -288,7 +294,7 @@ def validate() -> tuple[dict[str, int], list[str]]:
     resources = [record for file in RESOURCE_FILES for record in load(file)]
     pattern_ids = {record["id"] for record in patterns}
     lesson_ids = {path.parent.name for path in (ROOT / "curriculum").glob("*/README.md")}
-    resource_ids = {record["id"] for record in resources}
+    resources_by_id = {record["id"]: record for record in resources}
     ids = [record["id"] for record in patterns + templates + doctors + providers + resources]
     urls = [record["canonical_url"] for record in resources if "canonical_url" in record]
     for item, count in Counter(ids).items():
@@ -302,10 +308,7 @@ def validate() -> tuple[dict[str, int], list[str]]:
     for record in doctors:
         if record.get("relevant_pattern") not in pattern_ids:
             errors.append(f"broken doctor pattern reference: {record['id']}")
-    for record in providers:
-        for source_id in record.get("official_source_ids", []):
-            if source_id not in resource_ids:
-                errors.append(f"broken provider source reference: {record['id']} -> {source_id}")
+    errors.extend(provider_record_errors(providers, resources_by_id, as_of=utc_today()))
     for record in resources + patterns + templates:
         for field in ("last_verified", "last_reviewed"):
             if field in record and not DATE_RE.match(str(record[field])):

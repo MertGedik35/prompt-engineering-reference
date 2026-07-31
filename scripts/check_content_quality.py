@@ -10,12 +10,16 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .provider_quality import check_provider_quality
     from .template_taxonomy import (
         TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
         TEMPLATE_PRIMARY_LESSONS,
         TEMPLATE_PRIMARY_PATTERNS,
     )
 except ImportError:  # pragma: no cover - used when run as a script
+    from provider_quality import (  # type: ignore[import-not-found,no-redef]
+        check_provider_quality,
+    )
     from template_taxonomy import (  # type: ignore[import-not-found,no-redef]
         TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
         TEMPLATE_PRIMARY_LESSONS,
@@ -837,6 +841,10 @@ def check_catalogs(root: Path, report: QualityReport) -> None:
     templates = load(root, "catalog/templates.json")
     check_template_quality(templates, report)
     check_pattern_quality(patterns, report)
+    if (root / "catalog" / "provider-guides.json").exists():
+        provider_errors, provider_details = check_provider_quality(root)
+        report.errors.extend(provider_errors)
+        report.details.extend(provider_details)
 
 
 def run_checks(root: Path = ROOT) -> QualityReport:

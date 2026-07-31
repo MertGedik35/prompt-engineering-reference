@@ -1,25 +1,233 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "id",
     "slug",
     "name",
+    "provider",
+    "status",
+    "scope",
+    "out_of_scope",
     "official_source_ids",
+    "supporting_source_ids",
     "stable_guidance",
+    "provider_specific_guidance",
     "fast_stale_areas",
+    "remaining_gaps",
+    "acceptance_criteria",
     "last_verified",
     "stale_after_days",
     "stale_risk"
   ],
   "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^provider-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 2
+    },
+    "provider": {
+      "type": "string",
+      "minLength": 2
+    },
+    "status": {
+      "enum": [
+        "active",
+        "maintenance",
+        "deprecated"
+      ]
+    },
+    "scope": {
+      "$ref": "#/$defs/nonEmptyUniqueTextList"
+    },
+    "out_of_scope": {
+      "$ref": "#/$defs/nonEmptyUniqueTextList"
+    },
     "official_source_ids": {
       "type": "array",
-      "minItems": 2
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(official-|repo-)[a-z0-9]+(?:-[a-z0-9]+)*$"
+      }
+    },
+    "supporting_source_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(official-|repo-)[a-z0-9]+(?:-[a-z0-9]+)*$"
+      }
+    },
+    "stable_guidance": {
+      "$ref": "#/$defs/nonEmptyUniqueTextList"
+    },
+    "provider_specific_guidance": {
+      "$ref": "#/$defs/nonEmptyUniqueTextList"
     },
     "fast_stale_areas": {
       "type": "array",
-      "minItems": 2
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "area",
+          "why_stale",
+          "source_id",
+          "last_verified"
+        ],
+        "properties": {
+          "area": {
+            "type": "string",
+            "minLength": 8
+          },
+          "why_stale": {
+            "type": "string",
+            "minLength": 16
+          },
+          "source_id": {
+            "type": "string",
+            "pattern": "^(official-|repo-)[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "last_verified": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        }
+      }
+    },
+    "remaining_gaps": {
+      "$ref": "#/$defs/nonEmptyUniqueTextList"
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 12
+      }
+    },
+    "last_verified": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "stale_after_days": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "stale_risk": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "id": {
+          "const": "provider-openai"
+        },
+        "slug": {
+          "const": "openai"
+        }
+      }
+    },
+    {
+      "properties": {
+        "id": {
+          "const": "provider-anthropic"
+        },
+        "slug": {
+          "const": "anthropic"
+        }
+      }
+    },
+    {
+      "properties": {
+        "id": {
+          "const": "provider-google"
+        },
+        "slug": {
+          "const": "google"
+        }
+      }
+    },
+    {
+      "properties": {
+        "id": {
+          "const": "provider-microsoft"
+        },
+        "slug": {
+          "const": "microsoft"
+        }
+      }
+    },
+    {
+      "properties": {
+        "id": {
+          "const": "provider-aws"
+        },
+        "slug": {
+          "const": "aws"
+        }
+      }
+    },
+    {
+      "properties": {
+        "id": {
+          "const": "provider-meta"
+        },
+        "slug": {
+          "const": "meta"
+        }
+      }
+    },
+    {
+      "properties": {
+        "id": {
+          "const": "provider-mistral"
+        },
+        "slug": {
+          "const": "mistral"
+        }
+      }
+    },
+    {
+      "properties": {
+        "id": {
+          "const": "provider-open-models"
+        },
+        "slug": {
+          "const": "open-models"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonEmptyUniqueTextList": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 12
+      }
     }
   }
 }
