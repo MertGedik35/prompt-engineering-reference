@@ -13,7 +13,7 @@ authors = [{ name = "Mert Gedik" }]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.5", "mypy>=1.10", "jsonschema>=4.22", "detect-secrets>=1.5"]
-docs = ["mkdocs>=1.6,<2.0", "mkdocs-material>=9.5,<9.6"]
+docs = ["mkdocs>=1.6,<2.0", "mkdocs-material>=9.5,<9.8"]
 
 [tool.setuptools]
 py-modules = []
