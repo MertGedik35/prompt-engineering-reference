@@ -7,8 +7,20 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .template_taxonomy import (
+        TEMPLATE_ALLOWED_RELATED_LESSONS,
+        TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
+        TEMPLATE_PRIMARY_LESSONS,
+        TEMPLATE_PRIMARY_PATTERNS,
+    )
     from .validate_schemas import validate_all
 except ImportError:  # pragma: no cover - used when run as a script
+    from template_taxonomy import (  # type: ignore[import-not-found,no-redef]
+        TEMPLATE_ALLOWED_RELATED_LESSONS,
+        TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
+        TEMPLATE_PRIMARY_LESSONS,
+        TEMPLATE_PRIMARY_PATTERNS,
+    )
     from validate_schemas import validate_all  # type: ignore[import-not-found,no-redef]
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -88,6 +100,7 @@ PATTERN_ALLOWED_RELATED_LESSONS = {
     "pattern-cross-model-eval": {"11-production-operations"},
     "pattern-secure-output-validation": {"05-structured-outputs"},
 }
+TEMPLATE_PLACEHOLDER_RE = re.compile(r"\{\{([a-z][a-z0-9_]*)\}\}")
 
 
 def pattern_reference_errors(patterns: list[dict[str, Any]], lesson_ids: set[str]) -> list[str]:
@@ -133,6 +146,118 @@ def pattern_reference_errors(patterns: list[dict[str, Any]], lesson_ids: set[str
     return errors
 
 
+def template_reference_errors(
+    templates: list[dict[str, Any]],
+    pattern_ids: set[str],
+    lesson_ids: set[str],
+) -> list[str]:
+    errors: list[str] = []
+    template_ids = {str(record.get("id", "")) for record in templates}
+    approved_ids = set(TEMPLATE_PRIMARY_PATTERNS)
+    if len(templates) != 28:
+        errors.append(f"template inventory count {len(templates)} != 28")
+    if template_ids != approved_ids:
+        missing = sorted(approved_ids - template_ids)
+        unexpected = sorted(template_ids - approved_ids)
+        errors.append(
+            f"template taxonomy coverage mismatch: missing={missing} unexpected={unexpected}"
+        )
+
+    for record in templates:
+        template_id = str(record.get("id", "<missing-id>"))
+        if record.get("slug") != template_id.removeprefix("template-"):
+            errors.append(f"template slug does not match id: {template_id}")
+
+        for removed_field in ("required_inputs", "expected_outputs", "production_prompt"):
+            if removed_field in record:
+                errors.append(f"deprecated template field present: {template_id}.{removed_field}")
+
+        primary_pattern = record.get("related_pattern")
+        expected_pattern = TEMPLATE_PRIMARY_PATTERNS.get(template_id)
+        if primary_pattern != expected_pattern:
+            errors.append(
+                f"wrong template primary pattern: {template_id} -> {primary_pattern}; "
+                f"expected {expected_pattern}"
+            )
+        if primary_pattern not in pattern_ids:
+            errors.append(f"broken template pattern reference: {template_id} -> {primary_pattern}")
+
+        supporting_patterns = record.get("supporting_patterns", [])
+        supporting_set = (
+            set(supporting_patterns) if isinstance(supporting_patterns, list) else set()
+        )
+        allowed_supporting = TEMPLATE_ALLOWED_SUPPORTING_PATTERNS.get(template_id, set())
+        unsupported_patterns = supporting_set - allowed_supporting
+        if unsupported_patterns:
+            errors.append(
+                f"unapproved supporting template patterns: "
+                f"{template_id} -> {sorted(unsupported_patterns)}"
+            )
+        if primary_pattern in supporting_set:
+            errors.append(f"template primary pattern repeated as supporting: {template_id}")
+        for pattern_id in supporting_set:
+            if pattern_id not in pattern_ids:
+                errors.append(f"broken supporting template pattern: {template_id} -> {pattern_id}")
+
+        primary_lesson = record.get("primary_lesson")
+        expected_lesson = TEMPLATE_PRIMARY_LESSONS.get(template_id)
+        if primary_lesson != expected_lesson:
+            errors.append(
+                f"wrong template primary lesson: {template_id} -> {primary_lesson}; "
+                f"expected {expected_lesson}"
+            )
+        if primary_lesson not in lesson_ids:
+            errors.append(f"broken template primary lesson: {template_id} -> {primary_lesson}")
+        related_lessons = record.get("related_lessons", [])
+        related_set = set(related_lessons) if isinstance(related_lessons, list) else set()
+        unexpected_lessons = related_set - TEMPLATE_ALLOWED_RELATED_LESSONS.get(template_id, set())
+        if unexpected_lessons:
+            errors.append(
+                f"unapproved template related lessons: "
+                f"{template_id} -> {sorted(unexpected_lessons)}"
+            )
+        if primary_lesson in related_set:
+            errors.append(f"template primary lesson repeated as related: {template_id}")
+        for lesson_id in related_set:
+            if lesson_id not in lesson_ids:
+                errors.append(f"broken template lesson reference: {template_id} -> {lesson_id}")
+
+        variables = record.get("variables", [])
+        variable_names = [
+            str(variable.get("name", "")) for variable in variables if isinstance(variable, dict)
+        ]
+        duplicates = sorted(
+            name for name, count in Counter(variable_names).items() if name and count > 1
+        )
+        if duplicates:
+            errors.append(f"duplicate template variable names: {template_id} -> {duplicates}")
+        prompt_text = "\n".join(
+            str(record.get(field_name, "")) for field_name in ("minimal_prompt", "prompt")
+        )
+        placeholders = set(TEMPLATE_PLACEHOLDER_RE.findall(prompt_text))
+        declared = set(variable_names)
+        undefined = sorted(placeholders - declared)
+        unused = sorted(declared - placeholders)
+        if undefined:
+            errors.append(f"undefined template placeholders: {template_id} -> {undefined}")
+        if unused:
+            errors.append(f"unused template variables: {template_id} -> {unused}")
+
+        output_contract = record.get("output_contract", {})
+        sections = output_contract.get("sections", []) if isinstance(output_contract, dict) else []
+        section_names = [
+            str(section.get("name", "")) for section in sections if isinstance(section, dict)
+        ]
+        duplicate_sections = sorted(
+            name for name, count in Counter(section_names).items() if name and count > 1
+        )
+        if duplicate_sections:
+            errors.append(
+                f"duplicate template output sections: {template_id} -> {duplicate_sections}"
+            )
+    return errors
+
+
 def load(path: str) -> list[dict[str, Any]]:
     data = json.loads((ROOT / path).read_text(encoding="utf-8"))
     if not isinstance(data, list):
@@ -172,9 +297,7 @@ def validate() -> tuple[dict[str, int], list[str]]:
     for item, count in Counter(urls).items():
         if count > 1:
             errors.append(f"duplicate canonical_url: {item}")
-    for record in templates:
-        if record.get("related_pattern") not in pattern_ids:
-            errors.append(f"broken template pattern reference: {record['id']}")
+    errors.extend(template_reference_errors(templates, pattern_ids, lesson_ids))
     errors.extend(pattern_reference_errors(patterns, lesson_ids))
     for record in doctors:
         if record.get("relevant_pattern") not in pattern_ids:
