@@ -39,6 +39,18 @@ FORBIDDEN_BRANCH_MARKERS = (
     "codex/",
     "refs/pull/",
 )
+TEMPORARY_BRANCH_REFS = (
+    "feat/v2-learning-reference",
+    "fix/v2-release-transition",
+)
+TEMPORARY_CONTENT_OPS = frozenset({"blob", "tree", "edit", "blame", "raw"})
+MARKDOWN_REF_LINK_RE = re.compile(r"(?m)^\[([^\]]+)\]:\s*(\S+)")
+ANGLE_AUTOLINK_RE = re.compile(r"<(https?://[^>\s]+)>")
+HTML_ATTR_URL_RE = re.compile(
+    r"""(?i)\b(?:href|src)\s*=\s*(?P<quote>['"])(?P<url>https?://.*?)(?P=quote)"""
+)
+RAW_URL_RE = re.compile(r"https?://[^\s)\]>'\"<>]+")
+TRAILING_PUNCT_RE = re.compile(r"[).,;\"']+$")
 
 PUBLIC_DRAFT_PATTERNS = (
     re.compile(r"\bv2\s+is\s+a\s+draft\b", re.IGNORECASE),
@@ -175,28 +187,97 @@ def check_public_draft_markers(
     return errors
 
 
-def check_forbidden_branch_references() -> list[str]:
+def normalize_extracted_url(url: str) -> str:
+    return TRAILING_PUNCT_RE.sub("", url.strip())
+
+
+def extract_urls(text: str) -> list[str]:
+    found: list[str] = []
+    for target in LINK_RE.findall(text):
+        if target.startswith(("http://", "https://")):
+            found.append(normalize_extracted_url(target))
+    for _, target in MARKDOWN_REF_LINK_RE.findall(text):
+        if target.startswith(("http://", "https://")):
+            found.append(normalize_extracted_url(target))
+    for match in ANGLE_AUTOLINK_RE.findall(text):
+        found.append(normalize_extracted_url(match))
+    for match in HTML_ATTR_URL_RE.finditer(text):
+        found.append(normalize_extracted_url(match.group("url")))
+    for match in RAW_URL_RE.findall(text):
+        found.append(normalize_extracted_url(match))
+    return list(dict.fromkeys(found))
+
+
+def temporary_branch_ref_from_github_path(path: str) -> str | None:
+    """Return temporary branch/ref when a GitHub content URL uses one."""
+    from urllib.parse import unquote, urlsplit
+
+    if path.startswith(("http://", "https://")):
+        parsed = urlsplit(path)
+        if parsed.hostname != "github.com":
+            return None
+        path = parsed.path
+    parts = [part for part in path.split("/") if part]
+    if len(parts) < 4:
+        return None
+    owner, repo, operation = parts[0], parts[1], parts[2]
+    if owner != "MertGedik35" or repo != "prompt-engineering-reference":
+        return None
+    if operation not in TEMPORARY_CONTENT_OPS:
+        return None
+    remainder = unquote("/".join(parts[3:]))
+    for branch in sorted(TEMPORARY_BRANCH_REFS, key=len, reverse=True):
+        if remainder == branch or remainder.startswith(f"{branch}/"):
+            return branch
+    if remainder.startswith("codex/"):
+        return "/".join(remainder.split("/")[:2])
+    if remainder.startswith("refs/pull/"):
+        return "/".join(remainder.split("/")[:3])
+    return None
+
+
+def temporary_branch_urls(text: str) -> list[str]:
+    return [
+        url for url in extract_urls(text) if temporary_branch_ref_from_github_path(url) is not None
+    ]
+
+
+def check_forbidden_branch_references(
+    *,
+    root: Path | None = None,
+    texts: dict[str, str] | None = None,
+) -> list[str]:
+    """Reject temporary-branch content URLs everywhere; plain markers outside history."""
+    base = ROOT if root is None else root
     errors: list[str] = []
-    scan_roots = [ROOT / "README.md", ROOT / "docs", ROOT / "mkdocs.yml"]
-    for root in scan_roots:
-        paths = [root] if root.is_file() else sorted(root.rglob("*"))
-        for path in paths:
-            if not path.is_file():
-                continue
-            if path.suffix.lower() not in {".md", ".yml", ".yaml"}:
-                continue
-            relative = _rel(path)
-            if relative.startswith("docs/generated/"):
-                continue
-            text = path.read_text(encoding="utf-8")
-            for marker in FORBIDDEN_BRANCH_MARKERS:
-                if marker not in text:
+    if texts is not None:
+        items = list(texts.items())
+    else:
+        collected: list[tuple[str, str]] = []
+        scan_roots = [base / "README.md", base / "docs", base / "mkdocs.yml"]
+        for scan_root in scan_roots:
+            paths = [scan_root] if scan_root.is_file() else sorted(scan_root.rglob("*"))
+            for path in paths:
+                if not path.is_file():
                     continue
-                if relative in HISTORICAL_ALLOWLIST:
+                if path.suffix.lower() not in {".md", ".yml", ".yaml"}:
                     continue
-                # Allow workflow/base-branch mentions only outside publication docs.
-                if relative.startswith(".github/"):
+                relative = path.relative_to(base).as_posix()
+                if relative.startswith("docs/generated/"):
                     continue
+                collected.append((relative, path.read_text(encoding="utf-8")))
+        items = collected
+
+    for relative, text in items:
+        if relative.startswith(".github/"):
+            continue
+        for url in temporary_branch_urls(text):
+            ref = temporary_branch_ref_from_github_path(url) or "unknown"
+            errors.append(f"active temporary-branch URL in {relative}: {url} (ref={ref})")
+        if relative in HISTORICAL_ALLOWLIST:
+            continue
+        for marker in FORBIDDEN_BRANCH_MARKERS:
+            if marker in text:
                 errors.append(f"publication-sensitive branch reference in {relative}: {marker}")
     return errors
 

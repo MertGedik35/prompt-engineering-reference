@@ -221,18 +221,24 @@ def test_pages_main_only_deployment_preserved() -> None:
 
 
 def test_own_repo_main_blob_maps_to_local_curriculum() -> None:
-    from scripts.check_external_links import local_path_for_own_repo_main_blob
+    from scripts.check_external_links import classify_own_repo_main_blob
 
     url = (
         "https://github.com/MertGedik35/prompt-engineering-reference/"
         "blob/main/curriculum/00-orientation/README.md"
     )
-    path = local_path_for_own_repo_main_blob(url)
-    assert path is not None
-    assert path.is_file()
-    missing = local_path_for_own_repo_main_blob(
+    result = classify_own_repo_main_blob(url)
+    assert result.status == "valid_tracked_target"
+    missing = classify_own_repo_main_blob(
         "https://github.com/MertGedik35/prompt-engineering-reference/"
         "blob/main/curriculum/00-orientation/MISSING.md"
     )
-    assert missing is not None
-    assert not missing.is_file()
+    assert missing.status == "missing_target"
+
+
+def test_no_pending_main_publication_classification_remains() -> None:
+    from scripts import check_external_links
+
+    source = Path(check_external_links.__file__).read_text(encoding="utf-8")
+    assert "pending_main_publication" not in source
+    assert "same_repo_main_local_target" in source
