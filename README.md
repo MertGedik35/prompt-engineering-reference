@@ -34,7 +34,8 @@ researchers, and career learners. **V1 is published; V2 is a draft under review 
 | Capstone projects | 3 | [Capstones](labs/capstones/README.md) |
 | Exercises, quizzes, explained solutions | 13 each | [Practice hubs](docs/labs/index.md) |
 | Official-resource catalog records | 24 | [Official docs and prompts](docs/generated/official-resource-index.md) |
-| Courses / credentials | 8 / 5 | [Courses](docs/generated/course-index.md) · [Credentials](docs/generated/credential-index.md) |
+| Structured Learning Resources | 8 | [Structured Learning Resources](docs/generated/course-index.md) |
+| Credentials | 4 individual + 1 family overview | [Credentials](docs/generated/credential-index.md) |
 | Papers, books, videos, tools, communities, repos | cataloged | [Resources hub](docs/resources/index.md) |
 
 ## Choose what you need
@@ -47,7 +48,7 @@ researchers, and career learners. **V1 is published; V2 is a draft under review 
 | Copy a prompt | [Template Library](docs/generated/template-index.md) | Minimal and production variants |
 | Compare providers | [Provider Guides](docs/providers/index.md) | Dated provider-specific guidance |
 | Evaluate prompts | [Evaluation Lab](labs/evaluations/README.md) | Cases, assertions and rubrics |
-| Learn from courses | [Courses](docs/generated/course-index.md) | Access model, format, and completion outcome (not exam fees) |
+| Learn from courses | [Structured Learning Resources](docs/generated/course-index.md) | Access model, format, and completion outcome (not exam fees) |
 | Read research | [Papers](docs/generated/paper-index.md) · [Books](docs/generated/book-index.md) | Verified learning and research sources |
 | Build a portfolio | [Capstones](labs/capstones/README.md) | Reproducible end-to-end projects |
 
@@ -127,14 +128,14 @@ Operate prompts in production and ship reproducible evidence.
 | --- | --- |
 | Official provider documentation | [Official resources](docs/generated/official-resource-index.md) |
 | Official prompt examples | [Official prompts](resources/official-prompts/README.md) |
-| Free and paid courses | [Courses](docs/generated/course-index.md) |
-| Credentials, badges, and certifications | [Credentials](docs/generated/credential-index.md) |
+| Structured Learning Resources | [Structured Learning Resources](docs/generated/course-index.md) |
+| Credentials (4 individual + 1 family overview) | [Credentials](docs/generated/credential-index.md) |
 | Papers | [Papers](docs/generated/paper-index.md) |
 | Books | [Books](docs/generated/book-index.md) |
 | Videos | [Videos](docs/generated/video-index.md) |
 | Tools | [Tools](docs/generated/tool-index.md) |
 | Communities | [Communities](docs/generated/community-index.md) |
-| Reference repositories | [Repositories](docs/generated/repository-index.md) |
+| Reference repositories (includes OpenAI Cookbook) | [Repositories](docs/generated/repository-index.md) |
 
 Pricing, credential status, and freshness notes live on each catalog page. Verify dated claims
 against the issuer's canonical source.
@@ -163,8 +164,8 @@ Capstones:
 | Prompt patterns | 26 records | Remediated and tested |
 | Prompt templates | 28 records | Remediated and tested |
 | Provider guides | 8 guides | Remediated and independently re-reviewed |
-| Courses | 8 catalog records | Taxonomy and evidence remediated in V2 draft |
-| Credentials | 5 catalog records (4 individual + 1 family) | Taxonomy and evidence remediated in V2 draft |
+| Structured Learning Resources | 8 | Taxonomy and evidence remediated in V2 draft |
+| Credentials | 4 individual + 1 family overview | Taxonomy and evidence remediated in V2 draft |
 | Resource expansion | Partial | Planned |
 | V2 release | Not published | Draft |
 

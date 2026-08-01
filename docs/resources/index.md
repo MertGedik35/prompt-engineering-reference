@@ -10,14 +10,14 @@ verification date. Treat dated claims as freshness-sensitive.
 | --- | --- | --- | --- |
 | Official documentation | Confirming provider-native behavior | Canonical docs and prompt resources | [Official resources](../generated/official-resource-index.md) |
 | Official prompt examples | Studying issuer-owned prompt collections | Prompt galleries and example packs | [Official prompts](official-prompts.md) |
-| Courses | Structured learning, tutorials, labs, and paths | Format, access model, completion outcome, prompt relevance | [Courses](../generated/course-index.md) |
+| Structured Learning Resources | Structured courses, modules, paths, tutorials, labs, and exercise repositories | Format, access model, completion outcome, prompt relevance | [Structured Learning Resources](../generated/course-index.md) |
 | Credentials | Distinguishing badges, applied skills, and certifications | Credential type, assessment, and family vs individual | [Credentials](../generated/credential-index.md) |
 | Papers | Research grounding | Paper metadata and learning value | [Papers](../generated/paper-index.md) |
 | Books | Longer-form study | Book and long-guide records | [Books](../generated/book-index.md) |
 | Videos | Visual walkthroughs | Video records with verification dates | [Videos](../generated/video-index.md) |
 | Tools | Supporting workflows | Tool records and scope notes | [Tools](../generated/tool-index.md) |
 | Communities | Peer discussion | Community records | [Communities](../generated/community-index.md) |
-| Reference repositories | Related open projects | Repository records and roles | [Repositories](../generated/repository-index.md) |
+| Reference repositories | Related open projects, including the OpenAI Cookbook evaluation examples | Repository records and roles | [Repositories](../generated/repository-index.md) |
 
 ## How to read status fields
 
