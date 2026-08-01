@@ -61,7 +61,7 @@ See [Practice & Labs](labs/index.md).
 | Area | Status in V2 draft |
 | --- | --- |
 | Curriculum, patterns, templates, providers | Remediated and tested |
-| Courses, credentials, broader resources | Further remediation planned |
+| Courses, credentials | Remediated taxonomy in this V2 draft; broader resource expansion remains |
 | V2 release | Not published |
 
 Last reviewed: 2026-07-31.

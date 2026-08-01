@@ -32,7 +32,7 @@ def test_inventory_matches_source_of_truth() -> None:
     assert counts["quizzes"] == 13
     assert counts["solutions"] == 13
     assert counts["official_resources"] == 24
-    assert counts["courses"] == 7
+    assert counts["courses"] == 8
     assert counts["credentials"] == 5
 
 
@@ -193,3 +193,38 @@ def test_placeholder_destination_fails() -> None:
         ROOT,
     )
     assert "README contains a user-facing placeholder path" in errors
+
+
+def test_readme_course_count_drift_fails() -> None:
+    text = current_readme().replace(
+        "| Courses | 8 catalog records |",
+        "| Courses | 99 catalog records |",
+    )
+    errors = check_readme(text, ROOT)
+    assert any("Courses" in error and "expected 8" in error for error in errors)
+
+
+def test_readme_credential_count_drift_fails() -> None:
+    text = current_readme().replace(
+        "| Credentials | 5 catalog records",
+        "| Credentials | 99 catalog records",
+    )
+    errors = check_readme(text, ROOT)
+    assert any("Credentials" in error and "expected 5" in error for error in errors)
+
+
+def test_resources_hub_must_not_use_raw_catalog_cta() -> None:
+    from scripts.check_readme_navigation import check_hub_pages
+
+    errors = check_hub_pages(ROOT)
+    assert errors == []
+    text = (ROOT / "docs/resources/index.md").read_text(encoding="utf-8")
+    assert "catalog/courses.json" not in text
+    assert "catalog/credentials.json" not in text
+
+
+def test_pages_action_pins_remain_coordinated() -> None:
+    text = (ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
+    assert "actions/configure-pages@v6" in text
+    assert "actions/upload-pages-artifact@v5" in text
+    assert "actions/deploy-pages@v5" in text
