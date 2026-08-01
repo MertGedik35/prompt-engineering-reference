@@ -218,3 +218,21 @@ def test_pages_main_only_deployment_preserved() -> None:
     assert "branches: [main]" in text
     assert "pull_request_target:" not in text
     assert check_pages_workflow_preserved() == []
+
+
+def test_own_repo_main_blob_maps_to_local_curriculum() -> None:
+    from scripts.check_external_links import local_path_for_own_repo_main_blob
+
+    url = (
+        "https://github.com/MertGedik35/prompt-engineering-reference/"
+        "blob/main/curriculum/00-orientation/README.md"
+    )
+    path = local_path_for_own_repo_main_blob(url)
+    assert path is not None
+    assert path.is_file()
+    missing = local_path_for_own_repo_main_blob(
+        "https://github.com/MertGedik35/prompt-engineering-reference/"
+        "blob/main/curriculum/00-orientation/MISSING.md"
+    )
+    assert missing is not None
+    assert not missing.is_file()

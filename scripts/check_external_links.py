@@ -12,6 +12,9 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 URL_RE = re.compile(r"https?://[^\s)\]>]+")
+OWN_REPO_BLOB_MAIN_RE = re.compile(
+    r"^https://github\.com/MertGedik35/prompt-engineering-reference/blob/main/(.+)$"
+)
 CATALOGS = [
     "catalog/official-resources.json",
     "catalog/repositories.json",
@@ -23,6 +26,25 @@ CATALOGS = [
     "catalog/tools.json",
     "catalog/communities.json",
 ]
+
+
+def local_path_for_own_repo_main_blob(url: str) -> Path | None:
+    """Map same-repo blob/main URLs to local paths when present.
+
+    V2 curriculum and lab files are published to ``main`` by umbrella PR #10.
+    Until that merge, GitHub returns 404 for ``blob/main/...`` even though the
+    files exist in the integration tree. Treat existing local targets as
+    publication-safe rather than live-broken.
+    """
+    match = OWN_REPO_BLOB_MAIN_RE.match(url.rstrip(").,;\"'"))
+    if match is None:
+        return None
+    candidate = (ROOT / match.group(1)).resolve()
+    try:
+        candidate.relative_to(ROOT.resolve())
+    except ValueError:
+        return None
+    return candidate
 
 
 def catalog_urls() -> set[str]:
@@ -108,6 +130,17 @@ def main() -> int:
     checked = 0
     if args.live:
         for url in collect_urls():
+            local_main = local_path_for_own_repo_main_blob(url)
+            if local_main is not None:
+                checked += 1
+                if local_main.is_file():
+                    warnings.append(
+                        "pending_main_publication: "
+                        f"{url} -> local file present at {local_main.relative_to(ROOT)}"
+                    )
+                    continue
+                broken.append(f"{url} -> missing local file for blob/main target")
+                continue
             status, detail = check_url(url, args.retries)
             checked += 1
             if status == "broken":
