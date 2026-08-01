@@ -2,7 +2,7 @@ site_name: Prompt Engineering Reference
 site_description: Learn prompt engineering from first principles, then use a tested reference library.
 site_url: https://mertgedik35.github.io/prompt-engineering-reference/
 repo_url: https://github.com/MertGedik35/prompt-engineering-reference
-edit_uri: edit/feat/v2-learning-reference/docs/
+edit_uri: edit/main/docs/
 theme:
   name: material
   features:
@@ -94,8 +94,8 @@ nav:
       - V2 Semantic Content Audit: project/v2-semantic-content-audit.md
       - V1 to V2 Migration: project/v1-to-v2-migration.md
       - V2 Release Gates: project/v2-release-gates.md
-      - Draft Release Notes: project/v2-draft-release-notes.md
-      - Draft PR Description: project/v2-pr-description.md
+      - V2 Release Notes: project/v2-release-notes.md
+      - V2 Development Record: project/v2-development-record.md
 markdown_extensions:
   - admonition
   - tables
