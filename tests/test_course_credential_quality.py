@@ -528,9 +528,428 @@ def test_rejects_method_claiming_tool_with_documentation_kind(tmp_path: Path) ->
     )
     errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
     assert any(
-        "method claims a verification tool but evidence_kind is process documentation" in error
+        "method claims a direct lookup or exam-verification tool but evidence_kind is "
+        "process documentation" in error
         for error in errors
     )
+
+
+def test_accepts_google_cloud_with_matching_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-google-generative-ai-leader" in error for error in errors)
+
+
+def test_accepts_nvidia_with_matching_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-nvidia-genai-llm-associate",
+        verification={
+            "available": True,
+            "method": "NVIDIA Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/nvidia/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-nvidia-genai-llm-associate" in error for error in errors)
+
+
+def test_rejects_google_cloud_with_nvidia_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/nvidia/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "Credly organization slug 'nvidia' is not authorized for issuer 'Google Cloud'" in error
+        for error in errors
+    )
+
+
+def test_rejects_nvidia_with_google_cloud_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-nvidia-genai-llm-associate",
+        verification={
+            "available": True,
+            "method": "NVIDIA Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "Credly organization slug 'google-cloud' is not authorized for issuer 'NVIDIA'" in error
+        for error in errors
+    )
+
+
+def test_rejects_google_cloud_with_acme_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/acme-corp/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "Credly organization slug 'acme-corp' is not authorized for issuer 'Google Cloud'" in error
+        for error in errors
+    )
+
+
+def test_rejects_nvidia_with_acme_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-nvidia-genai-llm-associate",
+        verification={
+            "available": True,
+            "method": "NVIDIA Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/acme-corp/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "Credly organization slug 'acme-corp' is not authorized for issuer 'NVIDIA'" in error
+        for error in errors
+    )
+
+
+def test_rejects_unknown_issuer_with_google_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        issuer="Unknown Issuer",
+        verification={
+            "available": True,
+            "method": "Unknown Issuer Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "no authorized Credly organization mapping exists for issuer 'Unknown Issuer'" in error
+        for error in errors
+    )
+
+
+def test_rejects_unknown_issuer_with_arbitrary_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-nvidia-genai-llm-associate",
+        issuer="Example Issuer",
+        verification={
+            "available": True,
+            "method": "Example Issuer Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/acme-corp/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "no authorized Credly organization mapping exists for issuer 'Example Issuer'" in error
+        for error in errors
+    )
+
+
+def test_rejects_credly_organization_path_with_extra_segments(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges/extra",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "badge-directory evidence_url must be an issuer-specific Credly organization badges path"
+        in error
+        for error in errors
+    )
+
+
+def test_rejects_credly_organization_path_with_query_search(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges?search=ai",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "badge-directory evidence_url must be an issuer-specific Credly organization badges path"
+        in error
+        for error in errors
+    )
+
+
+def test_accepts_credly_organization_path_with_trailing_slash(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-google-generative-ai-leader" in error for error in errors)
+
+
+def test_accepts_credly_organization_path_case_normalized(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-nvidia-genai-llm-associate",
+        verification={
+            "available": True,
+            "method": "NVIDIA Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/NVIDIA/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-nvidia-genai-llm-associate" in error for error in errors)
+
+
+def test_rejects_issuer_mapping_via_loose_substring(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        issuer="Not Google Cloud Training",
+        verification={
+            "available": True,
+            "method": "Not Google Cloud Training Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "no authorized Credly organization mapping exists for issuer 'Not Google Cloud Training'"
+        in error
+        for error in errors
+    )
+    assert not any("slug 'google-cloud' is not authorized" in error for error in errors)
+
+
+def test_rejects_badge_directory_method_direct_exam_verification_tool(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Direct exam verification tool",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method claims a direct verification or exam-verification tool but evidence_kind is "
+        "badge directory" in error
+        for error in errors
+    )
+
+
+def test_rejects_badge_directory_method_certificate_verification_endpoint(
+    tmp_path: Path,
+) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Certificate verification endpoint",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method claims a direct verification or exam-verification tool but evidence_kind is "
+        "badge directory"
+        in error
+        or "badge-directory method must describe a badge directory" in error
+        for error in errors
+    )
+
+
+def test_rejects_badge_directory_method_credential_lookup_tool(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-nvidia-genai-llm-associate",
+        verification={
+            "available": True,
+            "method": "Credential lookup tool",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/nvidia/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method claims a direct verification or exam-verification tool but evidence_kind is "
+        "badge directory" in error
+        for error in errors
+    )
+
+
+def test_accepts_badge_directory_method_issuer_authorized_digital_badge_directory(
+    tmp_path: Path,
+) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Issuer-authorized digital badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-google-generative-ai-leader" in error for error in errors)
+
+
+def test_rejects_verification_tool_method_credly_badge_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-aws-ai-practitioner",
+        verification={
+            "available": True,
+            "method": "Credly organization badge directory",
+            "evidence_kind": "issuer_verification_tool",
+            "evidence_url": "https://aws.amazon.com/verification/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method describes badge-directory or documentation evidence but evidence_kind is "
+        "verification tool" in error
+        for error in errors
+    )
+
+
+def test_rejects_verification_tool_method_sharing_documentation(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-aws-ai-practitioner",
+        verification={
+            "available": True,
+            "method": "Credential-sharing documentation",
+            "evidence_kind": "issuer_verification_tool",
+            "evidence_url": "https://aws.amazon.com/verification/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method describes badge-directory or documentation evidence but evidence_kind is "
+        "verification tool" in error
+        for error in errors
+    )
+
+
+def test_rejects_verification_tool_method_help_article(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-aws-ai-practitioner",
+        verification={
+            "available": True,
+            "method": "Issuer help article",
+            "evidence_kind": "issuer_verification_tool",
+            "evidence_url": "https://aws.amazon.com/verification/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method describes badge-directory or documentation evidence but evidence_kind is "
+        "verification tool" in error
+        for error in errors
+    )
+
+
+def test_rejects_process_documentation_method_direct_exam_verification_tool(
+    tmp_path: Path,
+) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-agent-tools",
+        verification={
+            "available": True,
+            "method": "Direct exam verification tool",
+            "evidence_kind": "issuer_verification_process_documentation",
+            "evidence_url": "https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method claims a direct lookup or exam-verification tool but evidence_kind is "
+        "process documentation" in error
+        for error in errors
+    )
+
+
+def test_rejects_process_documentation_method_credential_lookup_endpoint(
+    tmp_path: Path,
+) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-agent-tools",
+        verification={
+            "available": True,
+            "method": "Credential lookup endpoint",
+            "evidence_kind": "issuer_verification_process_documentation",
+            "evidence_url": "https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method claims a direct lookup or exam-verification tool but evidence_kind is "
+        "process documentation" in error
+        for error in errors
+    )
+
+
+def test_accepts_process_documentation_method_sharing_validation_documentation(
+    tmp_path: Path,
+) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-agent-tools",
+        verification={
+            "available": True,
+            "method": "Credential sharing and validation documentation",
+            "evidence_kind": "issuer_verification_process_documentation",
+            "evidence_url": "https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-microsoft-agent-tools" in error for error in errors)
+
+
+def test_accepts_badge_directory_method_with_verification_word_without_tool_claim(
+    tmp_path: Path,
+) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": (
+                "Google Cloud Credly organization badge directory for issued digital badges"
+            ),
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-google-generative-ai-leader" in error for error in errors)
 
 
 def test_rejects_verification_evidence_url_tracking(tmp_path: Path) -> None:

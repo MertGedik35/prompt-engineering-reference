@@ -64,16 +64,77 @@ EVIDENCE_KINDS = {
     "issuer_authorized_badge_directory",
     "issuer_verification_process_documentation",
 }
-CREDLY_ORG_BADGES_RE = re.compile(
-    r"^https://www\.credly\.com/organizations/[a-z0-9-]+/badges/?$",
-    flags=re.IGNORECASE,
-)
+ISSUER_CREDLY_ORG_SLUGS: dict[str, set[str]] = {
+    "google cloud": {"google-cloud"},
+    "nvidia": {"nvidia"},
+}
+CREDLY_HOSTS = {"www.credly.com"}
+CREDLY_ORG_SLUG_RE = re.compile(r"^[a-z0-9-]+$")
 DOCUMENTATION_PATH_HINTS = (
     "share",
     "validat",
     "verif",
     "transcript",
     "credential",
+)
+BADGE_DIRECTORY_METHOD_HINTS = (
+    "badge",
+    "credly",
+    "badge directory",
+    "organization badge",
+    "digital badge directory",
+)
+BADGE_DIRECTORY_METHOD_CONTRADICTIONS = (
+    "verification tool",
+    "verify tool",
+    "direct verification",
+    "direct credential verification",
+    "direct exam verification",
+    "exam verification tool",
+    "certificate verification tool",
+    "certificate verification endpoint",
+    "validation endpoint",
+    "credential lookup tool",
+    "certificate lookup tool",
+    "credential lookup endpoint",
+    "lookup endpoint",
+)
+VERIFICATION_TOOL_METHOD_HINTS = (
+    "verification tool",
+    "verification service",
+    "verification endpoint",
+    "credential verification",
+    "certificate verification",
+)
+VERIFICATION_TOOL_METHOD_CONTRADICTIONS = (
+    "badge directory",
+    "organization badge directory",
+    "sharing documentation",
+    "verification process documentation",
+    "help article",
+    "share-link process",
+    "credential-sharing documentation",
+)
+PROCESS_DOCUMENTATION_METHOD_HINTS = (
+    "process",
+    "documentation",
+    "sharing",
+    "share-link",
+    "share link",
+    "online verifiable",
+    "validation process",
+    "credential profile",
+)
+PROCESS_DOCUMENTATION_METHOD_CONTRADICTIONS = (
+    "verification tool",
+    "verify tool",
+    "direct verification tool",
+    "exam verification endpoint",
+    "certificate lookup tool",
+    "credential lookup endpoint",
+    "direct exam verification tool",
+    "exam verification tool",
+    "certificate verification tool",
 )
 GENERIC_RATIONALES = {
     "covers generative ai topics",
@@ -330,7 +391,12 @@ def _check_credential_semantics(
                     f"{credential_id}: credential families must set verification.available=false"
                 )
 
-        _check_verification_fields(credential_id, record.get("verification"), errors)
+        _check_verification_fields(
+            credential_id=credential_id,
+            issuer=str(record.get("issuer", "")),
+            verification=record.get("verification"),
+            errors=errors,
+        )
 
         validity = normalize(str(record.get("validity_summary", "")))
         if not validity:
@@ -442,7 +508,13 @@ def _check_freshness_fields(
         errors.append(f"{record_id}: expired high-risk claim (age={age})")
 
 
-def _check_verification_fields(credential_id: str, verification: Any, errors: list[str]) -> None:
+def _check_verification_fields(
+    *,
+    credential_id: str,
+    issuer: str,
+    verification: Any,
+    errors: list[str],
+) -> None:
     if not isinstance(verification, dict):
         errors.append(f"{credential_id}: verification object is required")
         return
@@ -460,7 +532,14 @@ def _check_verification_fields(credential_id: str, verification: Any, errors: li
         if not isinstance(evidence_url, str) or not evidence_url.strip():
             errors.append(f"{credential_id}: verification.available=true requires evidence_url")
         else:
-            _check_evidence_url(credential_id, str(evidence_kind), evidence_url, method, errors)
+            _check_evidence_url(
+                credential_id=credential_id,
+                issuer=issuer,
+                evidence_kind=str(evidence_kind),
+                evidence_url=evidence_url,
+                method=method,
+                errors=errors,
+            )
     elif available in {False, "unknown"}:
         leftover = []
         if method is not None:
@@ -476,6 +555,10 @@ def _check_verification_fields(credential_id: str, verification: Any, errors: li
             )
     else:
         errors.append(f"{credential_id}: verification.available must be true/false/unknown")
+
+
+def _normalize_issuer(value: str) -> str:
+    return normalize(value)
 
 
 def _normalize_evidence_url(url: str) -> str:
@@ -495,8 +578,110 @@ def _is_microsoft_credentials_hub(url: str) -> bool:
     return parts == ["credentials"] or (len(parts) == 2 and parts[1] == "credentials")
 
 
-def _check_evidence_url(
+def _credly_organization_slug(url: str) -> str | None:
+    parsed = urlparse(url.strip())
+    if parsed.scheme.lower() != "https":
+        return None
+    if parsed.netloc.lower() not in CREDLY_HOSTS:
+        return None
+    query = parsed.query.lower()
+    if query:
+        if "search" in query or any(marker in query for marker in TRACKING_QUERY_MARKERS):
+            return None
+        return None
+    parts = [part for part in parsed.path.split("/") if part]
+    if len(parts) != 3:
+        return None
+    if parts[0].lower() != "organizations" or parts[2].lower() != "badges":
+        return None
+    slug = parts[1].lower()
+    if not CREDLY_ORG_SLUG_RE.fullmatch(slug):
+        return None
+    return slug
+
+
+def _check_credly_issuer_compatibility(
     credential_id: str,
+    issuer: str,
+    evidence_url: str,
+    errors: list[str],
+) -> None:
+    slug = _credly_organization_slug(evidence_url)
+    if slug is None:
+        errors.append(
+            f"{credential_id}: badge-directory evidence_url must be an issuer-specific "
+            "Credly organization badges path"
+        )
+        return
+
+    issuer_key = _normalize_issuer(issuer)
+    allowed = ISSUER_CREDLY_ORG_SLUGS.get(issuer_key)
+    if allowed is None:
+        errors.append(
+            f"{credential_id}: no authorized Credly organization mapping exists for issuer "
+            f"'{issuer}'"
+        )
+        return
+    if slug not in allowed:
+        errors.append(
+            f"{credential_id}: Credly organization slug '{slug}' is not authorized for issuer "
+            f"'{issuer}'"
+        )
+
+
+def _method_contains_any(method_norm: str, phrases: tuple[str, ...]) -> bool:
+    return any(phrase in method_norm for phrase in phrases)
+
+
+def _check_method_kind_consistency(
+    credential_id: str,
+    evidence_kind: str,
+    method: str,
+    errors: list[str],
+) -> None:
+    method_norm = normalize(method)
+    if not method_norm:
+        return
+
+    if evidence_kind == "issuer_authorized_badge_directory":
+        if _method_contains_any(method_norm, BADGE_DIRECTORY_METHOD_CONTRADICTIONS):
+            errors.append(
+                f"{credential_id}: method claims a direct verification or exam-verification "
+                "tool but evidence_kind is badge directory"
+            )
+        elif not _method_contains_any(method_norm, BADGE_DIRECTORY_METHOD_HINTS):
+            errors.append(
+                f"{credential_id}: badge-directory method must describe a badge directory "
+                "or Credly organization directory"
+            )
+    elif evidence_kind == "issuer_verification_tool":
+        if _method_contains_any(method_norm, VERIFICATION_TOOL_METHOD_CONTRADICTIONS):
+            errors.append(
+                f"{credential_id}: method describes badge-directory or documentation evidence "
+                "but evidence_kind is verification tool"
+            )
+        elif not _method_contains_any(method_norm, VERIFICATION_TOOL_METHOD_HINTS):
+            errors.append(
+                f"{credential_id}: verification-tool method must describe an issuer "
+                "verification tool or endpoint"
+            )
+    elif evidence_kind == "issuer_verification_process_documentation":
+        if _method_contains_any(method_norm, PROCESS_DOCUMENTATION_METHOD_CONTRADICTIONS):
+            errors.append(
+                f"{credential_id}: method claims a direct lookup or exam-verification tool "
+                "but evidence_kind is process documentation"
+            )
+        elif not _method_contains_any(method_norm, PROCESS_DOCUMENTATION_METHOD_HINTS):
+            errors.append(
+                f"{credential_id}: process-documentation method must describe sharing, "
+                "validation, or verification process documentation"
+            )
+
+
+def _check_evidence_url(
+    *,
+    credential_id: str,
+    issuer: str,
     evidence_kind: str,
     evidence_url: str,
     method: Any,
@@ -522,11 +707,7 @@ def _check_evidence_url(
         errors.append(f"{credential_id}: generic Credly search is not verification evidence")
 
     if evidence_kind == "issuer_authorized_badge_directory":
-        if not CREDLY_ORG_BADGES_RE.match(evidence_url.strip()):
-            errors.append(
-                f"{credential_id}: badge-directory evidence_url must be an issuer-specific "
-                "Credly organization badges path"
-            )
+        _check_credly_issuer_compatibility(credential_id, issuer, evidence_url, errors)
     elif evidence_kind == "issuer_verification_tool":
         if (
             "verification" not in lowered
@@ -537,18 +718,16 @@ def _check_evidence_url(
                 f"{credential_id}: verification-tool evidence_url must point to an issuer "
                 "verification endpoint"
             )
-    elif evidence_kind == "issuer_verification_process_documentation":
-        if not any(hint in lowered for hint in DOCUMENTATION_PATH_HINTS):
-            errors.append(
-                f"{credential_id}: verification-process documentation URL must describe "
-                "sharing, validation, verification, transcripts, or credentials"
-            )
-        method_norm = normalize(str(method or ""))
-        if "verification tool" in method_norm or "verify tool" in method_norm:
-            errors.append(
-                f"{credential_id}: method claims a verification tool but evidence_kind is "
-                "process documentation"
-            )
+    elif evidence_kind == "issuer_verification_process_documentation" and not any(
+        hint in lowered for hint in DOCUMENTATION_PATH_HINTS
+    ):
+        errors.append(
+            f"{credential_id}: verification-process documentation URL must describe "
+            "sharing, validation, verification, transcripts, or credentials"
+        )
+
+    if isinstance(method, str) and evidence_kind in EVIDENCE_KINDS:
+        _check_method_kind_consistency(credential_id, evidence_kind, method, errors)
 
 
 def _check_url_hygiene(record_id: str, url: str, errors: list[str]) -> None:
