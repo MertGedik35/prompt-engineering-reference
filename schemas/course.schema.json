@@ -11,7 +11,7 @@
     "resource_type",
     "access_model",
     "credential_outcome",
-    "related_credential_ids",
+    "related_credentials",
     "level",
     "language",
     "hands_on",
@@ -48,6 +48,7 @@
     "resource_type": {
       "enum": [
         "structured_course",
+        "learning_module",
         "learning_path",
         "interactive_tutorial",
         "guided_lab",
@@ -59,7 +60,7 @@
       "enum": [
         "free",
         "free_with_account",
-        "free_audit_paid_certificate",
+        "free_with_optional_paid_completion",
         "paid_one_time",
         "subscription",
         "lab_credits",
@@ -78,16 +79,31 @@
         "skill_badge",
         "assessed_skill_credential",
         "applied_skill_credential",
-        "formal_certification",
         "professional_certificate_program"
       ]
     },
-    "related_credential_ids": {
+    "related_credentials": {
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "type": "string",
-        "pattern": "^credential-[a-z0-9]+(?:-[a-z0-9]+)*$"
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["credential_id", "relationship"],
+        "properties": {
+          "credential_id": {
+            "type": "string",
+            "pattern": "^credential-[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "relationship": {
+            "enum": [
+              "produces",
+              "official_preparation",
+              "recommended_learning",
+              "part_of",
+              "overview_of"
+            ]
+          }
+        }
       }
     },
     "level": {

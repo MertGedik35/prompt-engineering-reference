@@ -6,6 +6,7 @@ from collections import Counter
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 try:
     from .check_freshness import utc_today
@@ -15,6 +16,22 @@ except ImportError:  # pragma: no cover
 ROOT = Path(__file__).resolve().parents[1]
 COURSE_PATH = "catalog/courses.json"
 CREDENTIAL_PATH = "catalog/credentials.json"
+RELATIONSHIP_VALUES = {
+    "produces",
+    "official_preparation",
+    "recommended_learning",
+    "part_of",
+    "overview_of",
+}
+PRODUCES_COMPATIBLE_OUTCOMES = {
+    "completion_record",
+    "completion_certificate",
+    "digital_badge",
+    "skill_badge",
+    "assessed_skill_credential",
+    "applied_skill_credential",
+    "professional_certificate_program",
+}
 BANNED_MARKETING = (
     "best course",
     "guaranteed job",
@@ -24,12 +41,27 @@ BANNED_MARKETING = (
     "#1",
 )
 TRACKING_QUERY_MARKERS = ("utm_", "ref=", "affiliate", "coupon", "referral")
+INACTIVE_URL_MARKERS = (
+    "showredirectnotfoundbanner",
+    "searchtext=",
+    "/search?",
+)
 GENERIC_RATIONALES = {
     "covers generative ai topics",
     "relevant to prompt engineering",
     "useful for learners",
     "official provider training",
 }
+GENERIC_VALIDITY = (
+    "confirm current terms",
+    "check issuer page",
+    "see official website",
+    "confirm terms on the issuer",
+    "verify current",
+    "confirm current nvidia",
+    "confirm current aws",
+    "confirm current google",
+)
 
 
 def load_json(root: Path, relative: str) -> Any:
@@ -46,6 +78,24 @@ def parse_day(value: str) -> date:
 
 def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text.strip().lower())
+
+
+def related_credential_pairs(record: dict[str, Any]) -> list[tuple[str, str]]:
+    pairs: list[tuple[str, str]] = []
+    for item in record.get("related_credentials", []):
+        if not isinstance(item, dict):
+            continue
+        pairs.append((str(item.get("credential_id", "")), str(item.get("relationship", ""))))
+    return pairs
+
+
+def related_course_pairs(record: dict[str, Any]) -> list[tuple[str, str]]:
+    pairs: list[tuple[str, str]] = []
+    for item in record.get("related_courses", []):
+        if not isinstance(item, dict):
+            continue
+        pairs.append((str(item.get("course_id", "")), str(item.get("relationship", ""))))
+    return pairs
 
 
 def check_course_credential_quality(
@@ -68,11 +118,14 @@ def check_course_credential_quality(
     family_credentials = [
         record for record in credentials if record.get("entity_type") == "credential_family"
     ]
+    type_counts = Counter(str(record.get("resource_type", "")) for record in courses)
 
-    details.append(f"courses={len(courses)}")
+    details.append(f"learning_resources={len(courses)}")
     details.append(f"credentials_total={len(credentials)}")
     details.append(f"credentials_individual={len(individual_credentials)}")
     details.append(f"credentials_family={len(family_credentials)}")
+    for resource_type, count in sorted(type_counts.items()):
+        details.append(f"format_{resource_type}={count}")
 
     _check_identity(courses, COURSE_PATH, errors)
     _check_identity(credentials, CREDENTIAL_PATH, errors)
@@ -105,29 +158,69 @@ def _check_course_semantics(
     today: date,
     errors: list[str],
 ) -> None:
-    disallowed_types = {"example_collection", "documentation_series"}
     for record in courses:
         course_id = str(record.get("id", "<missing>"))
         resource_type = str(record.get("resource_type", ""))
-        if resource_type in disallowed_types:
-            errors.append(
-                f"{course_id}: resource_type {resource_type} is not allowed in the course catalog"
-            )
-        if resource_type == "example_collection":
-            errors.append(f"{course_id}: example collections must not be classified as courses")
-
         outcome = str(record.get("credential_outcome", ""))
-        related = [str(item) for item in record.get("related_credential_ids", [])]
-        if course_id in related:
-            errors.append(f"{course_id}: self-referencing related_credential_ids")
-        for credential_id in related:
+        access_model = str(record.get("access_model", ""))
+        canonical_url = str(record.get("canonical_url", ""))
+
+        if "/training/modules/" in canonical_url.lower() and resource_type == "structured_course":
+            errors.append(
+                f"{course_id}: Microsoft Learn modules must use learning_module, "
+                "not structured_course"
+            )
+
+        if "certificate" in access_model and outcome == "completion_record":
+            errors.append(
+                f"{course_id}: access_model must not use certificate terminology when the "
+                "outcome is only a completion/accomplishment record"
+            )
+
+        if resource_type == "learning_path" and outcome == "skill_badge":
+            produces = [
+                credential_id
+                for credential_id, relationship in related_credential_pairs(record)
+                if relationship == "produces"
+            ]
+            if not produces:
+                errors.append(
+                    f"{course_id}: learning_path cannot claim skill_badge without an explicit "
+                    "produces relationship to a skill-badge credential"
+                )
+
+        pairs = related_credential_pairs(record)
+        seen_pairs: set[tuple[str, str]] = set()
+        targets: dict[str, set[str]] = {}
+        for credential_id, relationship in pairs:
+            if relationship not in RELATIONSHIP_VALUES:
+                errors.append(f"{course_id}: invalid relationship {relationship}")
             if credential_id not in credential_ids:
                 errors.append(f"{course_id}: missing related credential {credential_id}")
-        if outcome == "no_credential" and related:
-            errors.append(f"{course_id}: no_credential courses cannot link related credentials")
-        if outcome == "formal_certification":
+            pair = (credential_id, relationship)
+            if pair in seen_pairs:
+                errors.append(
+                    f"{course_id}: duplicate relationship {relationship} -> {credential_id}"
+                )
+            seen_pairs.add(pair)
+            targets.setdefault(credential_id, set()).add(relationship)
+        for credential_id, relationships in targets.items():
+            if "produces" in relationships and "official_preparation" in relationships:
+                errors.append(
+                    f"{course_id}: conflicting relationships for {credential_id}: "
+                    "produces vs official_preparation"
+                )
+
+        if outcome == "no_credential" and any(
+            relationship == "produces" for _, relationship in pairs
+        ):
+            errors.append(f"{course_id}: no_credential cannot use produces relationships")
+        if (
+            any(relationship == "produces" for _, relationship in pairs)
+            and outcome not in PRODUCES_COMPATIBLE_OUTCOMES
+        ):
             errors.append(
-                f"{course_id}: courses cannot claim formal_certification as a course outcome"
+                f"{course_id}: produces relationship requires a compatible completion outcome"
             )
 
         relevance = str(record.get("prompt_engineering_relevance", ""))
@@ -144,7 +237,7 @@ def _check_course_semantics(
                 errors.append(f"{course_id}: unknown related lesson {lesson}")
 
         _check_freshness_fields(course_id, record, today, errors)
-        _check_url_hygiene(course_id, str(record.get("canonical_url", "")), errors)
+        _check_url_hygiene(course_id, canonical_url, errors)
 
 
 def _check_credential_semantics(
@@ -179,12 +272,54 @@ def _check_credential_semantics(
                 f"{credential_id}: individual credentials should not be titled as a family"
             )
 
-        related = [str(item) for item in record.get("related_course_ids", [])]
-        if credential_id in related:
-            errors.append(f"{credential_id}: self-referencing related_course_ids")
-        for course_id in related:
+        pairs = related_course_pairs(record)
+        seen_pairs: set[tuple[str, str]] = set()
+        targets: dict[str, set[str]] = {}
+        for course_id, relationship in pairs:
+            if relationship not in RELATIONSHIP_VALUES:
+                errors.append(f"{credential_id}: invalid relationship {relationship}")
             if course_id not in course_ids:
                 errors.append(f"{credential_id}: missing related course {course_id}")
+            pair = (course_id, relationship)
+            if pair in seen_pairs:
+                errors.append(
+                    f"{credential_id}: duplicate relationship {relationship} -> {course_id}"
+                )
+            seen_pairs.add(pair)
+            targets.setdefault(course_id, set()).add(relationship)
+        for course_id, relationships in targets.items():
+            if "produces" in relationships and "official_preparation" in relationships:
+                errors.append(
+                    f"{credential_id}: conflicting relationships for {course_id}: "
+                    "produces vs official_preparation"
+                )
+
+        verification = record.get("verification")
+        if not isinstance(verification, dict):
+            errors.append(f"{credential_id}: verification object is required")
+        else:
+            available = verification.get("available")
+            method = verification.get("method")
+            url = verification.get("url")
+            if available is True:
+                if not isinstance(method, str) or len(method.strip()) < 8:
+                    errors.append(f"{credential_id}: verification.available=true requires a method")
+                if url is not None:
+                    _check_url_hygiene(f"{credential_id}.verification", str(url), errors)
+            elif available in {False, "unknown"}:
+                if method is not None or url is not None:
+                    errors.append(
+                        f"{credential_id}: verification unavailable/unknown must not invent "
+                        "method or url fields"
+                    )
+            else:
+                errors.append(f"{credential_id}: verification.available must be true/false/unknown")
+
+        validity = normalize(str(record.get("validity_summary", "")))
+        if not validity:
+            errors.append(f"{credential_id}: missing validity_summary")
+        elif any(phrase in validity for phrase in GENERIC_VALIDITY):
+            errors.append(f"{credential_id}: validity_summary is a generic disclaimer")
 
         relevance = str(record.get("prompt_engineering_relevance", ""))
         rationale = str(record.get("relevance_rationale", "")).strip()
@@ -215,24 +350,26 @@ def _check_relationship_agreement(
     credentials: list[dict[str, Any]],
     errors: list[str],
 ) -> None:
-    course_by_id = {str(record["id"]): record for record in courses if "id" in record}
     credential_by_id = {str(record["id"]): record for record in credentials if "id" in record}
     for course in courses:
         course_id = str(course.get("id", ""))
-        for credential_id in course.get("related_credential_ids", []):
-            credential = credential_by_id.get(str(credential_id))
+        for credential_id, relationship in related_credential_pairs(course):
+            if relationship != "produces":
+                continue
+            credential = credential_by_id.get(credential_id)
             if credential is None:
                 continue
-            if course_id not in [str(item) for item in credential.get("related_course_ids", [])]:
+            if credential.get("entity_type") == "credential_family":
                 errors.append(
-                    f"{course_id}: related credential {credential_id} lacks reciprocal course link"
+                    f"{course_id}: produces cannot target credential family {credential_id}"
                 )
-    for credential in credentials:
-        for course_id in credential.get("related_course_ids", []):
-            if str(course_id) not in course_by_id:
-                # Missing IDs are already reported in credential semantics.
                 continue
-            # Prep-only credential→course links may omit reciprocity.
+            reciprocal = related_course_pairs(credential)
+            if (course_id, "produces") not in reciprocal:
+                errors.append(
+                    f"{course_id}: produces relationship to {credential_id} lacks reciprocal "
+                    "produces link on the credential"
+                )
 
 
 def _check_description_quality(
@@ -292,9 +429,18 @@ def _check_url_hygiene(record_id: str, url: str, errors: list[str]) -> None:
     lowered = url.lower()
     if not lowered.startswith("https://"):
         errors.append(f"{record_id}: canonical_url must use https")
+        return
+    parsed = urlparse(url)
+    if not parsed.netloc:
+        errors.append(f"{record_id}: canonical_url is incomplete")
     for marker in TRACKING_QUERY_MARKERS:
         if marker in lowered:
             errors.append(f"{record_id}: canonical_url contains tracking/affiliate marker {marker}")
+    for marker in INACTIVE_URL_MARKERS:
+        if marker in lowered:
+            errors.append(
+                f"{record_id}: canonical_url looks like a search/inactive redirect page ({marker})"
+            )
 
 
 def main() -> int:
