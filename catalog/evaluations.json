@@ -1,104 +1,111 @@
 [
   {
-    "id": "eval-customer-support-routing",
-    "slug": "customer-support-routing",
-    "title": "Customer support routing",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "related_patterns": [
-      "pattern-output-contract-first",
-      "pattern-few-shot-calibration",
-      "pattern-acceptance-self-check"
+    "id": "eval-source-grounded-answer",
+    "title": "Source-grounded answer",
+    "before_prompt": "Answer the question using the sources.",
+    "after_prompt": "List source IDs first, answer only from those sources, mark unsupported claims as not found, and finish with confidence.",
+    "rubric_dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
     ],
-    "before_prompt": "Classify this support message.",
-    "after_prompt": "Classify the support message into one allowed queue, return JSON, cite the phrase that supports the label, and use unknown when evidence is insufficient.",
     "rubric_scores_before": [
       2,
       2,
+      2,
       1,
       1,
       1,
       1,
-      1,
-      3
+      4
     ],
     "rubric_scores_after": [
       5,
+      5,
+      5,
       4,
       5,
       5,
-      5,
-      4,
       5,
       4
     ],
     "acceptance_criteria": [
-      "Allowed label only.",
-      "Evidence phrase included.",
-      "Unknown used for insufficient evidence."
-    ]
+      "Every factual claim maps to a source ID.",
+      "Unsupported claims are labeled."
+    ],
+    "last_reviewed": "2026-07-28"
   },
   {
-    "id": "eval-rag-policy-answer",
-    "slug": "rag-policy-answer",
-    "title": "RAG policy answer",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "related_patterns": [
-      "pattern-retrieval-grounded-answering",
-      "pattern-citation-before-answer",
-      "pattern-tool-result-provenance"
+    "id": "eval-json-extraction",
+    "title": "JSON extraction",
+    "before_prompt": "Extract the data as JSON.",
+    "after_prompt": "Extract into the supplied JSON Schema, use null for missing fields, and return only JSON that validates.",
+    "rubric_dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
     ],
-    "before_prompt": "Answer the user's policy question using the provided documents.",
-    "after_prompt": "Use only supplied policy excerpts, list supporting excerpt IDs first, answer in three bullets, and mark unsupported parts as not found in sources.",
     "rubric_scores_before": [
       3,
       2,
       2,
       2,
-      2,
       1,
+      2,
       1,
       4
     ],
     "rubric_scores_after": [
       5,
-      5,
-      5,
       4,
       5,
       5,
       5,
+      4,
+      5,
       4
     ],
     "acceptance_criteria": [
-      "Every claim maps to an excerpt ID.",
-      "Unsupported claims are not inferred.",
-      "Answer stays within the requested length."
-    ]
+      "JSON parses.",
+      "Required fields are present.",
+      "Unknown values follow null policy."
+    ],
+    "last_reviewed": "2026-07-28"
   },
   {
-    "id": "eval-coding-agent-change",
-    "slug": "coding-agent-change",
-    "title": "Coding-agent repository change",
-    "status": "stable",
-    "last_reviewed": "2026-07-28",
-    "related_patterns": [
-      "pattern-tool-selection-policy",
-      "pattern-checkpointed-execution",
-      "pattern-state-handoff-summary"
+    "id": "eval-agent-tool-use",
+    "title": "Agent tool use",
+    "before_prompt": "Use tools if needed and finish the task.",
+    "after_prompt": "Use tools only when required by current external state, record provenance, stop before sensitive actions, and report commands run.",
+    "rubric_dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
     ],
-    "before_prompt": "Fix the bug and run tests.",
-    "after_prompt": "Inspect the repository, identify the failing path, make the smallest code change, run targeted then full tests, and report exact files and commands.",
     "rubric_scores_before": [
       2,
-      1,
+      2,
       2,
       1,
       1,
       2,
-      1,
-      3
+      2,
+      2
     ],
     "rubric_scores_after": [
       5,
@@ -108,12 +115,13 @@
       4,
       5,
       5,
-      4
+      5
     ],
     "acceptance_criteria": [
-      "Repository state is inspected before editing.",
-      "Tests are named with pass or fail status.",
-      "Final response lists changed files."
-    ]
+      "Tool calls are justified.",
+      "Sensitive actions require approval.",
+      "Final answer cites tool evidence."
+    ],
+    "last_reviewed": "2026-07-28"
   }
 ]

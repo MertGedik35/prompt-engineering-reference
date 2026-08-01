@@ -2,10 +2,10 @@ cff-version: 1.2.0
 title: Prompt Engineering Reference
 message: If you use this repository, cite it using this metadata.
 type: software
+abstract: Learning and reference platform for prompt engineering patterns, templates, resources, provider guidance, and evaluations.
 authors:
   - family-names: Gedik
     given-names: Mert
 repository-code: https://github.com/MertGedik35/prompt-engineering-reference
-license: MIT
-version: 1.0.0
-date-released: 2026-07-28
+license: MIT AND CC0-1.0
+version: 2.0.0a0

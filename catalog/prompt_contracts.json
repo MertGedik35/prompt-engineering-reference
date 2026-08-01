@@ -3,9 +3,9 @@
     "id": "contract-minimal",
     "name": "Minimal",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "use_case": "Small one-off tasks that need only goal, input, and output.",
+    "use_case": "Use for one-off tasks with low risk.",
     "dimensions": [
       "Objective",
       "Context",
@@ -16,19 +16,25 @@
       "Output Contract",
       "Evaluation"
     ],
+    "required_sections": [
+      "objective",
+      "input",
+      "output_format"
+    ],
+    "copyable_prompt": "You are using the Minimal Prompt Contract.\nUse case: Use for one-off tasks with low risk.\nRequired sections: objective, input, output_format.\nReturn only the requested output contract, then a short acceptance check.",
     "acceptance_criteria": [
-      "Objective is explicit.",
-      "Inputs and source boundaries are named.",
-      "Output can be reviewed against a stated contract."
+      "The prompt includes all minimal required sections.",
+      "The output contract is explicit enough to test.",
+      "Failure handling is stated before generation begins."
     ]
   },
   {
     "id": "contract-standard",
     "name": "Standard",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "use_case": "Reusable prompts that should be testable and maintainable.",
+    "use_case": "Use for reusable prompts that need review.",
     "dimensions": [
       "Objective",
       "Context",
@@ -39,19 +45,59 @@
       "Output Contract",
       "Evaluation"
     ],
+    "required_sections": [
+      "objective",
+      "context",
+      "inputs",
+      "instructions",
+      "output_contract",
+      "acceptance_criteria"
+    ],
+    "copyable_prompt": "You are using the Standard Prompt Contract.\nUse case: Use for reusable prompts that need review.\nRequired sections: objective, context, inputs, instructions, output_contract, acceptance_criteria.\nReturn only the requested output contract, then a short acceptance check.",
     "acceptance_criteria": [
-      "Objective is explicit.",
-      "Inputs and source boundaries are named.",
-      "Output can be reviewed against a stated contract."
+      "The prompt includes all standard required sections.",
+      "The output contract is explicit enough to test.",
+      "Failure handling is stated before generation begins."
+    ]
+  },
+  {
+    "id": "contract-research",
+    "name": "Research",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "use_case": "Use for source-grounded synthesis.",
+    "dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "required_sections": [
+      "question",
+      "source_hierarchy",
+      "evidence_table",
+      "uncertainty_policy",
+      "citations"
+    ],
+    "copyable_prompt": "You are using the Research Prompt Contract.\nUse case: Use for source-grounded synthesis.\nRequired sections: question, source_hierarchy, evidence_table, uncertainty_policy, citations.\nReturn only the requested output contract, then a short acceptance check.",
+    "acceptance_criteria": [
+      "The prompt includes all research required sections.",
+      "The output contract is explicit enough to test.",
+      "Failure handling is stated before generation begins."
     ]
   },
   {
     "id": "contract-production",
     "name": "Production",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "use_case": "Prompts embedded in products, automations, or repeatable operations.",
+    "use_case": "Use for prompts deployed in repeatable workflows.",
     "dimensions": [
       "Objective",
       "Context",
@@ -62,19 +108,28 @@
       "Output Contract",
       "Evaluation"
     ],
+    "required_sections": [
+      "owner",
+      "version",
+      "rollback",
+      "monitoring",
+      "eval_cases",
+      "approval_gate"
+    ],
+    "copyable_prompt": "You are using the Production Prompt Contract.\nUse case: Use for prompts deployed in repeatable workflows.\nRequired sections: owner, version, rollback, monitoring, eval_cases, approval_gate.\nReturn only the requested output contract, then a short acceptance check.",
     "acceptance_criteria": [
-      "Objective is explicit.",
-      "Inputs and source boundaries are named.",
-      "Output can be reviewed against a stated contract."
+      "The prompt includes all production required sections.",
+      "The output contract is explicit enough to test.",
+      "Failure handling is stated before generation begins."
     ]
   },
   {
     "id": "contract-coding-agent",
-    "name": "Coding-agent",
+    "name": "Coding agent",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "use_case": "Repository tasks involving tools, edits, tests, and handoff.",
+    "use_case": "Use for repository edits with tools and tests.",
     "dimensions": [
       "Objective",
       "Context",
@@ -85,19 +140,28 @@
       "Output Contract",
       "Evaluation"
     ],
+    "required_sections": [
+      "repo_state",
+      "task",
+      "allowed_tools",
+      "edit_scope",
+      "test_plan",
+      "final_report"
+    ],
+    "copyable_prompt": "You are using the Coding agent Prompt Contract.\nUse case: Use for repository edits with tools and tests.\nRequired sections: repo_state, task, allowed_tools, edit_scope, test_plan, final_report.\nReturn only the requested output contract, then a short acceptance check.",
     "acceptance_criteria": [
-      "Objective is explicit.",
-      "Inputs and source boundaries are named.",
-      "Output can be reviewed against a stated contract."
+      "The prompt includes all coding agent required sections.",
+      "The output contract is explicit enough to test.",
+      "Failure handling is stated before generation begins."
     ]
   },
   {
     "id": "contract-long-document",
     "name": "Long-document",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "use_case": "Large context tasks with chunking, provenance, and synthesis.",
+    "use_case": "Use for large inputs that require decomposition.",
     "dimensions": [
       "Objective",
       "Context",
@@ -108,19 +172,27 @@
       "Output Contract",
       "Evaluation"
     ],
+    "required_sections": [
+      "chunk_plan",
+      "chunk_schema",
+      "merge_rules",
+      "conflict_policy",
+      "provenance"
+    ],
+    "copyable_prompt": "You are using the Long-document Prompt Contract.\nUse case: Use for large inputs that require decomposition.\nRequired sections: chunk_plan, chunk_schema, merge_rules, conflict_policy, provenance.\nReturn only the requested output contract, then a short acceptance check.",
     "acceptance_criteria": [
-      "Objective is explicit.",
-      "Inputs and source boundaries are named.",
-      "Output can be reviewed against a stated contract."
+      "The prompt includes all long-document required sections.",
+      "The output contract is explicit enough to test.",
+      "Failure handling is stated before generation begins."
     ]
   },
   {
     "id": "contract-tool-using-agent",
     "name": "Tool-using agent",
     "status": "stable",
-    "version": "1.0.0",
+    "version": "2.0.0-alpha",
     "last_reviewed": "2026-07-28",
-    "use_case": "Agents that call tools and need authority, logging, and approval rules.",
+    "use_case": "Use when the model can call external tools.",
     "dimensions": [
       "Objective",
       "Context",
@@ -131,10 +203,49 @@
       "Output Contract",
       "Evaluation"
     ],
+    "required_sections": [
+      "tool_policy",
+      "authority_limits",
+      "approval_rules",
+      "tool_provenance",
+      "stop_conditions"
+    ],
+    "copyable_prompt": "You are using the Tool-using agent Prompt Contract.\nUse case: Use when the model can call external tools.\nRequired sections: tool_policy, authority_limits, approval_rules, tool_provenance, stop_conditions.\nReturn only the requested output contract, then a short acceptance check.",
     "acceptance_criteria": [
-      "Objective is explicit.",
-      "Inputs and source boundaries are named.",
-      "Output can be reviewed against a stated contract."
+      "The prompt includes all tool-using agent required sections.",
+      "The output contract is explicit enough to test.",
+      "Failure handling is stated before generation begins."
+    ]
+  },
+  {
+    "id": "contract-multimodal",
+    "name": "Multimodal",
+    "status": "stable",
+    "version": "2.0.0-alpha",
+    "last_reviewed": "2026-07-28",
+    "use_case": "Use for visual, audio, video, or mixed-media tasks.",
+    "dimensions": [
+      "Objective",
+      "Context",
+      "Inputs",
+      "Instructions",
+      "Constraints",
+      "Tools and Sources",
+      "Output Contract",
+      "Evaluation"
+    ],
+    "required_sections": [
+      "media_inputs",
+      "observation_schema",
+      "ambiguity_policy",
+      "accessibility_checks",
+      "output_format"
+    ],
+    "copyable_prompt": "You are using the Multimodal Prompt Contract.\nUse case: Use for visual, audio, video, or mixed-media tasks.\nRequired sections: media_inputs, observation_schema, ambiguity_policy, accessibility_checks, output_format.\nReturn only the requested output contract, then a short acceptance check.",
+    "acceptance_criteria": [
+      "The prompt includes all multimodal required sections.",
+      "The output contract is explicit enough to test.",
+      "Failure handling is stated before generation begins."
     ]
   }
 ]

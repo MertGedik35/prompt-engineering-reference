@@ -1,0 +1,498 @@
+[
+  {
+    "id": "official-openai-prompt-engineering",
+    "title": "OpenAI prompt engineering guide",
+    "resource_type": "official_documentation",
+    "provider": "OpenAI",
+    "canonical_url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+    "official": true,
+    "description": "Prompt structure and general model guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "08-context-engineering"
+    ]
+  },
+  {
+    "id": "official-openai-structured-outputs",
+    "title": "OpenAI structured outputs",
+    "resource_type": "official_documentation",
+    "provider": "OpenAI",
+    "canonical_url": "https://developers.openai.com/api/docs/guides/structured-outputs",
+    "official": true,
+    "description": "Provider-native structured output guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "05-structured-outputs"
+    ]
+  },
+  {
+    "id": "official-openai-function-calling",
+    "title": "OpenAI function calling",
+    "resource_type": "official_documentation",
+    "provider": "OpenAI",
+    "canonical_url": "https://developers.openai.com/api/docs/guides/function-calling",
+    "official": true,
+    "description": "Tool/function schema guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "07-agents-and-tools"
+    ]
+  },
+  {
+    "id": "official-openai-evals",
+    "title": "OpenAI evals guide",
+    "resource_type": "official_documentation",
+    "provider": "OpenAI",
+    "canonical_url": "https://developers.openai.com/api/docs/guides/evals",
+    "official": true,
+    "description": "Evaluation workflow guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "06-evaluation",
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-claude-prompting-overview",
+    "title": "Claude prompt engineering overview",
+    "resource_type": "official_documentation",
+    "provider": "Anthropic",
+    "canonical_url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+    "official": true,
+    "description": "Claude prompting workflow and success criteria.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "06-evaluation"
+    ]
+  },
+  {
+    "id": "official-claude-tool-use",
+    "title": "Claude tool use",
+    "resource_type": "official_documentation",
+    "provider": "Anthropic",
+    "canonical_url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
+    "official": true,
+    "description": "Claude tool-use behavior and schema guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "07-agents-and-tools"
+    ]
+  },
+  {
+    "id": "official-claude-code-prompts",
+    "title": "Claude Code prompt library",
+    "resource_type": "official_prompt_resource",
+    "provider": "Anthropic",
+    "canonical_url": "https://code.claude.com/docs/en/prompt-library",
+    "official": true,
+    "description": "Claude Code task prompts with explanations.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": true,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-gemini-prompting",
+    "title": "Gemini prompting strategies",
+    "resource_type": "official_documentation",
+    "provider": "Google",
+    "canonical_url": "https://ai.google.dev/gemini-api/docs/prompting-strategies",
+    "official": true,
+    "description": "Gemini prompt design strategies.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "04-grounding-and-long-context",
+      "10-multimodal"
+    ]
+  },
+  {
+    "id": "official-gemini-structured-output",
+    "title": "Gemini structured output",
+    "resource_type": "official_documentation",
+    "provider": "Google",
+    "canonical_url": "https://ai.google.dev/gemini-api/docs/structured-output",
+    "official": true,
+    "description": "Gemini structured response guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "05-structured-outputs"
+    ]
+  },
+  {
+    "id": "official-gemini-function-calling",
+    "title": "Gemini function calling",
+    "resource_type": "official_documentation",
+    "provider": "Google",
+    "canonical_url": "https://ai.google.dev/gemini-api/docs/function-calling",
+    "official": true,
+    "description": "Gemini tool/function calling.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "07-agents-and-tools"
+    ]
+  },
+  {
+    "id": "official-azure-prompt-engineering",
+    "title": "Azure OpenAI prompt engineering",
+    "resource_type": "official_documentation",
+    "provider": "Microsoft",
+    "canonical_url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+    "official": true,
+    "description": "Azure OpenAI prompt engineering concepts.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "04-grounding-and-long-context"
+    ]
+  },
+  {
+    "id": "official-azure-function-calling",
+    "title": "Azure OpenAI function calling",
+    "resource_type": "official_documentation",
+    "provider": "Microsoft",
+    "canonical_url": "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/function-calling",
+    "official": true,
+    "description": "Azure function calling guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "07-agents-and-tools",
+      "09-security"
+    ]
+  },
+  {
+    "id": "official-copilot-prompt-gallery",
+    "title": "Microsoft Copilot Prompt Gallery",
+    "resource_type": "official_prompt_resource",
+    "provider": "Microsoft",
+    "canonical_url": "https://adoption.microsoft.com/en-us/copilot/prompt-gallery/",
+    "official": true,
+    "description": "Microsoft-authored Copilot prompt examples.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": true,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy"
+    ]
+  },
+  {
+    "id": "official-bedrock-prompt-guidelines",
+    "title": "Amazon Bedrock prompt engineering guidelines",
+    "resource_type": "official_documentation",
+    "provider": "AWS",
+    "canonical_url": "https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-engineering-guidelines.html",
+    "official": true,
+    "description": "Bedrock prompt engineering guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "08-context-engineering"
+    ]
+  },
+  {
+    "id": "official-bedrock-agents",
+    "title": "Amazon Bedrock Agents",
+    "resource_type": "official_documentation",
+    "provider": "AWS",
+    "canonical_url": "https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html",
+    "official": true,
+    "description": "Bedrock agent design guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "07-agents-and-tools",
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-bedrock-guardrails",
+    "title": "Amazon Bedrock Guardrails",
+    "resource_type": "official_documentation",
+    "provider": "AWS",
+    "canonical_url": "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html",
+    "official": true,
+    "description": "Provider guardrail documentation.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "09-security"
+    ]
+  },
+  {
+    "id": "official-llama-docs",
+    "title": "Llama model repository",
+    "resource_type": "official_documentation",
+    "provider": "Meta",
+    "canonical_url": "https://github.com/meta-llama/llama-models",
+    "official": true,
+    "description": "Meta-owned Llama model artifacts, model cards, and release documentation.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-llama-prompt-format",
+    "title": "Llama prompt format",
+    "resource_type": "official_documentation",
+    "provider": "Meta",
+    "canonical_url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_3/prompt_format.md",
+    "official": true,
+    "description": "Chat template and prompt formatting guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "07-agents-and-tools",
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-mistral-prompting",
+    "title": "Mistral prompting",
+    "resource_type": "official_documentation",
+    "provider": "Mistral AI",
+    "canonical_url": "https://docs.mistral.ai/studio-api/conversations/chat-completion/prompting",
+    "official": true,
+    "description": "Mistral prompting guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy"
+    ]
+  },
+  {
+    "id": "official-mistral-function-calling",
+    "title": "Mistral function calling",
+    "resource_type": "official_documentation",
+    "provider": "Mistral AI",
+    "canonical_url": "https://docs.mistral.ai/studio-api/conversations/function-calling",
+    "official": true,
+    "description": "Mistral tool/function calling.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "07-agents-and-tools"
+    ]
+  },
+  {
+    "id": "official-mistral-structured-output",
+    "title": "Mistral structured output",
+    "resource_type": "official_documentation",
+    "provider": "Mistral AI",
+    "canonical_url": "https://docs.mistral.ai/studio-api/conversations/structured-output",
+    "official": true,
+    "description": "Mistral structured output guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "05-structured-outputs"
+    ]
+  },
+  {
+    "id": "official-huggingface-chat-templates",
+    "title": "Transformers chat templates",
+    "resource_type": "official_documentation",
+    "provider": "Hugging Face",
+    "canonical_url": "https://huggingface.co/docs/transformers/chat_templating",
+    "official": true,
+    "description": "Tokenizer-owned chat serialization and control-token guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "08-context-engineering",
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-vllm-quantization",
+    "title": "vLLM quantization",
+    "resource_type": "official_documentation",
+    "provider": "vLLM",
+    "canonical_url": "https://docs.vllm.ai/en/latest/features/quantization/",
+    "official": true,
+    "description": "Runtime-owned quantization methods and compatibility guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "11-production-operations"
+    ]
+  },
+  {
+    "id": "official-vllm-openai-compatible-server",
+    "title": "vLLM OpenAI-compatible server",
+    "resource_type": "official_documentation",
+    "provider": "vLLM",
+    "canonical_url": "https://docs.vllm.ai/en/latest/serving/openai_compatible_server/",
+    "official": true,
+    "description": "Runtime-owned HTTP compatibility surface and server extensions.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "level": "mixed",
+    "language": "English",
+    "hands_on": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 90,
+    "stale_risk": "high",
+    "related_lessons": [
+      "07-agents-and-tools",
+      "11-production-operations"
+    ]
+  }
+]

@@ -1,0 +1,194 @@
+[
+  {
+    "id": "repo-openai-cookbook",
+    "title": "OpenAI Cookbook",
+    "owner": "OpenAI",
+    "canonical_url": "https://github.com/openai/openai-cookbook",
+    "description": "Official examples for OpenAI APIs, including evaluation notebooks under examples/evaluation. Example collections are not cataloged as courses.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": true,
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "06-evaluation",
+      "07-agents-and-tools"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-anthropic-courses",
+    "title": "Anthropic courses",
+    "owner": "Anthropic",
+    "canonical_url": "https://github.com/anthropics/courses",
+    "description": "Official tutorials for prompt engineering and evaluations.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": true,
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "06-evaluation",
+      "07-agents-and-tools"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-meta-llama-cookbook",
+    "title": "Llama Cookbook",
+    "owner": "Meta",
+    "canonical_url": "https://github.com/meta-llama/llama-cookbook",
+    "description": "Official Llama recipes and examples.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": true,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "02-prompt-anatomy",
+      "07-agents-and-tools",
+      "11-production-operations"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-promptfoo",
+    "title": "promptfoo",
+    "owner": "Community",
+    "canonical_url": "https://github.com/promptfoo/promptfoo",
+    "description": "Open-source prompt and model evaluation framework.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": false,
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "06-evaluation",
+      "07-agents-and-tools"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-microsoft-promptflow",
+    "title": "promptflow",
+    "owner": "Microsoft",
+    "canonical_url": "https://github.com/microsoft/promptflow",
+    "description": "Microsoft workflow and evaluation tooling for LLM applications.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": true,
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "06-evaluation",
+      "07-agents-and-tools"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-guardrails-ai",
+    "title": "Guardrails AI",
+    "owner": "Community",
+    "canonical_url": "https://github.com/guardrails-ai/guardrails",
+    "description": "Validation framework for structured LLM outputs.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": false,
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "06-evaluation",
+      "07-agents-and-tools"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-langchain",
+    "title": "LangChain",
+    "owner": "Community",
+    "canonical_url": "https://github.com/langchain-ai/langchain",
+    "description": "Framework for LLM applications, chains, tools, and agents.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": false,
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "06-evaluation",
+      "07-agents-and-tools"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-llamaindex",
+    "title": "LlamaIndex",
+    "owner": "Community",
+    "canonical_url": "https://github.com/run-llama/llama_index",
+    "description": "Data framework for retrieval and agent workflows.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": false,
+    "last_verified": "2026-07-31",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "04-grounding-and-long-context",
+      "07-agents-and-tools",
+      "08-context-engineering"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-owasp-llm",
+    "title": "OWASP LLM Top 10",
+    "owner": "OWASP",
+    "canonical_url": "https://github.com/OWASP/www-project-top-10-for-large-language-model-applications",
+    "description": "Security reference for LLM application risks.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": true,
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "06-evaluation",
+      "07-agents-and-tools"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  },
+  {
+    "id": "repo-mitre-atlas",
+    "title": "MITRE ATLAS",
+    "owner": "MITRE",
+    "canonical_url": "https://github.com/mitre-atlas/atlas-navigator-data",
+    "description": "Adversarial AI knowledge base data.",
+    "license_status": "check_upstream",
+    "maintenance_status": "active_or_reference",
+    "official": true,
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium",
+    "related_lessons": [
+      "06-evaluation",
+      "07-agents-and-tools"
+    ],
+    "pricing_type": "free",
+    "credential_type": "no_credential"
+  }
+]

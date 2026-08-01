@@ -4,15 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "prompt-engineering-reference"
-version = "1.0.0"
-description = "Machine-readable prompt engineering reference with patterns, templates, evaluations, and provider guidance."
+version = "2.0.0a0"
+description = "Learning and reference platform for prompt engineering patterns, templates, resources, provider guidance, and evaluations."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT AND CC0-1.0" }
 authors = [{ name = "Mert Gedik" }]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.5", "mypy>=1.10"]
+dev = ["pytest>=8.0", "ruff>=0.5", "mypy>=1.10", "jsonschema>=4.22", "detect-secrets>=1.5"]
 docs = ["mkdocs>=1.6,<2.0", "mkdocs-material>=9.5,<9.8"]
 
 [tool.setuptools]
@@ -35,3 +35,7 @@ disallow_untyped_defs = true
 check_untyped_defs = true
 warn_unused_configs = true
 no_implicit_optional = true
+
+[[tool.mypy.overrides]]
+module = ["jsonschema"]
+ignore_missing_imports = true

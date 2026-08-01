@@ -1,0 +1,509 @@
+[
+  {
+    "id": "provider-openai",
+    "slug": "openai",
+    "name": "OpenAI",
+    "provider": "OpenAI",
+    "status": "active",
+    "scope": [
+      "OpenAI API message design where developer instructions, user input, and retrieved evidence must remain distinguishable.",
+      "Structured Outputs, function calling, and eval-driven prompt changes used by an application."
+    ],
+    "out_of_scope": [
+      "ChatGPT product-plan behavior, workspace administration, and undocumented interface features.",
+      "Claims that one prompt behaves identically across every current or future OpenAI model."
+    ],
+    "official_source_ids": [
+      "official-openai-prompt-engineering",
+      "official-openai-structured-outputs",
+      "official-openai-function-calling",
+      "official-openai-evals"
+    ],
+    "supporting_source_ids": [],
+    "stable_guidance": [
+      "Place policy and application rules in developer instructions, then pass the end user's request as user input.",
+      "Use a response schema when application code requires typed fields, and validate field meaning after schema conformance.",
+      "Run prompt or schema changes against stored cases and graders before replacing the production version."
+    ],
+    "provider_specific_guidance": [
+      "Treat Structured Outputs and JSON mode as different contracts; schema adherence is the relevant choice when typed output is required.",
+      "Describe each function's business preconditions in its tool definition, but let application code execute and authorize the call.",
+      "Keep evaluation cases, graders, and prompt versions connected so regressions are attributable to a specific change."
+    ],
+    "fast_stale_areas": [
+      {
+        "area": "Instruction-role and model-specific prompting recommendations",
+        "why_stale": "The prompt guide can change as model families and recommended controls evolve.",
+        "source_id": "official-openai-prompt-engineering",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Supported Structured Outputs schema surface",
+        "why_stale": "Supported schema features and model coverage are provider-versioned behavior.",
+        "source_id": "official-openai-structured-outputs",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Function-calling parameters and strict-mode behavior",
+        "why_stale": "Tool controls and schema requirements can change with the API surface.",
+        "source_id": "official-openai-function-calling",
+        "last_verified": "2026-07-31"
+      }
+    ],
+    "remaining_gaps": [
+      "This repository has not executed the examples against multiple OpenAI model snapshots.",
+      "Latency, token use, and grader agreement have not been measured for the fictional support-triage workflow."
+    ],
+    "acceptance_criteria": [
+      "The sample keeps developer policy separate from the fictional customer message.",
+      "The production workflow validates both Structured Outputs conformance and cited ticket evidence.",
+      "Any function call remains subject to application authorization and is not treated as permission granted by the model."
+    ],
+    "last_verified": "2026-07-31",
+    "stale_after_days": 60,
+    "stale_risk": "high"
+  },
+  {
+    "id": "provider-anthropic",
+    "slug": "anthropic",
+    "name": "Anthropic Claude",
+    "provider": "Anthropic",
+    "status": "active",
+    "scope": [
+      "Claude API prompt iteration that begins with task-specific success criteria and an evaluation set.",
+      "Claude tool definitions and Claude Code prompt-library examples used within their documented product surfaces."
+    ],
+    "out_of_scope": [
+      "Undocumented Claude model differences, beta controls, subscription limits, or live product availability.",
+      "Treating a Claude Code workflow prompt as a universal system prompt for unrelated Claude API applications."
+    ],
+    "official_source_ids": [
+      "official-claude-prompting-overview",
+      "official-claude-tool-use",
+      "official-claude-code-prompts"
+    ],
+    "supporting_source_ids": [],
+    "stable_guidance": [
+      "Define observable success criteria and representative failures before choosing a prompt technique.",
+      "Separate reference material from instructions with explicit boundaries and allow an insufficient-evidence outcome.",
+      "Give tools narrow descriptions and schemas so tool selection can be evaluated independently from answer prose."
+    ],
+    "provider_specific_guidance": [
+      "Use the Claude prompting workflow to diagnose whether the failure belongs to prompting, model selection, or missing application context.",
+      "For client tools, execute the requested operation outside the model and return a bounded result in the next message.",
+      "Apply Claude Code prompt-library patterns only after preserving their coding-agent context and review checkpoints."
+    ],
+    "fast_stale_areas": [
+      {
+        "area": "Claude prompting techniques and model-selection boundaries",
+        "why_stale": "The overview is revised alongside Claude model capabilities and recommended techniques.",
+        "source_id": "official-claude-prompting-overview",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Tool schema options and client-versus-server tool behavior",
+        "why_stale": "Tool types, strict schema support, and execution responsibilities are active API features.",
+        "source_id": "official-claude-tool-use",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Claude Code prompt-library tasks and product workflow",
+        "why_stale": "Coding-agent commands and supported workflows can change independently of the Claude API.",
+        "source_id": "official-claude-code-prompts",
+        "last_verified": "2026-07-31"
+      }
+    ],
+    "remaining_gaps": [
+      "No live comparison has established whether the example's evidence labels are stable across Claude model generations.",
+      "Claude Code examples were reviewed as product documentation but were not executed inside a repository session."
+    ],
+    "acceptance_criteria": [
+      "The document-review example has an explicit abstention path when the supplied policy lacks an answer.",
+      "Tool evaluation distinguishes correct tool choice from valid application-side execution.",
+      "A Claude Code-derived technique is labeled product-specific instead of being generalized to every Claude surface."
+    ],
+    "last_verified": "2026-07-31",
+    "stale_after_days": 60,
+    "stale_risk": "high"
+  },
+  {
+    "id": "provider-google",
+    "slug": "google",
+    "name": "Google Gemini",
+    "provider": "Google",
+    "status": "active",
+    "scope": [
+      "Gemini API prompts that combine text with image or document evidence and require explicit source priority.",
+      "Gemini Structured Outputs and function declarations used for typed extraction or application tools."
+    ],
+    "out_of_scope": [
+      "Vertex AI product configuration, regional availability, pricing, quotas, and certification guidance.",
+      "Unverified assumptions about media limits, thinking behavior, or feature parity across Gemini models."
+    ],
+    "official_source_ids": [
+      "official-gemini-prompting",
+      "official-gemini-structured-output",
+      "official-gemini-function-calling"
+    ],
+    "supporting_source_ids": [],
+    "stable_guidance": [
+      "Assign each media item a purpose and define what to do when visual evidence is unreadable or conflicts with text.",
+      "Use a response schema for extraction, while retaining semantic validation for values the schema cannot prove.",
+      "Test both tool-call and no-tool paths because application code, not the model, performs the external operation."
+    ],
+    "provider_specific_guidance": [
+      "Order multimodal parts deliberately and refer to the relevant image or document unambiguously in the instruction.",
+      "Design Structured Outputs against Gemini's documented JSON Schema subset rather than assuming arbitrary schema support.",
+      "Translate a Gemini function call into an authorized application action, then provide only the necessary result back to the model."
+    ],
+    "fast_stale_areas": [
+      {
+        "area": "Gemini multimodal prompting recommendations",
+        "why_stale": "Supported media behavior and recommended prompt patterns evolve with Gemini capabilities.",
+        "source_id": "official-gemini-prompting",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Gemini Structured Outputs schema subset",
+        "why_stale": "Schema keyword support and compatible models are versioned provider behavior.",
+        "source_id": "official-gemini-structured-output",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Function-calling modes and composition",
+        "why_stale": "Function-calling controls and supported combinations can change in the API.",
+        "source_id": "official-gemini-function-calling",
+        "last_verified": "2026-07-31"
+      }
+    ],
+    "remaining_gaps": [
+      "The image-plus-invoice example has not been run against Gemini with degraded or rotated scans.",
+      "This repository has not measured portability between Gemini Structured Outputs and another provider's schema subset."
+    ],
+    "acceptance_criteria": [
+      "The invoice workflow reports unreadable visual regions instead of inventing field values.",
+      "Every extracted amount is checked against the declared Gemini response schema and a business-rule validator.",
+      "The delivery-status function cannot expose another fictional account because authorization occurs outside the prompt."
+    ],
+    "last_verified": "2026-07-31",
+    "stale_after_days": 60,
+    "stale_risk": "high"
+  },
+  {
+    "id": "provider-microsoft",
+    "slug": "microsoft",
+    "name": "Microsoft Azure OpenAI and Copilot",
+    "provider": "Microsoft",
+    "status": "active",
+    "scope": [
+      "Azure OpenAI API prompt and function-calling decisions documented in Microsoft Learn.",
+      "Microsoft 365 Copilot end-user prompt composition illustrated by the official Prompt Gallery."
+    ],
+    "out_of_scope": [
+      "Claims that Azure OpenAI deployments and Microsoft 365 Copilot share one context, permission, or tool model.",
+      "Tenant licensing, regional deployment availability, connectors, and undocumented Copilot orchestration."
+    ],
+    "official_source_ids": [
+      "official-azure-prompt-engineering",
+      "official-azure-function-calling",
+      "official-copilot-prompt-gallery"
+    ],
+    "supporting_source_ids": [],
+    "stable_guidance": [
+      "Record whether a workflow targets an Azure OpenAI API deployment or a Microsoft 365 Copilot user experience before adapting prompts.",
+      "For Azure function calls, keep identity, authorization, argument validation, and side-effect approval in application controls.",
+      "For Copilot prompts, name the work artifact, intended audience, and deliverable without presuming the user can access a source."
+    ],
+    "provider_specific_guidance": [
+      "Treat Azure deployment and API configuration as runtime metadata rather than embedding it in reusable prompt prose.",
+      "Use Azure function definitions to expose bounded operations, then validate calls against the signed-in principal's permissions.",
+      "Use Prompt Gallery examples as Microsoft 365 task patterns, not as evidence for Azure OpenAI API semantics."
+    ],
+    "fast_stale_areas": [
+      {
+        "area": "Azure OpenAI prompt-engineering page location and platform terminology",
+        "why_stale": "Microsoft Learn routes and Azure AI Foundry naming change as the platform evolves.",
+        "source_id": "official-azure-prompt-engineering",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Azure function-calling API surface",
+        "why_stale": "API versions, supported controls, and function behavior can vary by deployment.",
+        "source_id": "official-azure-function-calling",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Microsoft Copilot Prompt Gallery examples",
+        "why_stale": "Gallery categories and Microsoft 365 product experiences can change without Azure API changes.",
+        "source_id": "official-copilot-prompt-gallery",
+        "last_verified": "2026-07-31"
+      }
+    ],
+    "remaining_gaps": [
+      "The Copilot meeting-brief example has not been tested in a Microsoft 365 tenant with real permission boundaries.",
+      "No Azure deployment was called to validate function-choice behavior for the fictional purchase-request service."
+    ],
+    "acceptance_criteria": [
+      "Every example is labeled either Azure OpenAI API or Microsoft 365 Copilot and never combines their execution models.",
+      "The purchase-request function requires application-side identity checks and human approval before a side effect.",
+      "The Copilot example names a user-selected source and does not claim access to an unspecified mailbox or drive."
+    ],
+    "last_verified": "2026-07-31",
+    "stale_after_days": 60,
+    "stale_risk": "high"
+  },
+  {
+    "id": "provider-aws",
+    "slug": "aws",
+    "name": "Amazon Bedrock",
+    "provider": "AWS",
+    "status": "active",
+    "scope": [
+      "Amazon Bedrock orchestration where model-owner prompt requirements and AWS platform controls must be tracked separately.",
+      "Bedrock Agents and Guardrails decisions supported by the current AWS documentation."
+    ],
+    "out_of_scope": [
+      "A universal chat template for every foundation model offered through Amazon Bedrock.",
+      "Regional model availability, service pricing, quotas, IAM design, and live AgentCore migration execution."
+    ],
+    "official_source_ids": [
+      "official-bedrock-prompt-guidelines",
+      "official-bedrock-agents",
+      "official-bedrock-guardrails"
+    ],
+    "supporting_source_ids": [],
+    "stable_guidance": [
+      "Record the selected foundation model and verify its owner-defined prompt format before wrapping it in Bedrock orchestration.",
+      "Keep agent instructions, action-group schemas, knowledge-base evidence, and Guardrails policy as distinct controls.",
+      "Use IAM, network boundaries, argument validation, and approval gates for authority; prompt text only guides model behavior."
+    ],
+    "provider_specific_guidance": [
+      "Apply Bedrock prompt guidelines together with the selected model provider's formatting requirements.",
+      "Treat the documented Bedrock Agents lifecycle notice as a dated platform fact and evaluate AgentCore separately for new designs.",
+      "Test Guardrails interventions independently from model refusal behavior so policy filtering is not mistaken for prompt reliability."
+    ],
+    "fast_stale_areas": [
+      {
+        "area": "Bedrock model-specific prompt format guidance",
+        "why_stale": "The models exposed by Bedrock and their owner-defined formatting requirements can change.",
+        "source_id": "official-bedrock-prompt-guidelines",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Bedrock Agents lifecycle and AgentCore migration direction",
+        "why_stale": "AWS currently labels the earlier service Agents Classic and publishes a dated new-customer transition.",
+        "source_id": "official-bedrock-agents",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Bedrock Guardrails filters and configuration surface",
+        "why_stale": "Available filters, policy options, and integration points are active service features.",
+        "source_id": "official-bedrock-guardrails",
+        "last_verified": "2026-07-31"
+      }
+    ],
+    "remaining_gaps": [
+      "No Bedrock invocation tested how the fictional claims assistant behaves across foundation-model providers.",
+      "The repository has not implemented or evaluated a migration from Agents Classic to AgentCore."
+    ],
+    "acceptance_criteria": [
+      "The guide identifies the model-owner prompt contract separately from Bedrock agent and guardrail configuration.",
+      "The claims action group cannot approve a payment without IAM authorization and a human-controlled confirmation step.",
+      "The Agents Classic lifecycle statement is dated and linked to the AWS Agents source rather than placed in durable guidance."
+    ],
+    "last_verified": "2026-07-31",
+    "stale_after_days": 45,
+    "stale_risk": "high"
+  },
+  {
+    "id": "provider-meta",
+    "slug": "meta",
+    "name": "Meta Llama",
+    "provider": "Meta",
+    "status": "active",
+    "scope": [
+      "Meta-owned Llama model artifacts, official prompt-format documents, and official cookbook methods.",
+      "Deployment notes that preserve the exact Llama model revision, chat template, tokenizer, and runtime boundary."
+    ],
+    "out_of_scope": [
+      "Community model forks, third-party hosted endpoints, or serving wrappers not documented by Meta.",
+      "Claims that one Llama prompt format or tool convention applies to every Llama release."
+    ],
+    "official_source_ids": [
+      "official-llama-docs",
+      "repo-meta-llama-cookbook",
+      "official-llama-prompt-format"
+    ],
+    "supporting_source_ids": [],
+    "stable_guidance": [
+      "Pin the model artifact and tokenizer together, then render messages with the chat template shipped for that revision.",
+      "Store raw role content separately from rendered control tokens so a template migration can be reviewed.",
+      "Re-run behavior and safety cases after quantization, adapter, fine-tune, or runtime changes."
+    ],
+    "provider_specific_guidance": [
+      "Use the Llama model repository and model-specific prompt-format file as the authority for roles and special tokens.",
+      "Treat Llama 3.3 tool-format examples as version-bound rather than hand-writing those tokens for a different Llama artifact.",
+      "Use the official cookbook as implementation evidence while preserving the license and configuration assumptions of each recipe."
+    ],
+    "fast_stale_areas": [
+      {
+        "area": "Available Llama artifacts and model-card guidance",
+        "why_stale": "The official model repository changes as Meta publishes revisions and accompanying documentation.",
+        "source_id": "official-llama-docs",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Llama 3.3 role, tool, and special-token format",
+        "why_stale": "The cited prompt format belongs to one model version and does not establish future formats.",
+        "source_id": "official-llama-prompt-format",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Llama Cookbook recipes and runtime integrations",
+        "why_stale": "Examples track changing libraries, model releases, and deployment techniques.",
+        "source_id": "repo-meta-llama-cookbook",
+        "last_verified": "2026-07-31"
+      }
+    ],
+    "remaining_gaps": [
+      "The inventory example has not been rendered with an actual Llama 3.3 tokenizer in this repository.",
+      "No controlled experiment measured drift caused by quantization or a different inference runtime."
+    ],
+    "acceptance_criteria": [
+      "A reproducibility record names the exact Llama artifact, revision, tokenizer, template, runtime, and decoding settings.",
+      "The example does not manually transplant Llama 3.3 control tokens into another model family or release.",
+      "Any tool request is parsed and authorized by the serving application before an inventory system is queried."
+    ],
+    "last_verified": "2026-07-31",
+    "stale_after_days": 60,
+    "stale_risk": "high"
+  },
+  {
+    "id": "provider-mistral",
+    "slug": "mistral",
+    "name": "Mistral AI",
+    "provider": "Mistral AI",
+    "status": "active",
+    "scope": [
+      "Mistral chat-completion prompts using documented system and user roles with hierarchical instruction structure.",
+      "Mistral function calling and provider-native structured output for typed application workflows."
+    ],
+    "out_of_scope": [
+      "Undocumented model-specific performance, current model lineup, pricing, rate limits, or agent-product behavior.",
+      "Assuming Mistral structured output removes the need for domain validation or safe retry limits."
+    ],
+    "official_source_ids": [
+      "official-mistral-prompting",
+      "official-mistral-function-calling",
+      "official-mistral-structured-output"
+    ],
+    "supporting_source_ids": [],
+    "stable_guidance": [
+      "Put persistent behavior in the system message and keep the concrete fictional case in the user message.",
+      "Use headings or another visible hierarchy when constraints, source text, and output requirements could be confused.",
+      "Validate typed output and bound any repair attempt rather than accepting structurally valid but impossible values."
+    ],
+    "provider_specific_guidance": [
+      "Follow Mistral's documented system/user separation without assuming a hidden prompt template for every endpoint.",
+      "Use Mistral function declarations for candidate tool requests while the host application executes the selected function.",
+      "Choose the documented structured-output mode that matches the consumer and verify its current constraints upstream."
+    ],
+    "fast_stale_areas": [
+      {
+        "area": "Mistral prompting recommendations and chat surface",
+        "why_stale": "The provider can revise prompting guidance as endpoints and models evolve.",
+        "source_id": "official-mistral-prompting",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Mistral function-calling flow and supported controls",
+        "why_stale": "Tool APIs and orchestration options are versioned provider behavior.",
+        "source_id": "official-mistral-function-calling",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "Mistral structured-output modes and schema behavior",
+        "why_stale": "Output-mode availability and constraints can change across API revisions.",
+        "source_id": "official-mistral-structured-output",
+        "last_verified": "2026-07-31"
+      }
+    ],
+    "remaining_gaps": [
+      "The multilingual incident-routing example has not been evaluated on a live Mistral endpoint.",
+      "The repository has not measured how often a bounded repair succeeds after semantic validation rejects an output."
+    ],
+    "acceptance_criteria": [
+      "The incident workflow keeps routing policy in the system message and the fictional report in user content.",
+      "The escalation function is requested only for an eligible severity and remains application-authorized.",
+      "Structured incident fields pass schema validation plus allowed-team and timestamp business rules."
+    ],
+    "last_verified": "2026-07-31",
+    "stale_after_days": 60,
+    "stale_risk": "high"
+  },
+  {
+    "id": "provider-open-models",
+    "slug": "open-models",
+    "name": "Open models",
+    "provider": "Mixed model and runtime owners",
+    "status": "active",
+    "scope": [
+      "Open or open-weight deployments where model artifact, tokenizer, chat template, runtime, quantization, and server API are independent choices.",
+      "Portability records grounded in the official documentation of the model owner, Transformers, and vLLM."
+    ],
+    "out_of_scope": [
+      "A claim that all open models share one provider, system-message behavior, safety policy, or function-calling format.",
+      "Unverified license interpretation, community fork behavior, or benchmark rankings across hardware and quantization methods."
+    ],
+    "official_source_ids": [
+      "official-huggingface-chat-templates",
+      "official-vllm-quantization",
+      "official-vllm-openai-compatible-server"
+    ],
+    "supporting_source_ids": [
+      "repo-llamaindex"
+    ],
+    "stable_guidance": [
+      "Pin the model artifact, tokenizer revision, chat template, runtime version, and decoding configuration as one testable deployment manifest.",
+      "Render chat messages through the tokenizer's template instead of assuming a universal role-token format.",
+      "Re-run semantic, safety, and latency evaluations after quantization or server changes even when the application API remains compatible."
+    ],
+    "provider_specific_guidance": [
+      "Use Transformers chat templating as a tokenizer-owned serialization step whose control tokens can differ between fine-tunes.",
+      "Treat vLLM's OpenAI-compatible server as an API adapter, not proof of behavioral parity with OpenAI-hosted models.",
+      "Record vLLM quantization configuration as an experimental variable because runtime support and output quality can vary by method."
+    ],
+    "fast_stale_areas": [
+      {
+        "area": "Transformers chat-template API and tokenizer templates",
+        "why_stale": "Library behavior and model-provided templates change across Transformers and artifact revisions.",
+        "source_id": "official-huggingface-chat-templates",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "vLLM quantization support matrix",
+        "why_stale": "Supported methods, hardware paths, and compatibility constraints evolve with vLLM releases.",
+        "source_id": "official-vllm-quantization",
+        "last_verified": "2026-07-31"
+      },
+      {
+        "area": "vLLM OpenAI-compatible server behavior",
+        "why_stale": "Supported endpoints and extensions change independently from the served model artifact.",
+        "source_id": "official-vllm-openai-compatible-server",
+        "last_verified": "2026-07-31"
+      }
+    ],
+    "remaining_gaps": [
+      "No artifact/runtime/quantization combination has been benchmarked by this repository.",
+      "LlamaIndex is retained only as a community orchestration example; its defaults and integrations were not validated for portability."
+    ],
+    "acceptance_criteria": [
+      "Every experiment manifest identifies model and tokenizer revisions, selected chat template, runtime version, quantization method, and decoding values.",
+      "OpenAI-compatible HTTP shape is never reported as equivalent model behavior without cross-runtime evaluation evidence.",
+      "Community orchestration material appears only under supporting sources and cannot satisfy an official-source requirement."
+    ],
+    "last_verified": "2026-07-31",
+    "stale_after_days": 45,
+    "stale_risk": "high"
+  }
+]

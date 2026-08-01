@@ -1,0 +1,98 @@
+[
+  {
+    "id": "paper-attention-is-all-you-need",
+    "title": "Attention Is All You Need",
+    "canonical_url": "https://arxiv.org/abs/1706.03762",
+    "description": "Transformer architecture foundation.",
+    "resource_type": "paper",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 3650,
+    "stale_risk": "low"
+  },
+  {
+    "id": "paper-chain-of-thought",
+    "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "canonical_url": "https://arxiv.org/abs/2201.11903",
+    "description": "Introduces chain-of-thought prompting evidence.",
+    "resource_type": "paper",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 3650,
+    "stale_risk": "low"
+  },
+  {
+    "id": "paper-self-consistency",
+    "title": "Self-Consistency Improves Chain of Thought Reasoning",
+    "canonical_url": "https://arxiv.org/abs/2203.11171",
+    "description": "Sampling-based reasoning improvement method.",
+    "resource_type": "paper",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 3650,
+    "stale_risk": "low"
+  },
+  {
+    "id": "paper-react",
+    "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+    "canonical_url": "https://arxiv.org/abs/2210.03629",
+    "description": "Reasoning and tool/action prompting pattern.",
+    "resource_type": "paper",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 3650,
+    "stale_risk": "low"
+  },
+  {
+    "id": "paper-rag",
+    "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+    "canonical_url": "https://arxiv.org/abs/2005.11401",
+    "description": "Foundational retrieval-grounded generation paper.",
+    "resource_type": "paper",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 3650,
+    "stale_risk": "low"
+  },
+  {
+    "id": "paper-toolformer",
+    "title": "Toolformer",
+    "canonical_url": "https://arxiv.org/abs/2302.04761",
+    "description": "Tool-use learning for language models.",
+    "resource_type": "paper",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 3650,
+    "stale_risk": "low"
+  },
+  {
+    "id": "paper-tree-of-thoughts",
+    "title": "Tree of Thoughts",
+    "canonical_url": "https://arxiv.org/abs/2305.10601",
+    "description": "Search over intermediate reasoning states.",
+    "resource_type": "paper",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 3650,
+    "stale_risk": "low"
+  },
+  {
+    "id": "paper-constitutional-ai",
+    "title": "Constitutional AI",
+    "canonical_url": "https://arxiv.org/abs/2212.08073",
+    "description": "Rule-guided AI feedback and safety training.",
+    "resource_type": "paper",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 3650,
+    "stale_risk": "low"
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "book-prompt-engineering-guide",
+    "title": "Prompt Engineering Guide",
+    "canonical_url": "https://www.promptingguide.ai/",
+    "description": "Long-form community guide for core prompt engineering concepts, patterns, and research references.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 180,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "book-learn-prompting",
+    "title": "Learn Prompting",
+    "canonical_url": "https://learnprompting.org/",
+    "description": "Long-form learning site for prompt engineering and applied AI communication concepts.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 180,
+    "stale_risk": "medium"
+  }
+]

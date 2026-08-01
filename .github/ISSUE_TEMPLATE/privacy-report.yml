@@ -1,0 +1,19 @@
+name: Privacy report
+description: Report possible personal data exposure without posting the sensitive value.
+title: "[privacy] "
+labels: ["privacy"]
+body:
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: File, URL, or page where the issue appears. Redact sensitive values.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Provide redacted evidence and why it appears sensitive.
+    validations:
+      required: true

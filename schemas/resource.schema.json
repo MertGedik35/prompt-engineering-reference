@@ -1,30 +1,59 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "External resource",
   "type": "object",
   "required": [
     "id",
+    "title",
     "canonical_url",
-    "status",
-    "last_verified"
+    "description",
+    "pricing_type",
+    "credential_type",
+    "last_verified",
+    "stale_after_days",
+    "stale_risk"
   ],
   "properties": {
     "id": {
-      "type": "string",
-      "pattern": "^res-[a-z0-9-]+-\\d{2}$"
+      "type": "string"
     },
     "canonical_url": {
       "type": "string",
       "format": "uri"
     },
-    "status": {
+    "pricing_type": {
       "enum": [
-        "verified"
+        "free",
+        "paid",
+        "freemium",
+        "subscription",
+        "lab_credits",
+        "unknown"
+      ]
+    },
+    "credential_type": {
+      "enum": [
+        "formal_certification",
+        "applied_skill_badge",
+        "course_completion_certificate",
+        "professional_certificate_program",
+        "skill_badge",
+        "no_credential"
       ]
     },
     "last_verified": {
-      "type": "string",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "type": "string"
+    },
+    "stale_after_days": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "stale_risk": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
     }
   }
 }

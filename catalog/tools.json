@@ -1,0 +1,57 @@
+[
+  {
+    "id": "tool-promptfoo",
+    "title": "promptfoo",
+    "canonical_url": "https://www.promptfoo.dev/docs/getting-started/",
+    "description": "Prompt and model evaluation runner.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "tool-openai-evals",
+    "title": "OpenAI Evals",
+    "canonical_url": "https://github.com/openai/evals",
+    "description": "OpenAI evaluation product guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "tool-guardrails",
+    "title": "Guardrails AI",
+    "canonical_url": "https://guardrailsai.com/guardrails/docs",
+    "description": "Structured output validation.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "tool-promptflow",
+    "title": "promptflow",
+    "canonical_url": "https://microsoft.github.io/promptflow/",
+    "description": "Prompt workflow and evaluation tooling.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "tool-langsmith",
+    "title": "LangSmith",
+    "canonical_url": "https://docs.langchain.com/langsmith/observability",
+    "description": "Tracing and evaluation tooling for LLM apps.",
+    "pricing_type": "freemium",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  }
+]

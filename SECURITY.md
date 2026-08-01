@@ -1,11 +1,15 @@
 # Security Policy
 
-Report security concerns by opening a private security advisory on GitHub when
-available. If private advisories are unavailable, use the contact path listed on the
-repository owner profile and avoid posting exploit details publicly.
+Use GitHub private security advisories when available. For ordinary safety corrections, open an issue without posting secrets, exploit payloads, or private data.
 
-Do not submit leaked proprietary prompts, secrets, credential material, or content
-intended to bypass safety controls.
+Report:
 
-Security-related prompt guidance must include threat model, mitigation, and a
-verification method.
+- Prompt injection guidance that is unsafe or non-defensive.
+- Malicious external links.
+- Secret exposure.
+- Unsafe prompt examples.
+- Tool-abuse examples.
+- Privacy concerns.
+- Vulnerabilities in repository scripts or documentation deployment.
+
+Security examples in this repository must be defensive, limited, and reviewable.

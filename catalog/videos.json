@@ -1,0 +1,50 @@
+[
+  {
+    "id": "video-microsoft-copilot-prompt-gallery",
+    "title": "Microsoft Copilot Prompt Gallery",
+    "publisher": "Microsoft",
+    "canonical_url": "https://adoption.microsoft.com/en-us/copilot/",
+    "description": "Official prompt examples and short learning assets.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "video-openai-devday",
+    "title": "OpenAI developer resources",
+    "publisher": "OpenAI",
+    "canonical_url": "https://developers.openai.com/",
+    "description": "Developer hub with current videos and events.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "video-google-ai-developer",
+    "title": "Google AI developer resources",
+    "publisher": "Google",
+    "canonical_url": "https://ai.google.dev/",
+    "description": "Gemini developer hub with examples and media links.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "video-anthropic-learn",
+    "title": "Anthropic learn resources",
+    "publisher": "Anthropic",
+    "canonical_url": "https://www.anthropic.com/learn",
+    "description": "Anthropic learning resources and product guidance.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 120,
+    "stale_risk": "medium"
+  }
+]

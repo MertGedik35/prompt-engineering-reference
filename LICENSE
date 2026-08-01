@@ -2,9 +2,7 @@
 
 This repository uses a split license model.
 
-- Code, scripts, tests, GitHub workflows, and automation: MIT. See `LICENSE-MIT`.
-- Original documentation, taxonomies, prompt patterns, and templates: CC0-1.0. See
-  `LICENSE-CC0`.
+- Code, scripts, tests, and automation: MIT. See `LICENSE-MIT`.
+- Original documentation, taxonomies, prompt patterns, and reusable templates: CC0-1.0. See `LICENSE-CC0`.
 
-External linked resources do not inherit this repository's licenses. They remain
-governed by their original authors' licenses and terms.
+External linked documentation, prompt examples, papers, videos, courses, credentials, tools, and repositories retain their upstream licenses and terms. Listing or summarizing an external resource does not relicense it under CC0.

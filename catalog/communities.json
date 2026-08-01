@@ -1,0 +1,35 @@
+[
+  {
+    "id": "community-openai-developer-forum",
+    "title": "OpenAI Developer Forum",
+    "canonical_url": "https://community.openai.com/",
+    "description": "Official OpenAI developer community.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 180,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "community-aws-repost-bedrock",
+    "title": "AWS re:Post",
+    "canonical_url": "https://repost.aws/",
+    "description": "AWS community support site; search for current Bedrock questions and answers.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 180,
+    "stale_risk": "medium"
+  },
+  {
+    "id": "community-google-ai-forum",
+    "title": "Google AI Developers Forum",
+    "canonical_url": "https://discuss.ai.google.dev/",
+    "description": "Google AI developer community.",
+    "pricing_type": "free",
+    "credential_type": "no_credential",
+    "last_verified": "2026-07-28",
+    "stale_after_days": 180,
+    "stale_risk": "medium"
+  }
+]
