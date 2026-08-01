@@ -237,14 +237,26 @@ def test_generator_reads_canonical_verification_cases(
 
 
 def test_pattern_consumers_do_not_read_legacy_verification() -> None:
-    for relative_path in (
-        "scripts/check_content_quality.py",
-        "scripts/generate_docs_indexes.py",
-        "scripts/validate_catalog.py",
-    ):
-        text = (ROOT / relative_path).read_text(encoding="utf-8")
-        assert 'record["verification"]' not in text
-        assert 'record.get("verification"' not in text
+    import inspect
+
+    from scripts import generate_docs_indexes as generator
+
+    # Pattern indexes must keep reading verification_cases, never the removed
+    # legacy pattern field named verification. Credential verification objects are
+    # intentionally out of scope for this guard.
+    pattern_index_source = inspect.getsource(generator.pattern_index)
+    assert 'record["verification_cases"]' in pattern_index_source
+    assert 'record["verification"]' not in pattern_index_source
+    assert 'record.get("verification"' not in pattern_index_source
+
+    quality = (ROOT / "scripts/check_content_quality.py").read_text(encoding="utf-8")
+    assert 'record.get("verification_cases"' in quality
+    assert 'record.get("verification"' not in quality
+    assert 'record["verification"]' not in quality
+
+    catalog = (ROOT / "scripts/validate_catalog.py").read_text(encoding="utf-8")
+    assert 'record["verification"]' not in catalog
+    assert 'record.get("verification"' not in catalog
 
 
 def test_name_is_the_single_pattern_display_label() -> None:

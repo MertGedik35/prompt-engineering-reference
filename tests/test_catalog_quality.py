@@ -88,7 +88,7 @@ def test_courses_have_access_and_relevance_classification() -> None:
         assert record["access_model"] in {
             "free",
             "free_with_account",
-            "free_audit_paid_certificate",
+            "free_with_optional_paid_completion",
             "paid_one_time",
             "subscription",
             "lab_credits",
@@ -99,6 +99,7 @@ def test_courses_have_access_and_relevance_classification() -> None:
         }
         assert record["resource_type"] in {
             "structured_course",
+            "learning_module",
             "learning_path",
             "interactive_tutorial",
             "guided_lab",
@@ -111,6 +112,7 @@ def test_courses_have_access_and_relevance_classification() -> None:
             "adjacent",
             "broad_ai",
         }
+        assert isinstance(record["related_credentials"], list)
 
 
 def test_credentials_have_credential_classification() -> None:
@@ -130,6 +132,9 @@ def test_credentials_have_credential_classification() -> None:
             "program",
             "overview_resource",
         }
+        assert isinstance(record["verification"], dict)
+        assert "validity_summary" in record
+        assert isinstance(record["related_courses"], list)
 
 
 def test_resource_urls_are_unique() -> None:

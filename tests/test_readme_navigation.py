@@ -33,7 +33,10 @@ def test_inventory_matches_source_of_truth() -> None:
     assert counts["solutions"] == 13
     assert counts["official_resources"] == 24
     assert counts["courses"] == 8
+    assert counts["learning_resources"] == 8
     assert counts["credentials"] == 5
+    assert counts["credentials_individual"] == 4
+    assert counts["credentials_family"] == 1
 
 
 def test_hub_pages_meet_information_architecture_bar() -> None:
@@ -195,22 +198,33 @@ def test_placeholder_destination_fails() -> None:
     assert "README contains a user-facing placeholder path" in errors
 
 
-def test_readme_course_count_drift_fails() -> None:
+def test_readme_learning_resource_count_drift_fails() -> None:
     text = current_readme().replace(
-        "| Courses | 8 catalog records |",
-        "| Courses | 99 catalog records |",
+        "| Structured Learning Resources | 8 |",
+        "| Structured Learning Resources | 99 |",
     )
     errors = check_readme(text, ROOT)
-    assert any("Courses" in error and "expected 8" in error for error in errors)
+    assert any(
+        "Structured Learning Resources" in error and "expected 8" in error for error in errors
+    )
 
 
-def test_readme_credential_count_drift_fails() -> None:
+def test_readme_cannot_call_all_resources_courses() -> None:
     text = current_readme().replace(
-        "| Credentials | 5 catalog records",
-        "| Credentials | 99 catalog records",
+        "| Structured Learning Resources | 8 |",
+        "| Courses | 8 courses |",
     )
     errors = check_readme(text, ROOT)
-    assert any("Credentials" in error and "expected 5" in error for error in errors)
+    assert any("conventional courses" in error for error in errors)
+
+
+def test_readme_credential_family_count_drift_fails() -> None:
+    text = current_readme().replace(
+        "4 individual + 1 family overview",
+        "5 individual credentials",
+    )
+    errors = check_readme(text, ROOT)
+    assert any("individual credentials from family" in error for error in errors)
 
 
 def test_resources_hub_must_not_use_raw_catalog_cta() -> None:
