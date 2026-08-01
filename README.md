@@ -12,14 +12,16 @@ researchers, and career learners. **V1 is published; V2 is a draft under review 
 [![Release status: V1 stable · V2 draft](https://img.shields.io/badge/status-V1%20stable%20%C2%B7%20V2%20draft-d97706.svg)](https://github.com/MertGedik35/prompt-engineering-reference/releases/tag/v1.0.0)
 
 **[Start Learning](LEARNING_PATH.md)** ·
-**[Find a Prompt Resource](docs/resources/index.md)** ·
-**[Open Documentation](https://mertgedik35.github.io/prompt-engineering-reference/)**
+**[Browse Prompt Reference](docs/reference/index.md)** ·
+**[Open V2 Draft Docs](docs/index.md)**
 
 > **Project status:** [V1.0.0](https://github.com/MertGedik35/prompt-engineering-reference/releases/tag/v1.0.0)
 > is the published release. V2 work continues in draft
 > [PR #10](https://github.com/MertGedik35/prompt-engineering-reference/pull/10). Curriculum,
 > patterns, templates, and provider guides are remediated in the V2 draft; courses, credentials,
 > and broader resource expansion still need later phases. No `v2.0.0` release has been published.
+> [Published documentation (V1)](https://mertgedik35.github.io/prompt-engineering-reference/)
+> reflects current `main` and does not yet include this V2 draft documentation.
 
 ## What is inside
 
@@ -31,7 +33,7 @@ researchers, and career learners. **V1 is published; V2 is a draft under review 
 | Provider guides | 8 | [Provider guides](docs/providers/index.md) |
 | Capstone projects | 3 | [Capstones](labs/capstones/README.md) |
 | Exercises, quizzes, explained solutions | 13 each | [Practice hubs](docs/labs/index.md) |
-| Official resources | 24 | [Official docs and prompts](docs/generated/official-resource-index.md) |
+| Official-resource catalog records | 24 | [Official docs and prompts](docs/generated/official-resource-index.md) |
 | Courses / credentials | 7 / 5 | [Courses](docs/generated/course-index.md) · [Credentials](docs/generated/credential-index.md) |
 | Papers, books, videos, tools, communities, repos | cataloged | [Resources hub](docs/resources/index.md) |
 
@@ -49,10 +51,11 @@ researchers, and career learners. **V1 is published; V2 is a draft under review 
 | Read research | [Papers](docs/generated/paper-index.md) · [Books](docs/generated/book-index.md) | Verified learning and research sources |
 | Build a portfolio | [Capstones](labs/capstones/README.md) | Reproducible end-to-end projects |
 
-Need the documentation site landing page instead?
-[Documentation home](https://mertgedik35.github.io/prompt-engineering-reference/) ·
+Need another entry point?
+[V2 draft docs home](docs/index.md) ·
 [Reference hub](docs/reference/index.md) ·
-[Learn hub](docs/learn/index.md)
+[Learn hub](docs/learn/index.md) ·
+[Courses & Resources](docs/resources/index.md)
 
 ## Learning roadmap
 
