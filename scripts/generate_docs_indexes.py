@@ -323,6 +323,408 @@ def resource_index(path: str, title: str) -> str:
     )
 
 
+RESOURCE_TYPE_LABELS = {
+    "structured_course": "Structured course",
+    "learning_module": "Learning module",
+    "learning_path": "Learning path",
+    "interactive_tutorial": "Interactive tutorial",
+    "guided_lab": "Guided lab",
+    "workshop": "Workshop",
+    "exercise_repository": "Exercise repository",
+}
+RESOURCE_TYPE_COUNT_LABELS = {
+    "structured_course": ("structured course", "structured courses"),
+    "learning_module": ("learning module", "learning modules"),
+    "learning_path": ("learning path", "learning paths"),
+    "interactive_tutorial": ("interactive tutorial", "interactive tutorials"),
+    "guided_lab": ("guided lab", "guided labs"),
+    "workshop": ("workshop", "workshops"),
+    "exercise_repository": ("exercise repository", "exercise repositories"),
+}
+EVIDENCE_KIND_LABELS = {
+    "issuer_verification_tool": "Issuer verification tool",
+    "issuer_authorized_badge_directory": "Issuer-authorized badge directory",
+    "issuer_verification_process_documentation": "Issuer verification and sharing process",
+}
+ACCESS_MODEL_LABELS = {
+    "free": "Free",
+    "free_with_account": "Free with account",
+    "free_with_optional_paid_completion": "Free learning; optional paid graded accomplishment",
+    "paid_one_time": "Paid one-time",
+    "subscription": "Subscription",
+    "lab_credits": "Lab credits or subscription may be required",
+    "freemium": "Freemium",
+    "employer_or_partner_access": "Employer or partner access",
+    "region_dependent": "Region dependent",
+    "unknown": "Unknown",
+}
+OUTCOME_LABELS = {
+    "no_credential": "No credential",
+    "completion_record": "Completion record",
+    "completion_certificate": "Completion certificate",
+    "digital_badge": "Digital badge",
+    "skill_badge": "Skill badge",
+    "assessed_skill_credential": "Assessed skill credential",
+    "applied_skill_credential": "Applied skill credential",
+    "professional_certificate_program": "Professional certificate program",
+}
+RELEVANCE_LABELS = {
+    "direct": "Direct prompt focus",
+    "substantial_component": "Substantial prompt component",
+    "adjacent": "Adjacent",
+    "broad_ai": "Broad AI",
+}
+CREDENTIAL_TYPE_LABELS = {
+    "formal_certification": "Formal certification",
+    "assessed_skill_credential": "Assessed skill credential",
+    "applied_skill_credential": "Applied skill credential",
+    "skill_badge": "Skill badge",
+    "digital_badge": "Digital badge",
+    "completion_certificate": "Completion certificate",
+    "professional_certificate_program": "Professional certificate program",
+}
+ASSESSMENT_LABELS = {
+    "exam": "Exam",
+    "lab_assessment": "Lab assessment",
+    "quiz": "Quiz",
+    "mixed": "Mixed",
+    "none": "None",
+    "unknown": "Unknown",
+}
+EXAM_ACCESS_LABELS = {
+    "free": "Free",
+    "free_with_account": "Free with account",
+    "paid_exam": "Paid exam",
+    "paid_one_time": "Paid one-time",
+    "subscription": "Subscription",
+    "lab_credits": "Lab credits",
+    "freemium": "Freemium",
+    "region_dependent": "Region dependent",
+    "unknown": "Unknown",
+}
+RELATIONSHIP_LABELS = {
+    "produces": "produces",
+    "official_preparation": "official preparation",
+    "recommended_learning": "recommended learning",
+    "part_of": "part of",
+    "overview_of": "overview of",
+}
+
+
+def label_map(mapping: dict[str, str], value: str) -> str:
+    return mapping.get(value, value.replace("_", " "))
+
+
+def counted_resource_label(resource_type: str, count: int) -> str:
+    singular, plural = RESOURCE_TYPE_COUNT_LABELS.get(
+        resource_type,
+        (resource_type.replace("_", " "), resource_type.replace("_", " ") + "s"),
+    )
+    label = singular if count == 1 else plural
+    return f"{count} {label}"
+
+
+def format_breakdown(courses: list[dict[str, Any]]) -> str:
+    counts: dict[str, int] = {}
+    for record in courses:
+        resource_type = str(record.get("resource_type", "unknown"))
+        counts[resource_type] = counts.get(resource_type, 0) + 1
+    order = (
+        "structured_course",
+        "learning_module",
+        "learning_path",
+        "interactive_tutorial",
+        "guided_lab",
+        "workshop",
+        "exercise_repository",
+    )
+    parts = []
+    for key in order:
+        if key in counts:
+            parts.append(counted_resource_label(key, counts[key]))
+    for key, value in sorted(counts.items()):
+        if key not in order:
+            parts.append(counted_resource_label(key, value))
+    return "; ".join(parts)
+
+
+def validity_display(value: str) -> str:
+    normalized = value.strip().lower()
+    if normalized in {"unknown", "not stated by issuer", "not stated"}:
+        return "Unknown / not stated"
+    return value
+
+
+def verification_display(record: dict[str, Any]) -> str:
+    if record.get("entity_type") == "credential_family":
+        return "Not applicable — family overview"
+    verification = record.get("verification")
+    if not isinstance(verification, dict):
+        return "—"
+    available = verification.get("available")
+    if available is False:
+        return "Not applicable — family overview"
+    if available == "unknown":
+        return "Unknown"
+    method = str(verification.get("method", "")).strip()
+    evidence_kind = str(verification.get("evidence_kind", ""))
+    evidence_url = str(verification.get("evidence_url", "")).strip()
+    kind_label = label_map(EVIDENCE_KIND_LABELS, evidence_kind)
+    primary = method or kind_label
+    if evidence_url.startswith("https://"):
+        return f"[{cell(primary)}]({evidence_url})"
+    return primary or "—"
+
+
+def course_index() -> str:
+    guidance = "\n".join(
+        [
+            "## How to read this index",
+            "",
+            "- **Structured learning resources** include structured courses, learning modules,",
+            "  learning paths, interactive tutorials, guided labs, workshops, and exercise",
+            "  repositories. These formats are not interchangeable.",
+            "- **Completion certificate vs certification:** a completion record or optional",
+            "  certificate is not a formal certification exam credential.",
+            "- **Access vs credential cost:** learning-resource access is separate from optional",
+            "  badges or paid exams.",
+            "- **Prompt relevance:** Direct means primarily about prompting; Substantial prompt",
+            "  component means a major prompting unit; Adjacent/Broad AI means broader coverage.",
+            "- **Freshness:** verification dates are catalog metadata. Confirm prices, lab",
+            "  credits, and exam details on the issuer page.",
+            "",
+            "",
+        ]
+    )
+    groups = [
+        (
+            "Structured courses",
+            lambda record: record.get("resource_type") == "structured_course",
+        ),
+        (
+            "Learning modules",
+            lambda record: record.get("resource_type") == "learning_module",
+        ),
+        (
+            "Learning paths",
+            lambda record: record.get("resource_type") == "learning_path",
+        ),
+        (
+            "Interactive tutorials",
+            lambda record: record.get("resource_type") == "interactive_tutorial",
+        ),
+        (
+            "Guided labs",
+            lambda record: record.get("resource_type") == "guided_lab",
+        ),
+        (
+            "Exercise repositories",
+            lambda record: record.get("resource_type") == "exercise_repository",
+        ),
+        (
+            "Workshops",
+            lambda record: record.get("resource_type") == "workshop",
+        ),
+    ]
+    courses = load("catalog/courses.json")
+    parts = [
+        HEADER,
+        "# Structured Learning Resources\n\n",
+        guidance,
+        f"Catalog inventory: **{len(courses)}** structured learning resources "
+        f"({format_breakdown(courses)}).\n\n",
+    ]
+    seen: set[str] = set()
+    for heading, predicate in groups:
+        rows = []
+        for record in courses:
+            course_id = str(record["id"])
+            if course_id in seen or not predicate(record):
+                continue
+            seen.add(course_id)
+            rows.append(
+                [
+                    f"[{cell(record['title'])}]({record['canonical_url']})",
+                    cell(str(record["provider"])),
+                    cell(label_map(RESOURCE_TYPE_LABELS, str(record["resource_type"]))),
+                    cell(label_map(ACCESS_MODEL_LABELS, str(record["access_model"]))),
+                    cell(label_map(OUTCOME_LABELS, str(record["credential_outcome"]))),
+                    cell(str(record["level"])),
+                    "yes" if record.get("hands_on") else "no",
+                    cell(label_map(RELEVANCE_LABELS, str(record["prompt_engineering_relevance"]))),
+                    cell(str(record["last_verified"])),
+                ]
+            )
+        if not rows:
+            continue
+        parts.append(f"## {heading}\n\n")
+        parts.append(
+            table(
+                [
+                    "Resource",
+                    "Provider",
+                    "Format",
+                    "Access",
+                    "Completion outcome",
+                    "Level",
+                    "Hands-on",
+                    "Prompt relevance",
+                    "Verified",
+                ],
+                rows,
+            )
+        )
+        parts.append("\n")
+    remaining = [record for record in courses if str(record["id"]) not in seen]
+    if remaining:
+        rows = [
+            [
+                f"[{cell(record['title'])}]({record['canonical_url']})",
+                cell(str(record["provider"])),
+                cell(label_map(RESOURCE_TYPE_LABELS, str(record["resource_type"]))),
+                cell(label_map(ACCESS_MODEL_LABELS, str(record["access_model"]))),
+                cell(label_map(OUTCOME_LABELS, str(record["credential_outcome"]))),
+                cell(str(record["level"])),
+                "yes" if record.get("hands_on") else "no",
+                cell(label_map(RELEVANCE_LABELS, str(record["prompt_engineering_relevance"]))),
+                cell(str(record["last_verified"])),
+            ]
+            for record in remaining
+        ]
+        parts.append("## Additional verified learning records\n\n")
+        parts.append(
+            table(
+                [
+                    "Resource",
+                    "Provider",
+                    "Format",
+                    "Access",
+                    "Completion outcome",
+                    "Level",
+                    "Hands-on",
+                    "Prompt relevance",
+                    "Verified",
+                ],
+                rows,
+            )
+        )
+        parts.append("\n")
+    return "".join(parts).rstrip("\n") + "\n"
+
+
+def credential_index() -> str:
+    guidance = "\n".join(
+        [
+            "## How to read this index",
+            "",
+            "- **Formal certification** means an issuer exam or equivalent assessed program.",
+            "- **Applied/assessed skill credentials and badges** are narrower scenario",
+            "  credentials and are not interchangeable with multi-year certifications.",
+            "- **Credential families** are overview pages for many individual credentials and",
+            "  must not inflate individual credential counts.",
+            "- **Exam cost vs course access:** paid exams are separate from free or",
+            "  account-gated learning content.",
+            "- **Validity** uses a concise verified summary or Unknown / not stated.",
+            "",
+            "",
+        ]
+    )
+    credentials = load("catalog/credentials.json")
+    group_order = [
+        (
+            "Formal certifications",
+            lambda record: record.get("credential_type") == "formal_certification",
+        ),
+        (
+            "Assessed skill credentials",
+            lambda record: record.get("credential_type") == "assessed_skill_credential",
+        ),
+        (
+            "Applied skill credentials",
+            lambda record: (
+                record.get("credential_type") == "applied_skill_credential"
+                and record.get("entity_type") == "individual_credential"
+            ),
+        ),
+        (
+            "Badges",
+            lambda record: record.get("credential_type") in {"skill_badge", "digital_badge"},
+        ),
+        (
+            "Professional certificate programs",
+            lambda record: record.get("credential_type") == "professional_certificate_program",
+        ),
+        (
+            "Credential families and overview resources",
+            lambda record: (
+                record.get("entity_type") in {"credential_family", "overview_resource", "program"}
+            ),
+        ),
+    ]
+    parts = [HEADER, "# Credentials\n\n", guidance]
+    seen: set[str] = set()
+    individual = sum(
+        1 for record in credentials if record.get("entity_type") == "individual_credential"
+    )
+    families = sum(1 for record in credentials if record.get("entity_type") == "credential_family")
+    parts.append(
+        f"Catalog inventory: **{len(credentials)}** total records "
+        f"(**{individual}** individual credentials, **{families}** family/overview records).\n\n"
+    )
+    for heading, predicate in group_order:
+        rows = []
+        for record in credentials:
+            credential_id = str(record["id"])
+            if credential_id in seen or not predicate(record):
+                continue
+            seen.add(credential_id)
+            related = record.get("related_courses", [])
+            related_bits = []
+            for item in related:
+                if not isinstance(item, dict):
+                    continue
+                course_id = str(item.get("course_id", ""))
+                relationship = label_map(RELATIONSHIP_LABELS, str(item.get("relationship", "")))
+                related_bits.append(f"{course_id} ({relationship})")
+            related_text = "; ".join(related_bits)
+            rows.append(
+                [
+                    f"[{cell(record['title'])}]({record['canonical_url']})",
+                    cell(str(record["issuer"])),
+                    cell(label_map(CREDENTIAL_TYPE_LABELS, str(record["credential_type"]))),
+                    cell(label_map(ASSESSMENT_LABELS, str(record["assessment_type"]))),
+                    cell(label_map(EXAM_ACCESS_LABELS, str(record["access_or_exam_model"]))),
+                    cell(label_map(RELEVANCE_LABELS, str(record["prompt_engineering_relevance"]))),
+                    cell(validity_display(str(record.get("validity_summary", "")))),
+                    verification_display(record),
+                    cell(related_text or "—"),
+                    cell(str(record["last_verified"])),
+                ]
+            )
+        if not rows:
+            continue
+        parts.append(f"## {heading}\n\n")
+        parts.append(
+            table(
+                [
+                    "Credential",
+                    "Issuer",
+                    "Type",
+                    "Assessment",
+                    "Access/exam model",
+                    "Prompt relevance",
+                    "Validity",
+                    "Verification",
+                    "Related learning",
+                    "Verified",
+                ],
+                rows,
+            )
+        )
+        parts.append("\n")
+    return "".join(parts).rstrip("\n") + "\n"
+
+
 OUTPUTS: dict[str, Callable[[], str]] = {
     "docs/generated/pattern-index.md": pattern_index,
     "docs/generated/template-index.md": template_index,
@@ -334,10 +736,8 @@ OUTPUTS: dict[str, Callable[[], str]] = {
     "docs/generated/repository-index.md": lambda: resource_index(
         "catalog/repositories.json", "Repositories"
     ),
-    "docs/generated/course-index.md": lambda: resource_index("catalog/courses.json", "Courses"),
-    "docs/generated/credential-index.md": lambda: resource_index(
-        "catalog/credentials.json", "Credentials"
-    ),
+    "docs/generated/course-index.md": course_index,
+    "docs/generated/credential-index.md": credential_index,
     "docs/generated/video-index.md": lambda: resource_index("catalog/videos.json", "Videos"),
     "docs/generated/paper-index.md": lambda: resource_index("catalog/papers.json", "Papers"),
     "docs/generated/book-index.md": lambda: resource_index("catalog/books.json", "Books"),

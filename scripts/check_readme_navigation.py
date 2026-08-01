@@ -169,7 +169,7 @@ HUB_PAGES = {
     ),
     "docs/resources/index.md": (
         "Official documentation",
-        "Courses",
+        "Structured Learning Resources",
         "Credentials",
         "Papers",
         "Books",
@@ -177,6 +177,7 @@ HUB_PAGES = {
         "Tools",
         "Communities",
         "Reference repositories",
+        "OpenAI Cookbook",
     ),
     "docs/labs/index.md": (
         "Lesson → Exercise → Quiz → Explained solution → Checklist → Capstone",
@@ -217,6 +218,32 @@ def load_json_count(root: Path, relative: str) -> int:
     return len(payload)
 
 
+def learning_resource_counts(root: Path = ROOT) -> dict[str, int]:
+    courses = json.loads((root / "catalog/courses.json").read_text(encoding="utf-8"))
+    if not isinstance(courses, list):
+        raise TypeError("catalog/courses.json must contain a list")
+    counts: dict[str, int] = {"total": len(courses)}
+    for record in courses:
+        resource_type = str(record.get("resource_type", "unknown"))
+        counts[resource_type] = counts.get(resource_type, 0) + 1
+    return counts
+
+
+def credential_inventory(root: Path = ROOT) -> dict[str, int]:
+    credentials = json.loads((root / "catalog/credentials.json").read_text(encoding="utf-8"))
+    if not isinstance(credentials, list):
+        raise TypeError("catalog/credentials.json must contain a list")
+    individual = sum(
+        1 for record in credentials if record.get("entity_type") == "individual_credential"
+    )
+    family = sum(1 for record in credentials if record.get("entity_type") == "credential_family")
+    return {
+        "total": len(credentials),
+        "individual": individual,
+        "family": family,
+    }
+
+
 def inventory_counts(root: Path = ROOT) -> dict[str, int]:
     modules = sorted(
         path.name
@@ -229,6 +256,8 @@ def inventory_counts(root: Path = ROOT) -> dict[str, int]:
     capstones = sorted(
         path.name for path in (root / "labs" / "capstones").glob("*.md") if path.name != "README.md"
     )
+    learning = learning_resource_counts(root)
+    credentials = credential_inventory(root)
     return {
         "modules": len(modules),
         "patterns": load_json_count(root, "catalog/patterns.json"),
@@ -238,8 +267,11 @@ def inventory_counts(root: Path = ROOT) -> dict[str, int]:
         "exercises": len(exercises),
         "quizzes": len(quizzes),
         "solutions": len(solutions),
-        "courses": load_json_count(root, "catalog/courses.json"),
-        "credentials": load_json_count(root, "catalog/credentials.json"),
+        "courses": learning["total"],
+        "learning_resources": learning["total"],
+        "credentials": credentials["total"],
+        "credentials_individual": credentials["individual"],
+        "credentials_family": credentials["family"],
         "official_resources": load_json_count(root, "catalog/official-resources.json"),
     }
 
@@ -272,12 +304,36 @@ def check_inventory_mentions(text: str, counts: dict[str, int]) -> list[str]:
         "Prompt patterns": counts["patterns"],
         "Prompt templates": counts["templates"],
         "Provider guides": counts["providers"],
-        "Courses": counts["courses"],
-        "Credentials": counts["credentials"],
     }
     for label, value in coverage_expected.items():
         if not re.search(rf"\|\s*{re.escape(label)}\s*\|\s*{value}\b", coverage):
             errors.append(f"README coverage table mismatch for {label}: expected {value}")
+    learning = counts["learning_resources"]
+    if not re.search(
+        rf"Structured Learning Resources\s*\|\s*{learning}\b",
+        text,
+    ) and not re.search(
+        rf"\|\s*Structured Learning Resources\s*\|\s*{learning}\b",
+        coverage,
+    ):
+        errors.append(
+            f"README inventory mismatch for Structured Learning Resources: expected {learning}"
+        )
+    if re.search(r"\b8 courses\b", text, flags=re.IGNORECASE):
+        errors.append("README must not label all learning resources as conventional courses")
+    individual = counts["credentials_individual"]
+    family = counts["credentials_family"]
+    if not re.search(
+        rf"{individual}\s+individual\s*\+\s*{family}\s+family",
+        text,
+        flags=re.IGNORECASE,
+    ):
+        errors.append(
+            "README must distinguish individual credentials from family/overview records: "
+            f"expected {individual} individual + {family} family"
+        )
+    if re.search(r"\|\s*Credentials\s*\|\s*5\s+catalog records\s*\|", coverage):
+        errors.append("README must not show an unqualified five-credential catalog count")
     return errors
 
 

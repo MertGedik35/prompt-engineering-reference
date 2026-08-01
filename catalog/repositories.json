@@ -4,7 +4,7 @@
     "title": "OpenAI Cookbook",
     "owner": "OpenAI",
     "canonical_url": "https://github.com/openai/openai-cookbook",
-    "description": "Official examples for OpenAI APIs and evaluation workflows.",
+    "description": "Official examples for OpenAI APIs, including evaluation notebooks under examples/evaluation. Example collections are not cataloged as courses.",
     "license_status": "check_upstream",
     "maintenance_status": "active_or_reference",
     "official": true,

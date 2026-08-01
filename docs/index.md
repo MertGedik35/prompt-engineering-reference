@@ -12,7 +12,7 @@ provider notes, and verified resources.
 | Learn from zero | [Start Learning](learn/index.md) | 13 modules in four phases with practice |
 | Look up a technique or template | [Prompt Reference](reference/index.md) | Patterns, templates, diagnostics, checklists |
 | Compare providers | [Provider Guides](providers/index.md) | Eight dated provider pages |
-| Find courses or sources | [Courses & Resources](resources/index.md) | Official docs, courses, papers, tools |
+| Find courses or sources | [Courses & Resources](resources/index.md) | Official docs, structured learning resources, papers, tools |
 | Practice | [Practice & Labs](labs/index.md) | Exercises, quizzes, solutions, capstones |
 
 ## What is inside
@@ -21,8 +21,8 @@ provider notes, and verified resources.
 - **26** prompt patterns and **28** reusable templates
 - **8** provider guides with dated fast-stale claims
 - **3** capstone projects
-- Cataloged official resources, courses, credentials, papers, books, videos, tools, communities,
-  and reference repositories
+- Cataloged official resources, structured learning resources, credentials (individual vs family),
+  papers, books, videos, tools, communities, and reference repositories
 
 ## Learning roadmap
 
@@ -42,7 +42,7 @@ provider notes, and verified resources.
 ## Resource categories
 
 [Official resources](generated/official-resource-index.md) ·
-[Courses](generated/course-index.md) ·
+[Structured Learning Resources](generated/course-index.md) ·
 [Credentials](generated/credential-index.md) ·
 [Papers](generated/paper-index.md) ·
 [Books](generated/book-index.md) ·
@@ -61,7 +61,7 @@ See [Practice & Labs](labs/index.md).
 | Area | Status in V2 draft |
 | --- | --- |
 | Curriculum, patterns, templates, providers | Remediated and tested |
-| Courses, credentials, broader resources | Further remediation planned |
+| Structured Learning Resources, credentials | Remediated taxonomy in this V2 draft; broader resource expansion remains |
 | V2 release | Not published |
 
 Last reviewed: 2026-07-31.

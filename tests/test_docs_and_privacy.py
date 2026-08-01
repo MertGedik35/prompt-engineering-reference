@@ -46,7 +46,7 @@ def test_mkdocs_material_svg_path_coordinates_are_not_phones() -> None:
 
 
 def test_freshness_has_no_failures() -> None:
-    _, failures = check(as_of=date(2026, 7, 31))
+    _, failures = check(as_of=date(2026, 8, 1))
     assert failures == []
 
 

@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .course_credential_quality import check_course_credential_quality
     from .provider_quality import check_provider_quality
     from .template_taxonomy import (
         TEMPLATE_ALLOWED_SUPPORTING_PATTERNS,
@@ -17,6 +18,9 @@ try:
         TEMPLATE_PRIMARY_PATTERNS,
     )
 except ImportError:  # pragma: no cover - used when run as a script
+    from course_credential_quality import (  # type: ignore[import-not-found,no-redef]
+        check_course_credential_quality,
+    )
     from provider_quality import (  # type: ignore[import-not-found,no-redef]
         check_provider_quality,
     )
@@ -845,6 +849,12 @@ def check_catalogs(root: Path, report: QualityReport) -> None:
         provider_errors, provider_details = check_provider_quality(root)
         report.errors.extend(provider_errors)
         report.details.extend(provider_details)
+    if (root / "catalog" / "courses.json").exists() and (
+        root / "catalog" / "credentials.json"
+    ).exists():
+        course_errors, course_details = check_course_credential_quality(root)
+        report.errors.extend(course_errors)
+        report.details.extend(course_details)
 
 
 def run_checks(root: Path = ROOT) -> QualityReport:

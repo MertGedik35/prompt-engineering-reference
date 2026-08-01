@@ -2,10 +2,35 @@
 
 # Credentials
 
-| ID | Title | Pricing | Credential | Stale risk | URL |
-| --- | --- | --- | --- | --- | --- |
-| `credential-google-generative-ai-leader` | Google Cloud Generative AI Leader | paid | formal_certification | high | [source](https://cloud.google.com/learn/certification/generative-ai-leader?hl=en) |
-| `credential-aws-ai-practitioner` | AWS Certified AI Practitioner | paid | formal_certification | high | [source](https://aws.amazon.com/certification/certified-ai-practitioner/) |
-| `credential-nvidia-genai-llm-associate` | NVIDIA-Certified Associate: Generative AI LLMs | paid | formal_certification | high | [source](https://www.nvidia.com/en-us/learn/certification/generative-ai-llm-associate/) |
-| `credential-microsoft-applied-skills` | Microsoft Applied Skills | free | applied_skill_badge | high | [source](https://learn.microsoft.com/en-us/credentials/applied-skills/) |
-| `credential-microsoft-agent-tools` | Microsoft Applied Skills: Develop an agent with integrated tools | free | applied_skill_badge | high | [source](https://learn.microsoft.com/en-us/credentials/applied-skills/develop-an-agent-with-integrated-tools/) |
+## How to read this index
+
+- **Formal certification** means an issuer exam or equivalent assessed program.
+- **Applied/assessed skill credentials and badges** are narrower scenario
+  credentials and are not interchangeable with multi-year certifications.
+- **Credential families** are overview pages for many individual credentials and
+  must not inflate individual credential counts.
+- **Exam cost vs course access:** paid exams are separate from free or
+  account-gated learning content.
+- **Validity** uses a concise verified summary or Unknown / not stated.
+
+Catalog inventory: **5** total records (**4** individual credentials, **1** family/overview records).
+
+## Formal certifications
+
+| Credential | Issuer | Type | Assessment | Access/exam model | Prompt relevance | Validity | Verification | Related learning | Verified |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [Google Cloud Generative AI Leader](https://cloud.google.com/learn/certification/generative-ai-leader) | Google Cloud | Formal certification | Exam | Paid exam | Broad AI | 3 years; renew within the issuer renewal eligibility period | [Google Cloud Credly organization badge directory](https://www.credly.com/organizations/google-cloud/badges) | — | 2026-08-01 |
+| [AWS Certified AI Practitioner](https://aws.amazon.com/certification/certified-ai-practitioner/) | AWS | Formal certification | Exam | Paid exam | Adjacent | 3 years; recertify by current exam or an eligible AWS ML associate path | [AWS Certification verification tool](https://aws.amazon.com/verification/) | — | 2026-08-01 |
+| [NVIDIA-Certified Associate: Generative AI LLMs](https://www.nvidia.com/en-us/learn/certification/generative-ai-llm-associate/) | NVIDIA | Formal certification | Exam | Paid exam | Substantial prompt component | 2 years from issuance; recertify by retaking the exam | [NVIDIA Credly organization badge directory](https://www.credly.com/organizations/nvidia/badges) | — | 2026-08-01 |
+
+## Applied skill credentials
+
+| Credential | Issuer | Type | Assessment | Access/exam model | Prompt relevance | Validity | Verification | Related learning | Verified |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [Microsoft Applied Skills: Develop an Agent with Integrated Tools](https://learn.microsoft.com/en-us/credentials/applied-skills/develop-an-agent-with-integrated-tools/) | Microsoft | Applied skill credential | Lab assessment | Free with account | Substantial prompt component | Unknown / not stated | [Microsoft Learn Online Verifiable credential and share-link process](https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate) | — | 2026-08-01 |
+
+## Credential families and overview resources
+
+| Credential | Issuer | Type | Assessment | Access/exam model | Prompt relevance | Validity | Verification | Related learning | Verified |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [Microsoft Applied Skills](https://learn.microsoft.com/en-us/credentials/applied-skills/) | Microsoft | Applied skill credential | Lab assessment | Free with account | Adjacent | Unknown / not stated | Not applicable — family overview | — | 2026-08-01 |
