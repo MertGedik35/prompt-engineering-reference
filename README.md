@@ -4,24 +4,15 @@
 template, dated provider guide, course, paper, or official resource.**
 
 A learning platform for beginners and a daily reference for practitioners, developers, reviewers,
-researchers, and career learners. **V1 is published; V2 is a draft under review — not a release.**
+researchers, and career learners.
 
 [![Quality](https://github.com/MertGedik35/prompt-engineering-reference/actions/workflows/quality.yml/badge.svg)](https://github.com/MertGedik35/prompt-engineering-reference/actions/workflows/quality.yml)
 [![Documentation](https://github.com/MertGedik35/prompt-engineering-reference/actions/workflows/pages.yml/badge.svg)](https://mertgedik35.github.io/prompt-engineering-reference/)
 [![License: MIT + CC0](https://img.shields.io/badge/license-MIT%20%2B%20CC0-0f766e.svg)](LICENSE)
-[![Release status: V1 stable · V2 draft](https://img.shields.io/badge/status-V1%20stable%20%C2%B7%20V2%20draft-d97706.svg)](https://github.com/MertGedik35/prompt-engineering-reference/releases/tag/v1.0.0)
 
 **[Start Learning](LEARNING_PATH.md)** ·
 **[Browse Prompt Reference](docs/reference/index.md)** ·
-**[Open V2 Draft Docs](docs/index.md)**
-
-> **Project status:** [V1.0.0](https://github.com/MertGedik35/prompt-engineering-reference/releases/tag/v1.0.0)
-> is the published release. V2 work continues in draft
-> [PR #10](https://github.com/MertGedik35/prompt-engineering-reference/pull/10). Curriculum,
-> patterns, templates, provider guides, and course/credential taxonomy are remediated in the V2
-> draft; broader resource expansion still needs later phases. No `v2.0.0` release has been published.
-> [Published documentation (V1)](https://mertgedik35.github.io/prompt-engineering-reference/)
-> reflects current `main` and does not yet include this V2 draft documentation.
+**[Open Documentation](docs/index.md)**
 
 ## What is inside
 
@@ -53,7 +44,7 @@ researchers, and career learners. **V1 is published; V2 is a draft under review 
 | Build a portfolio | [Capstones](labs/capstones/README.md) | Reproducible end-to-end projects |
 
 Need another entry point?
-[V2 draft docs home](docs/index.md) ·
+[Documentation home](docs/index.md) ·
 [Reference hub](docs/reference/index.md) ·
 [Learn hub](docs/learn/index.md) ·
 [Courses & Resources](docs/resources/index.md)
@@ -160,17 +151,16 @@ Capstones:
 
 | Area | Coverage | Status |
 | --- | --- | --- |
-| Curriculum | 13 modules | Completed in V2 draft |
+| Curriculum | 13 modules | Complete and gated |
 | Prompt patterns | 26 records | Remediated and tested |
 | Prompt templates | 28 records | Remediated and tested |
 | Provider guides | 8 guides | Remediated and independently re-reviewed |
-| Structured Learning Resources | 8 | Taxonomy and evidence remediated in V2 draft |
-| Credentials | 4 individual + 1 family overview | Taxonomy and evidence remediated in V2 draft |
-| Resource expansion | Partial | Planned |
-| V2 release | Not published | Draft |
+| Structured Learning Resources | 8 | Taxonomy and evidence remediated |
+| Credentials | 4 individual + 1 family overview | Taxonomy and evidence remediated |
+| Resource expansion | Partial | Planned backlog |
 
-“Completed in V2 draft” means the work is present and gated in this integration branch — not that
-`v2.0.0` has been released.
+This repository presents Version 2 learning and reference content. A formal GitHub `v2.0.0`
+tag or release may be published separately and is not required to use the material.
 
 ## Repository map
 

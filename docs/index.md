@@ -1,9 +1,8 @@
 # Prompt Engineering Reference
 
+Prompt Engineering Reference provides an ordered learning path and a tested reference library.
 Learn prompt engineering in a fixed order, then return for daily lookup of patterns, templates,
 provider notes, and verified resources.
-
-**V1 is published. V2 remains a draft under review — not a released `v2.0.0`.**
 
 ## Choose a path
 
@@ -58,10 +57,10 @@ See [Practice & Labs](labs/index.md).
 
 ## Status
 
-| Area | Status in V2 draft |
+| Area | Coverage |
 | --- | --- |
 | Curriculum, patterns, templates, providers | Remediated and tested |
-| Structured Learning Resources, credentials | Remediated taxonomy in this V2 draft; broader resource expansion remains |
-| V2 release | Not published |
+| Structured Learning Resources, credentials | Taxonomy and evidence remediated; broader resource expansion remains backlog |
+| Official resources | 24 catalog records supporting current public claims |
 
-Last reviewed: 2026-07-31.
+See [V2 Release Notes](project/v2-release-notes.md) for release contents and known limitations.

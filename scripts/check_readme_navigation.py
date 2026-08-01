@@ -117,7 +117,7 @@ INTENT_ROWS = (
 PRIMARY_CTA_ROLES = {
     "Start Learning": "LEARNING_PATH.md",
     "Browse Prompt Reference": "docs/reference/index.md",
-    "Open V2 Draft Docs": "docs/index.md",
+    "Open Documentation": "docs/index.md",
 }
 PRIMARY_CTA_TARGETS = set(PRIMARY_CTA_ROLES.values())
 
@@ -194,7 +194,7 @@ HUB_MIN_WORDS = 80
 MAX_LEARNING_PATH_LINKS = 4
 PLACEHOLDER_MAX_WORDS = 40
 PUBLISHED_LABEL_RE = re.compile(
-    r"\bV1\b|Published documentation|published release|published site|current `main`",
+    r"\bDocumentation\b|docs home|documentation site",
     flags=re.IGNORECASE,
 )
 
@@ -418,10 +418,10 @@ def check_primary_cta_roles(text: str, links: list[tuple[str, str]]) -> list[str
                 "README Browse Prompt Reference must not target Courses & Resources hub "
                 "(docs/resources/index.md)"
             )
-        if label == "Open V2 Draft Docs" and DOCS_URL in matching:
+        if label == "Open Documentation" and DOCS_URL in matching:
             errors.append(
-                "README Open V2 Draft Docs must not target the published Pages site; "
-                "use docs/index.md for the V2 draft"
+                "README Open Documentation must not target the published Pages site; "
+                "use docs/index.md"
             )
 
     for cta in PRIMARY_CTA_TARGETS:
@@ -440,7 +440,8 @@ def check_primary_cta_roles(text: str, links: list[tuple[str, str]]) -> list[str
             window = text[max(0, match.start() - 120) : match.end() + 160]
             if not PUBLISHED_LABEL_RE.search(window):
                 errors.append(
-                    "README published Pages URL lacks nearby V1/published labeling: " + DOCS_URL
+                    "README documentation Pages URL lacks nearby Documentation labeling: "
+                    + DOCS_URL
                 )
                 break
     return errors

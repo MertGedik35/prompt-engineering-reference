@@ -26,6 +26,7 @@ jobs:
       - run: python scripts/generate_docs_indexes.py --check
       - run: python scripts/check_internal_links.py
       - run: python scripts/check_readme_navigation.py
+      - run: python scripts/check_release_readiness.py
       - run: python -m detect_secrets scan --all-files
       - run: python -m ruff format --check .
       - run: python -m ruff check .

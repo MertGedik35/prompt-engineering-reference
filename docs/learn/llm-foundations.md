@@ -1,13 +1,13 @@
-﻿# LLM Foundations
+# LLM Foundations
 
 The authoritative lesson for this module is maintained in
-[`curriculum/01-llm-foundations/README.md`](https://github.com/MertGedik35/prompt-engineering-reference/blob/feat/v2-learning-reference/curriculum/01-llm-foundations/README.md).
+[`curriculum/01-llm-foundations/README.md`](https://github.com/MertGedik35/prompt-engineering-reference/blob/main/curriculum/01-llm-foundations/README.md).
 
-Use the curriculum directory for the [exercise](https://github.com/MertGedik35/prompt-engineering-reference/blob/feat/v2-learning-reference/curriculum/01-llm-foundations/exercise.md),
-[quiz](https://github.com/MertGedik35/prompt-engineering-reference/blob/feat/v2-learning-reference/curriculum/01-llm-foundations/quiz.md),
-[references](https://github.com/MertGedik35/prompt-engineering-reference/blob/feat/v2-learning-reference/curriculum/01-llm-foundations/references.md), and
-[completion checklist](https://github.com/MertGedik35/prompt-engineering-reference/blob/feat/v2-learning-reference/curriculum/01-llm-foundations/checklist.md). The explained
-[solution](https://github.com/MertGedik35/prompt-engineering-reference/blob/feat/v2-learning-reference/labs/solutions/01-llm-foundations.md) is separate so learners can attempt the work
+Use the curriculum directory for the [exercise](https://github.com/MertGedik35/prompt-engineering-reference/blob/main/curriculum/01-llm-foundations/exercise.md),
+[quiz](https://github.com/MertGedik35/prompt-engineering-reference/blob/main/curriculum/01-llm-foundations/quiz.md),
+[references](https://github.com/MertGedik35/prompt-engineering-reference/blob/main/curriculum/01-llm-foundations/references.md), and
+[completion checklist](https://github.com/MertGedik35/prompt-engineering-reference/blob/main/curriculum/01-llm-foundations/checklist.md). The explained
+[solution](https://github.com/MertGedik35/prompt-engineering-reference/blob/main/labs/solutions/01-llm-foundations.md) is separate so learners can attempt the work
 before reviewing it.
 
 This page is intentionally navigational. Do not maintain a second full lesson here.
