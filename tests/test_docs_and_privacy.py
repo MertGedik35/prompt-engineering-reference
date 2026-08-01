@@ -72,11 +72,11 @@ def test_each_curriculum_module_has_solution_criteria() -> None:
 def test_docs_nav_sections_exist() -> None:
     text = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
     for section in [
-        "Learn:",
-        "Reference:",
-        "Providers:",
-        "Resources:",
-        "Labs:",
+        "Start Learning:",
+        "Prompt Reference:",
+        "Provider Guides:",
+        "Courses & Resources:",
+        "Practice & Labs:",
         "Contribute:",
         "Project:",
     ]:
