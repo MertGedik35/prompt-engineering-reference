@@ -1,11 +1,16 @@
 # Changelog
 
+## Version 2
+
+- Rebuilt the repository as a learning and reference platform with Learning and Reference modes.
+- Added a 13-module curriculum, practice labs, and three capstones.
+- Remediated pattern, template, provider-guide, structured-learning, and credential catalogs.
+- Added schema, privacy, freshness, link, navigation, and publication-readiness gates.
+- Configured documentation edit links and learning stubs for durable `main` publication.
+
 ## Unreleased
 
-- Rebuilt repository information architecture for V2 review.
-- Added learning and reference modes.
-- Added curriculum modules, labs, provider hub, typed resource catalogs, and stronger validation.
-- Added privacy, freshness, schema, and content quality gates.
+- Broader official-resource, course, and credential expansion remains backlog.
 
 ## 1.0.0 - 2026-07-28
 
