@@ -17,6 +17,7 @@ QUALITY_COMMANDS = {
     "python scripts/generate_docs_indexes.py --check",
     "python scripts/check_internal_links.py",
     "python scripts/check_readme_navigation.py",
+    "python scripts/check_release_readiness.py",
     "python -m detect_secrets scan --all-files",
     "python -m ruff format --check .",
     "python -m ruff check .",

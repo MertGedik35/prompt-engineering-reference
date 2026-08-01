@@ -71,7 +71,7 @@ def test_removing_capstone_fails() -> None:
     assert any("labs/capstones/research-assistant.md" in error for error in errors)
 
 
-def test_v2_draft_docs_cta_is_required() -> None:
+def test_open_documentation_cta_is_required() -> None:
     text = current_readme().replace("(docs/index.md)", "(docs/missing-home.md)")
     errors = check_readme(text, ROOT)
     assert any("docs/index.md" in error for error in errors)
@@ -87,10 +87,10 @@ def test_prompt_reference_cta_must_not_target_resources() -> None:
     assert any("must not target Courses & Resources hub" in error for error in errors)
 
 
-def test_v2_draft_docs_cta_must_not_target_pages() -> None:
+def test_open_documentation_cta_must_not_target_pages() -> None:
     text = current_readme().replace(
-        "[Open V2 Draft Docs](docs/index.md)",
-        f"[Open V2 Draft Docs]({DOCS_URL})",
+        "[Open Documentation](docs/index.md)",
+        f"[Open Documentation]({DOCS_URL})",
         1,
     )
     errors = check_readme(text, ROOT)
