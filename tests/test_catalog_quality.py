@@ -83,15 +83,33 @@ def test_provider_sources_exist() -> None:
         assert set(record["official_source_ids"]).issubset(resources)
 
 
-def test_courses_have_pricing_classification() -> None:
+def test_courses_have_access_and_relevance_classification() -> None:
     for record in load("catalog/courses.json"):
-        assert record["pricing_type"] in {
+        assert record["access_model"] in {
             "free",
-            "paid",
-            "freemium",
+            "free_with_account",
+            "free_audit_paid_certificate",
+            "paid_one_time",
             "subscription",
             "lab_credits",
+            "freemium",
+            "employer_or_partner_access",
+            "region_dependent",
             "unknown",
+        }
+        assert record["resource_type"] in {
+            "structured_course",
+            "learning_path",
+            "interactive_tutorial",
+            "guided_lab",
+            "workshop",
+            "exercise_repository",
+        }
+        assert record["prompt_engineering_relevance"] in {
+            "direct",
+            "substantial_component",
+            "adjacent",
+            "broad_ai",
         }
 
 
@@ -99,11 +117,18 @@ def test_credentials_have_credential_classification() -> None:
     for record in load("catalog/credentials.json"):
         assert record["credential_type"] in {
             "formal_certification",
-            "applied_skill_badge",
-            "course_completion_certificate",
-            "professional_certificate_program",
+            "assessed_skill_credential",
+            "applied_skill_credential",
             "skill_badge",
-            "no_credential",
+            "digital_badge",
+            "completion_certificate",
+            "professional_certificate_program",
+        }
+        assert record["entity_type"] in {
+            "individual_credential",
+            "credential_family",
+            "program",
+            "overview_resource",
         }
 
 
