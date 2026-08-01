@@ -9,7 +9,12 @@ from typing import Any
 from jsonschema import Draft202012Validator, FormatChecker
 
 from scripts.course_credential_quality import check_course_credential_quality
-from scripts.generate_docs_indexes import format_breakdown, write_outputs
+from scripts.generate_docs_indexes import (
+    counted_resource_label,
+    format_breakdown,
+    verification_display,
+    write_outputs,
+)
 from scripts.validate_schemas import validate_all
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -286,23 +291,284 @@ def test_rejects_one_way_produces_without_reciprocal(tmp_path: Path) -> None:
 def test_rejects_verification_true_without_method(tmp_path: Path) -> None:
     credentials = mutate_credential(
         "credential-aws-ai-practitioner",
-        verification={"available": True},
+        verification={
+            "available": True,
+            "evidence_kind": "issuer_verification_tool",
+            "evidence_url": "https://aws.amazon.com/verification/",
+        },
     )
     errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
     assert any("requires a method" in error for error in errors)
 
 
-def test_rejects_verification_url_tracking(tmp_path: Path) -> None:
+def test_rejects_verification_true_without_evidence_kind(tmp_path: Path) -> None:
     credentials = mutate_credential(
         "credential-aws-ai-practitioner",
         verification={
             "available": True,
             "method": "AWS Certification verification tool",
-            "url": "https://aws.amazon.com/verification/?utm_source=affiliate",
+            "evidence_url": "https://aws.amazon.com/verification/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any("requires evidence_kind" in error for error in errors)
+
+
+def test_rejects_verification_true_without_evidence_url(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-aws-ai-practitioner",
+        verification={
+            "available": True,
+            "method": "AWS Certification verification tool",
+            "evidence_kind": "issuer_verification_tool",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any("requires evidence_url" in error for error in errors)
+
+
+def test_rejects_verification_false_with_method(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-applied-skills",
+        verification={
+            "available": False,
+            "method": "should not appear on family overview",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any("must not invent method" in error for error in errors)
+
+
+def test_rejects_verification_false_with_evidence_url(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-applied-skills",
+        verification={
+            "available": False,
+            "evidence_url": "https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any("must not invent evidence_url" in error for error in errors)
+
+
+def test_rejects_credential_family_with_verification_available(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-applied-skills",
+        verification={
+            "available": True,
+            "method": "Microsoft Learn Online Verifiable credential and share-link process",
+            "evidence_kind": "issuer_verification_process_documentation",
+            "evidence_url": "https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "credential families must set verification.available=false" in error for error in errors
+    )
+
+
+def test_rejects_microsoft_marketing_hub_as_verification_evidence(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-agent-tools",
+        verification={
+            "available": True,
+            "method": "Microsoft Learn Online Verifiable credential and share-link process",
+            "evidence_kind": "issuer_verification_process_documentation",
+            "evidence_url": "https://learn.microsoft.com/en-us/credentials/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "Microsoft Credentials marketing hub is not verification evidence" in error
+        for error in errors
+    )
+
+
+def test_accepts_microsoft_credential_sharing_documentation(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-agent-tools",
+        verification={
+            "available": True,
+            "method": "Microsoft Learn Online Verifiable credential and share-link process",
+            "evidence_kind": "issuer_verification_process_documentation",
+            "evidence_url": "https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-microsoft-agent-tools" in error for error in errors)
+
+
+def test_rejects_generic_microsoft_learn_root(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-agent-tools",
+        verification={
+            "available": True,
+            "method": "Microsoft Learn Online Verifiable credential and share-link process",
+            "evidence_kind": "issuer_verification_process_documentation",
+            "evidence_url": "https://learn.microsoft.com/en-us/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "generic Microsoft Learn root is not verification evidence" in error for error in errors
+    )
+
+
+def test_rejects_generic_credly_homepage(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any("generic Credly homepage is not verification evidence" in error for error in errors)
+
+
+def test_rejects_generic_credly_search(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/search?q=google",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any("generic Credly search is not verification evidence" in error for error in errors)
+
+
+def test_accepts_google_cloud_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/google-cloud/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-google-generative-ai-leader" in error for error in errors)
+
+
+def test_accepts_nvidia_credly_directory(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-nvidia-genai-llm-associate",
+        verification={
+            "available": True,
+            "method": "NVIDIA Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://www.credly.com/organizations/nvidia/badges",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-nvidia-genai-llm-associate" in error for error in errors)
+
+
+def test_accepts_aws_verification_tool(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-aws-ai-practitioner",
+        verification={
+            "available": True,
+            "method": "AWS Certification verification tool",
+            "evidence_kind": "issuer_verification_tool",
+            "evidence_url": "https://aws.amazon.com/verification/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert not any("credential-aws-ai-practitioner" in error for error in errors)
+
+
+def test_rejects_non_https_evidence_url(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-aws-ai-practitioner",
+        verification={
+            "available": True,
+            "method": "AWS Certification verification tool",
+            "evidence_kind": "issuer_verification_tool",
+            "evidence_url": "http://aws.amazon.com/verification/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any("evidence_url must use https" in error for error in errors)
+
+
+def test_rejects_evidence_kind_url_mismatch(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-google-generative-ai-leader",
+        verification={
+            "available": True,
+            "method": "Google Cloud Credly organization badge directory",
+            "evidence_kind": "issuer_authorized_badge_directory",
+            "evidence_url": "https://aws.amazon.com/verification/",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "badge-directory evidence_url must be an issuer-specific Credly organization badges path"
+        in error
+        for error in errors
+    )
+
+
+def test_rejects_method_claiming_tool_with_documentation_kind(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-microsoft-agent-tools",
+        verification={
+            "available": True,
+            "method": "Microsoft verification tool",
+            "evidence_kind": "issuer_verification_process_documentation",
+            "evidence_url": "https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate",
+        },
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
+    assert any(
+        "method claims a verification tool but evidence_kind is process documentation" in error
+        for error in errors
+    )
+
+
+def test_rejects_verification_evidence_url_tracking(tmp_path: Path) -> None:
+    credentials = mutate_credential(
+        "credential-aws-ai-practitioner",
+        verification={
+            "available": True,
+            "method": "AWS Certification verification tool",
+            "evidence_kind": "issuer_verification_tool",
+            "evidence_url": "https://aws.amazon.com/verification/?utm_source=affiliate",
         },
     )
     errors, _ = check_course_credential_quality(write_catalogs(tmp_path, credentials=credentials))
     assert any("tracking/affiliate" in error for error in errors)
+
+
+def test_rejects_known_inactive_aws_skill_builder_url(tmp_path: Path) -> None:
+    courses = mutate_course(
+        "course-aws-foundations-of-prompt-engineering",
+        canonical_url=(
+            "https://explore.skillbuilder.aws/learn/course/17763/foundations-of-prompt-engineering"
+        ),
+    )
+    errors, _ = check_course_credential_quality(write_catalogs(tmp_path, courses=courses))
+    assert any(
+        "known inactive AWS Skill Builder URL fragment "
+        "/course/17763/foundations-of-prompt-engineering" in error
+        for error in errors
+    )
+
+
+def test_counted_resource_label_pluralization() -> None:
+    assert counted_resource_label("learning_module", 1) == "1 learning module"
+    assert counted_resource_label("structured_course", 2) == "2 structured courses"
+    assert counted_resource_label("guided_lab", 1) == "1 guided lab"
+    assert counted_resource_label("learning_path", 2) == "2 learning paths"
+    assert counted_resource_label("structured_course", 2).endswith("courses")
+    assert not counted_resource_label("structured_course", 2).endswith("course")
 
 
 def test_rejects_generic_validity_disclaimer(tmp_path: Path) -> None:
@@ -458,12 +724,62 @@ def test_positive_applied_skill_and_family_separation() -> None:
 
 
 def test_positive_verification_and_validity_evidence() -> None:
-    for record in load("catalog/credentials.json"):
-        verification = record["verification"]
-        assert verification["available"] is True
-        assert len(verification["method"]) >= 8
-        assert str(verification["url"]).startswith("https://")
+    credentials = {item["id"]: item for item in load("catalog/credentials.json")}
+    family = credentials["credential-microsoft-applied-skills"]
+    assert family["verification"] == {"available": False}
+    assert verification_display(family) == "Not applicable — family overview"
+
+    individual = credentials["credential-microsoft-agent-tools"]
+    verification = individual["verification"]
+    assert verification["available"] is True
+    assert verification["evidence_kind"] == "issuer_verification_process_documentation"
+    assert (
+        verification["evidence_url"]
+        == "https://learn.microsoft.com/en-us/credentials/certifications/cred-share-validate"
+    )
+    assert "Online Verifiable" in verification["method"]
+    assert verification["evidence_url"].rstrip("/") != (
+        "https://learn.microsoft.com/en-us/credentials"
+    )
+    rendered = verification_display(individual)
+    assert "Microsoft Learn Online Verifiable" in rendered
+    assert verification["evidence_url"] in rendered
+
+    google = credentials["credential-google-generative-ai-leader"]["verification"]
+    assert google["evidence_kind"] == "issuer_authorized_badge_directory"
+    assert google["evidence_url"] == "https://www.credly.com/organizations/google-cloud/badges"
+
+    aws = credentials["credential-aws-ai-practitioner"]["verification"]
+    assert aws["evidence_kind"] == "issuer_verification_tool"
+    assert aws["evidence_url"] == "https://aws.amazon.com/verification/"
+
+    nvidia = credentials["credential-nvidia-genai-llm-associate"]["verification"]
+    assert nvidia["evidence_kind"] == "issuer_authorized_badge_directory"
+    assert nvidia["evidence_url"] == "https://www.credly.com/organizations/nvidia/badges"
+
+    for record in credentials.values():
         assert "confirm current terms" not in record["validity_summary"].lower()
+        assert "url" not in record["verification"]
+
+
+def test_positive_credential_inventory_four_individual_one_family() -> None:
+    records = load("catalog/credentials.json")
+    individual = [item for item in records if item["entity_type"] == "individual_credential"]
+    families = [item for item in records if item["entity_type"] == "credential_family"]
+    assert len(individual) == 4
+    assert len(families) == 1
+    assert len(records) == 5
+
+
+def test_format_breakdown_pluralization_in_catalog() -> None:
+    breakdown = format_breakdown(load("catalog/courses.json"))
+    assert "structured courses" in breakdown or "1 structured course" in breakdown
+    assert "2 structured course;" not in f"{breakdown};"
+    assert "2 structured course " not in f"{breakdown} "
+    for token in breakdown.split("; "):
+        count_text, _, label = token.partition(" ")
+        if count_text.isdigit() and int(count_text) != 1:
+            assert label.endswith("s") or label.endswith("ies") or "repositories" in label
 
 
 def test_positive_nvidia_and_google_relationships_empty() -> None:

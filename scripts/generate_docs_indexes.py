@@ -332,6 +332,20 @@ RESOURCE_TYPE_LABELS = {
     "workshop": "Workshop",
     "exercise_repository": "Exercise repository",
 }
+RESOURCE_TYPE_COUNT_LABELS = {
+    "structured_course": ("structured course", "structured courses"),
+    "learning_module": ("learning module", "learning modules"),
+    "learning_path": ("learning path", "learning paths"),
+    "interactive_tutorial": ("interactive tutorial", "interactive tutorials"),
+    "guided_lab": ("guided lab", "guided labs"),
+    "workshop": ("workshop", "workshops"),
+    "exercise_repository": ("exercise repository", "exercise repositories"),
+}
+EVIDENCE_KIND_LABELS = {
+    "issuer_verification_tool": "Issuer verification tool",
+    "issuer_authorized_badge_directory": "Issuer-authorized badge directory",
+    "issuer_verification_process_documentation": "Issuer verification and sharing process",
+}
 ACCESS_MODEL_LABELS = {
     "free": "Free",
     "free_with_account": "Free with account",
@@ -401,6 +415,15 @@ def label_map(mapping: dict[str, str], value: str) -> str:
     return mapping.get(value, value.replace("_", " "))
 
 
+def counted_resource_label(resource_type: str, count: int) -> str:
+    singular, plural = RESOURCE_TYPE_COUNT_LABELS.get(
+        resource_type,
+        (resource_type.replace("_", " "), resource_type.replace("_", " ") + "s"),
+    )
+    label = singular if count == 1 else plural
+    return f"{count} {label}"
+
+
 def format_breakdown(courses: list[dict[str, Any]]) -> str:
     counts: dict[str, int] = {}
     for record in courses:
@@ -418,10 +441,10 @@ def format_breakdown(courses: list[dict[str, Any]]) -> str:
     parts = []
     for key in order:
         if key in counts:
-            parts.append(f"{counts[key]} {label_map(RESOURCE_TYPE_LABELS, key).lower()}")
+            parts.append(counted_resource_label(key, counts[key]))
     for key, value in sorted(counts.items()):
         if key not in order:
-            parts.append(f"{value} {label_map(RESOURCE_TYPE_LABELS, key).lower()}")
+            parts.append(counted_resource_label(key, value))
     return "; ".join(parts)
 
 
@@ -430,6 +453,27 @@ def validity_display(value: str) -> str:
     if normalized in {"unknown", "not stated by issuer", "not stated"}:
         return "Unknown / not stated"
     return value
+
+
+def verification_display(record: dict[str, Any]) -> str:
+    if record.get("entity_type") == "credential_family":
+        return "Not applicable — family overview"
+    verification = record.get("verification")
+    if not isinstance(verification, dict):
+        return "—"
+    available = verification.get("available")
+    if available is False:
+        return "Not applicable — family overview"
+    if available == "unknown":
+        return "Unknown"
+    method = str(verification.get("method", "")).strip()
+    evidence_kind = str(verification.get("evidence_kind", ""))
+    evidence_url = str(verification.get("evidence_url", "")).strip()
+    kind_label = label_map(EVIDENCE_KIND_LABELS, evidence_kind)
+    primary = method or kind_label
+    if evidence_url.startswith("https://"):
+        return f"[{cell(primary)}]({evidence_url})"
+    return primary or "—"
 
 
 def course_index() -> str:
@@ -634,10 +678,6 @@ def credential_index() -> str:
             if credential_id in seen or not predicate(record):
                 continue
             seen.add(credential_id)
-            verification = record.get("verification", {})
-            method = ""
-            if isinstance(verification, dict):
-                method = str(verification.get("method", ""))
             related = record.get("related_courses", [])
             related_bits = []
             for item in related:
@@ -656,7 +696,7 @@ def credential_index() -> str:
                     cell(label_map(EXAM_ACCESS_LABELS, str(record["access_or_exam_model"]))),
                     cell(label_map(RELEVANCE_LABELS, str(record["prompt_engineering_relevance"]))),
                     cell(validity_display(str(record.get("validity_summary", "")))),
-                    cell(method or "—"),
+                    verification_display(record),
                     cell(related_text or "—"),
                     cell(str(record["last_verified"])),
                 ]

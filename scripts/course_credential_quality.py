@@ -46,6 +46,35 @@ INACTIVE_URL_MARKERS = (
     "searchtext=",
     "/search?",
 )
+KNOWN_INACTIVE_AWS_COURSE_FRAGMENTS = ("/course/17763/foundations-of-prompt-engineering",)
+GENERIC_MICROSOFT_VERIFICATION_URLS = {
+    "https://learn.microsoft.com/en-us/credentials",
+    "https://learn.microsoft.com/en-us/credentials/",
+    "https://learn.microsoft.com/credentials",
+    "https://learn.microsoft.com/credentials/",
+}
+GENERIC_LEARN_ROOTS = {
+    "https://learn.microsoft.com/",
+    "https://learn.microsoft.com",
+    "https://learn.microsoft.com/en-us/",
+    "https://learn.microsoft.com/en-us",
+}
+EVIDENCE_KINDS = {
+    "issuer_verification_tool",
+    "issuer_authorized_badge_directory",
+    "issuer_verification_process_documentation",
+}
+CREDLY_ORG_BADGES_RE = re.compile(
+    r"^https://www\.credly\.com/organizations/[a-z0-9-]+/badges/?$",
+    flags=re.IGNORECASE,
+)
+DOCUMENTATION_PATH_HINTS = (
+    "share",
+    "validat",
+    "verif",
+    "transcript",
+    "credential",
+)
 GENERIC_RATIONALES = {
     "covers generative ai topics",
     "relevant to prompt engineering",
@@ -294,26 +323,14 @@ def _check_credential_semantics(
                     "produces vs official_preparation"
                 )
 
-        verification = record.get("verification")
-        if not isinstance(verification, dict):
-            errors.append(f"{credential_id}: verification object is required")
-        else:
-            available = verification.get("available")
-            method = verification.get("method")
-            url = verification.get("url")
-            if available is True:
-                if not isinstance(method, str) or len(method.strip()) < 8:
-                    errors.append(f"{credential_id}: verification.available=true requires a method")
-                if url is not None:
-                    _check_url_hygiene(f"{credential_id}.verification", str(url), errors)
-            elif available in {False, "unknown"}:
-                if method is not None or url is not None:
-                    errors.append(
-                        f"{credential_id}: verification unavailable/unknown must not invent "
-                        "method or url fields"
-                    )
-            else:
-                errors.append(f"{credential_id}: verification.available must be true/false/unknown")
+        if entity_type == "credential_family":
+            verification = record.get("verification")
+            if isinstance(verification, dict) and verification.get("available") is not False:
+                errors.append(
+                    f"{credential_id}: credential families must set verification.available=false"
+                )
+
+        _check_verification_fields(credential_id, record.get("verification"), errors)
 
         validity = normalize(str(record.get("validity_summary", "")))
         if not validity:
@@ -425,6 +442,115 @@ def _check_freshness_fields(
         errors.append(f"{record_id}: expired high-risk claim (age={age})")
 
 
+def _check_verification_fields(credential_id: str, verification: Any, errors: list[str]) -> None:
+    if not isinstance(verification, dict):
+        errors.append(f"{credential_id}: verification object is required")
+        return
+
+    available = verification.get("available")
+    method = verification.get("method")
+    evidence_kind = verification.get("evidence_kind")
+    evidence_url = verification.get("evidence_url")
+
+    if available is True:
+        if not isinstance(method, str) or len(method.strip()) < 8:
+            errors.append(f"{credential_id}: verification.available=true requires a method")
+        if evidence_kind not in EVIDENCE_KINDS:
+            errors.append(f"{credential_id}: verification.available=true requires evidence_kind")
+        if not isinstance(evidence_url, str) or not evidence_url.strip():
+            errors.append(f"{credential_id}: verification.available=true requires evidence_url")
+        else:
+            _check_evidence_url(credential_id, str(evidence_kind), evidence_url, method, errors)
+    elif available in {False, "unknown"}:
+        leftover = []
+        if method is not None:
+            leftover.append("method")
+        if evidence_kind is not None:
+            leftover.append("evidence_kind")
+        if evidence_url is not None:
+            leftover.append("evidence_url")
+        if leftover:
+            errors.append(
+                f"{credential_id}: verification available=false/unknown must not invent "
+                + ", ".join(leftover)
+            )
+    else:
+        errors.append(f"{credential_id}: verification.available must be true/false/unknown")
+
+
+def _normalize_evidence_url(url: str) -> str:
+    parsed = urlparse(url.strip())
+    path = parsed.path.rstrip("/") or "/"
+    return f"{parsed.scheme.lower()}://{parsed.netloc.lower()}{path}"
+
+
+def _is_microsoft_credentials_hub(url: str) -> bool:
+    normalized = _normalize_evidence_url(url)
+    if normalized in GENERIC_MICROSOFT_VERIFICATION_URLS:
+        return True
+    parsed = urlparse(normalized)
+    if parsed.netloc != "learn.microsoft.com":
+        return False
+    parts = [part for part in parsed.path.split("/") if part]
+    return parts == ["credentials"] or (len(parts) == 2 and parts[1] == "credentials")
+
+
+def _check_evidence_url(
+    credential_id: str,
+    evidence_kind: str,
+    evidence_url: str,
+    method: Any,
+    errors: list[str],
+) -> None:
+    lowered = evidence_url.lower().strip()
+    if not lowered.startswith("https://"):
+        errors.append(f"{credential_id}: verification evidence_url must use https")
+        return
+
+    _check_url_hygiene(f"{credential_id}.verification.evidence_url", evidence_url, errors)
+    normalized = _normalize_evidence_url(evidence_url)
+
+    if _is_microsoft_credentials_hub(evidence_url):
+        errors.append(
+            f"{credential_id}: Microsoft Credentials marketing hub is not verification evidence"
+        )
+    if normalized in GENERIC_LEARN_ROOTS:
+        errors.append(f"{credential_id}: generic Microsoft Learn root is not verification evidence")
+    if normalized in {"https://www.credly.com", "https://www.credly.com/"}:
+        errors.append(f"{credential_id}: generic Credly homepage is not verification evidence")
+    if "credly.com/search" in lowered or re.search(r"credly\.com/\?.*search", lowered):
+        errors.append(f"{credential_id}: generic Credly search is not verification evidence")
+
+    if evidence_kind == "issuer_authorized_badge_directory":
+        if not CREDLY_ORG_BADGES_RE.match(evidence_url.strip()):
+            errors.append(
+                f"{credential_id}: badge-directory evidence_url must be an issuer-specific "
+                "Credly organization badges path"
+            )
+    elif evidence_kind == "issuer_verification_tool":
+        if (
+            "verification" not in lowered
+            and "verify" not in lowered
+            and "certmetrics" not in lowered
+        ):
+            errors.append(
+                f"{credential_id}: verification-tool evidence_url must point to an issuer "
+                "verification endpoint"
+            )
+    elif evidence_kind == "issuer_verification_process_documentation":
+        if not any(hint in lowered for hint in DOCUMENTATION_PATH_HINTS):
+            errors.append(
+                f"{credential_id}: verification-process documentation URL must describe "
+                "sharing, validation, verification, transcripts, or credentials"
+            )
+        method_norm = normalize(str(method or ""))
+        if "verification tool" in method_norm or "verify tool" in method_norm:
+            errors.append(
+                f"{credential_id}: method claims a verification tool but evidence_kind is "
+                "process documentation"
+            )
+
+
 def _check_url_hygiene(record_id: str, url: str, errors: list[str]) -> None:
     lowered = url.lower()
     if not lowered.startswith("https://"):
@@ -441,6 +567,9 @@ def _check_url_hygiene(record_id: str, url: str, errors: list[str]) -> None:
             errors.append(
                 f"{record_id}: canonical_url looks like a search/inactive redirect page ({marker})"
             )
+    for fragment in KNOWN_INACTIVE_AWS_COURSE_FRAGMENTS:
+        if fragment in lowered:
+            errors.append(f"{record_id}: known inactive AWS Skill Builder URL fragment {fragment}")
 
 
 def main() -> int:

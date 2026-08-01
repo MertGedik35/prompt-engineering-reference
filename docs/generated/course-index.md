@@ -16,7 +16,7 @@
 - **Freshness:** verification dates are catalog metadata. Confirm prices, lab
   credits, and exam details on the issuer page.
 
-Catalog inventory: **8** structured learning resources (2 structured course; 1 learning module; 2 learning path; 1 interactive tutorial; 1 guided lab; 1 exercise repository).
+Catalog inventory: **8** structured learning resources (2 structured courses; 1 learning module; 2 learning paths; 1 interactive tutorial; 1 guided lab; 1 exercise repository).
 
 ## Structured courses
 
