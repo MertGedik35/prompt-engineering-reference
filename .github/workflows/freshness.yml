@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/check_freshness.py --warn-only --report freshness-report.md
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
